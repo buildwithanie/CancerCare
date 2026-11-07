@@ -4,6 +4,7 @@ import { CollaborationSection } from '@/components/sections/CollaborationSection
 import { DirectorySection } from '@/components/sections/DirectorySection';
 import { FocusSection } from '@/components/sections/FocusSection';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { LearnSection } from '@/components/sections/LearnSection';
 import { MissionSection } from '@/components/sections/MissionSection';
 import { PilotSection } from '@/components/sections/PilotSection';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -18,6 +19,7 @@ function App() {
         <HeroSection hero={text.hero} />
         <FocusSection work={text.work} />
         <MissionSection mission={text.mission} />
+        <LearnSection learn={text.learn} />
         <PilotSection pilot={text.pilot} />
         <DirectorySection directory={text.directory} language={language} />
         <CollaborationSection participation={text.participation} />

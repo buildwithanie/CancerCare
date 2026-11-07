@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 export function SiteHeader({ language, onLanguageChange, text }: { language: Language; onLanguageChange: (language: Language) => void; text: Copy }) {
   const links = [
     { href: '#mission', label: text.navigation.mission },
-    { href: '#work', label: text.navigation.work },
+    { href: '#learn', label: text.navigation.work },
     { href: '#directory', label: text.navigation.directory },
     { href: '#pilot', label: text.navigation.pilot },
     { href: '#plan', label: text.navigation.plan },

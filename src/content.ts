@@ -39,6 +39,14 @@ export type Copy = {
     title: string;
     programs: Program[];
   };
+  learn: {
+    kicker: string;
+    title: string;
+    introduction: string;
+    items: { question: string; answer: string }[];
+    sourceLabel: string;
+    reviewStatus: string;
+  };
   pilot: {
     kicker: string;
     title: string;
@@ -95,7 +103,7 @@ export const copy = {
       description: 'CancerCare is building clear cancer information and a guide to verified services, starting in Embu County.',
       primaryAction: 'Explore our approach',
       secondaryAction: 'How it works',
-      imageAlt: 'AI-generated scene of a clinician listening to a patient in a clinic',
+      imageAlt: 'Illustration of a woman in a green headscarf smiling with a supportive clinician',
       imageCaption: 'AI illustration. Not actual patients or staff.',
     },
     principles: ['Clear information', 'Verified services', 'Community input'],
@@ -133,6 +141,18 @@ export const copy = {
           label: 'Planned',
         },
       ],
+    },
+    learn: {
+      kicker: 'Cancer education',
+      title: 'Start with clear answers.',
+      introduction: 'A short introduction based on World Health Organization information. This is general education, not a diagnosis or personal medical advice.',
+      items: [
+        { question: 'What is cancer?', answer: 'Cancer is a group of diseases in which abnormal cells grow and may spread to nearby tissue or other parts of the body.' },
+        { question: 'What is screening?', answer: 'Screening looks for signs of certain cancers before symptoms appear. If you notice an unusual change in your health, speak with a health professional about an assessment.' },
+        { question: 'What if a screening result suggests a problem?', answer: 'A screening result does not confirm cancer. Further tests are needed to establish a diagnosis and guide the next step.' },
+      ],
+      sourceLabel: 'Read the WHO cancer fact sheet',
+      reviewStatus: 'Local clinical review pending',
     },
     pilot: {
       kicker: 'Starting in Embu, Kenya',
@@ -197,7 +217,7 @@ export const copy = {
       description: 'CancerCare inaandaa taarifa wazi kuhusu saratani na mwongozo wa huduma zilizothibitishwa, tukianzia Kaunti ya Embu.',
       primaryAction: 'Chunguza njia yetu',
       secondaryAction: 'Inavyofanya kazi',
-      imageAlt: 'Taswira iliyotengenezwa kwa AI ya mhudumu wa afya akimsikiliza mgonjwa kliniki',
+      imageAlt: 'Taswira ya mwanamke aliyevaa kitambaa cha kijani kichwani akitabasamu na mhudumu wa afya',
       imageCaption: 'Taswira ya AI. Si wagonjwa au wahudumu halisi.',
     },
     principles: ['Taarifa zilizo wazi', 'Huduma zilizothibitishwa', 'Maoni ya jamii'],
@@ -235,6 +255,18 @@ export const copy = {
           label: 'Inapangwa',
         },
       ],
+    },
+    learn: {
+      kicker: 'Elimu ya saratani',
+      title: 'Anza na majibu yaliyo wazi.',
+      introduction: 'Utangulizi mfupi unaotegemea taarifa za Shirika la Afya Duniani. Hizi ni taarifa za jumla, si utambuzi au ushauri wa afya wa mtu binafsi.',
+      items: [
+        { question: 'Saratani ni nini?', answer: 'Saratani ni kundi la magonjwa ambapo seli zisizo za kawaida hukua na zinaweza kuenea kwenye tishu zilizo karibu au sehemu nyingine za mwili.' },
+        { question: 'Uchunguzi wa mapema ni nini?', answer: 'Uchunguzi wa mapema hutafuta viashiria vya aina fulani za saratani kabla ya dalili kujitokeza. Ukiona mabadiliko yasiyo ya kawaida katika afya yako, zungumza na mhudumu wa afya kuhusu kupimwa.' },
+        { question: 'Matokeo ya uchunguzi yakidokeza tatizo?', answer: 'Matokeo ya uchunguzi hayathibitishi saratani. Vipimo zaidi vinahitajika ili kuthibitisha hali na kuamua hatua inayofuata.' },
+      ],
+      sourceLabel: 'Soma taarifa ya WHO kuhusu saratani',
+      reviewStatus: 'Ukaguzi wa mtaalamu wa afya wa eneo unasubiriwa',
     },
     pilot: {
       kicker: 'Tunaanzia Embu, Kenya',
