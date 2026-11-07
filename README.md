@@ -2,7 +2,7 @@
 
 CancerCare is an early, community-focused project concept for clearer access to cancer information and care, beginning in Embu County. This repository contains a responsive organization-style website preview built with React, TypeScript, and Vite.
 
-The preview has an English/Kiswahili switch. It does not yet provide medical advice, patient accounts, referrals, or a live facility directory.
+The preview has an English/Kiswahili switch and a short, source-linked cancer education section. The educational wording awaits local clinical review. The site does not yet provide medical advice, patient accounts, referrals, or a live facility directory.
 
 ## Development
 
@@ -34,8 +34,9 @@ The build output is `dist/`. Cloudflare Pages can use `pnpm build` and `dist` wh
 11. [First Embu facility verification](docs/11-first-facility-verification.md)
 12. [Copy and layout polish](docs/12-copy-and-layout-polish.md)
 13. [Directory access readiness](docs/13-directory-access-readiness.md)
+14. [Hero imagery and first education guide](docs/14-hero-and-first-education-guide.md)
 
-The next step is to confirm the first Embu facility with its provider, then publish its verified service, access and contact details.
+The next steps are local clinical review of the introductory guide and direct provider confirmation of the first Embu facility. Publish facility details only after its services, access and contact route are verified.
 
 
 
