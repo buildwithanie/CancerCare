@@ -13,7 +13,7 @@ export function CollaborationSection({ participation }: { participation: Copy['p
           <p className="mt-2 max-w-[660px] text-[13px] leading-[1.55] text-white/85">{participation.description}</p>
           <p className="mt-2 text-[11px] text-white/70">{participation.note}</p>
         </div>
-        <a href="#pilot" className="relative inline-flex min-h-10 w-fit items-center gap-4 rounded-full bg-white px-5 text-[12px] font-bold text-forest hover:bg-mist sm:col-start-2 sm:ml-7 md:col-auto md:ml-0">{participation.action}<ArrowRight className="size-4" aria-hidden="true" /></a>
+        <a href="/get-involved/" className="relative inline-flex min-h-10 w-fit items-center gap-4 rounded-full bg-white px-5 text-[12px] font-bold text-forest hover:bg-mist sm:col-start-2 sm:ml-7 md:col-auto md:ml-0">{participation.action}<ArrowRight className="size-4" aria-hidden="true" /></a>
       </div>
     </div>
   </section>;

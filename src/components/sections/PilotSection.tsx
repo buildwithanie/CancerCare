@@ -13,7 +13,7 @@ export function PilotSection({ pilot }: { pilot: Copy['pilot'] }) {
           <p className={cn(sectionKicker, 'mb-3')}>{pilot.kicker}</p>
           <h2 id="pilot-title" className="max-w-[430px] text-[clamp(29px,3vw,43px)] leading-[1.08] font-bold tracking-[-.05em]">{pilot.title}</h2>
           <p className="mt-4 max-w-[400px] text-[13px] leading-[1.6] text-copy">{pilot.description}</p>
-          <a href="#directory" className="mt-5 inline-flex min-h-10 items-center gap-3 rounded-full border border-forest bg-white px-4 text-[12px] font-bold text-forest hover:bg-[#f2f9f0]">{pilot.action}<ArrowRight className="size-4" aria-hidden="true" /></a>
+          <a href="/how-it-works/" className="mt-5 inline-flex min-h-10 items-center gap-3 rounded-full border border-forest bg-white px-4 text-[12px] font-bold text-forest hover:bg-[#f2f9f0]">{pilot.action}<ArrowRight className="size-4" aria-hidden="true" /></a>
         </div>
         <figure className="border-y border-leaf/25 py-5 lg:border-y-0 lg:border-x lg:px-5 lg:py-0">
           <img src="/embu-county-map.svg" alt={pilot.mapAlt} width="560" height="300" loading="lazy" className="mx-auto aspect-[1.25] max-h-[240px] w-full object-contain" />

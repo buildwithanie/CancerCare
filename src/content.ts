@@ -46,6 +46,33 @@ export type Copy = {
     items: { question: string; answer: string }[];
     sourceLabel: string;
     reviewStatus: string;
+    guideAction: string;
+  };
+  learnPage: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    backHome: string;
+    steps: [string, string, string];
+  };
+  screening: {
+    kicker: string;
+    title: string;
+    introduction: string;
+    privacyNote: string;
+    questionsTitle: string;
+    directoryAction: string;
+    reviewStatus: string;
+    sourcesTitle: string;
+    kenyaSource: string;
+    whoSource: string;
+    paths: {
+      id: 'considering' | 'symptoms' | 'results';
+      label: string;
+      heading: string;
+      explanation: string;
+      questions: [string, string, string];
+    }[];
   };
   pilot: {
     kicker: string;
@@ -71,6 +98,73 @@ export type Copy = {
     servicesLabel: string;
     accessLabel: string;
     verifiedLabel: string;
+  };
+  findCarePage: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    backHome: string;
+    status: string;
+    processTitle: string;
+    processIntro: string;
+    steps: [Step, Step, Step];
+  };
+  howPage: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    backHome: string;
+    stateTitle: string;
+    availableLabel: string;
+    availableText: string;
+    pendingLabel: string;
+    pendingText: string;
+    processKicker: string;
+    processTitle: string;
+    processIntro: string;
+    stepStates: [string, string, string];
+    steps: [Step, Step, Step];
+    readinessKicker: string;
+    readinessTitle: string;
+    readinessIntro: string;
+    checks: [Step, Step, Step];
+    exploreLearn: string;
+    exploreCare: string;
+  };
+  getInvolvedPage: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    backHome: string;
+    imageAlt: string;
+    imageCaption: string;
+    formKicker: string;
+    formTitle: string;
+    formIntro: string;
+    topicLegend: string;
+    topics: [{ id: 'idea'; title: string; description: string }, { id: 'facility'; title: string; description: string }, { id: 'collaborate'; title: string; description: string }];
+    replyEmailLabel: string;
+    replyEmailHint: string;
+    replyEmailError: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    messageHint: string;
+    messageError: string;
+    charactersLabel: string;
+    sendAction: string;
+    sendingLabel: string;
+    sentTitle: string;
+    sentText: string;
+    anotherAction: string;
+    sendError: string;
+    checkingLabel: string;
+    unavailableTitle: string;
+    unavailableText: string;
+    directEmailAction: string;
+    sideTitle: string;
+    safetyTitle: string;
+    safetyText: string;
+    privacyText: string;
   };
   participation: {
     kicker: string;
@@ -122,8 +216,8 @@ export const copy = {
       programs: [
         {
           title: 'Understand cancer',
-          description: 'Planned English and Kiswahili guides to risk, screening and treatment.',
-          label: 'Planned',
+          description: 'Explore short, source-linked guides in English and Kiswahili.',
+          label: 'Guide preview',
         },
         {
           title: 'Find care',
@@ -153,6 +247,31 @@ export const copy = {
       ],
       sourceLabel: 'Read the WHO cancer fact sheet',
       reviewStatus: 'Local clinical review pending',
+      guideAction: 'Explore the screening guide',
+    },
+    learnPage: {
+      eyebrow: 'Learn with CancerCare',
+      title: 'Understand cancer at your pace.',
+      description: 'Start with simple answers, explore screening, and take useful questions to a health professional. Each guide shows its sources and review status.',
+      backHome: 'Back to home',
+      steps: ['Cancer basics', 'Screening guide', 'Questions for care'],
+    },
+    screening: {
+      kicker: 'Screening guide',
+      title: 'Find the information that fits your question.',
+      introduction: 'Choose a topic to see a short explanation and questions you can take to a health professional. This guide does not decide which test you need.',
+      privacyNote: 'Your choice stays on this page and is not saved.',
+      questionsTitle: 'Questions you could ask',
+      directoryAction: 'See directory progress',
+      reviewStatus: 'Educational preview · local clinical review pending',
+      sourcesTitle: 'Sources for this guide',
+      kenyaSource: 'Kenya Ministry of Health screening guidelines (2024)',
+      whoSource: 'WHO cancer fact sheet',
+      paths: [
+        { id: 'considering', label: 'I want to learn about screening', heading: 'Screening is for people without symptoms.', explanation: 'Screening looks for findings that may suggest certain cancers or pre-cancer before symptoms appear. The appropriate test depends on age, risk and clinical guidance. A health professional can help you understand your options.', questions: ['Is screening recommended for me, and why?', 'How will I receive my result?', 'What happens if further tests are needed?'] },
+        { id: 'symptoms', label: 'I have noticed a change in my health', heading: 'Ask for a clinical assessment.', explanation: 'Screening and assessment are different. If you notice an unusual change, speak with a health professional about an assessment rather than waiting for routine screening.', questions: ['Where can I be assessed?', 'What information should I bring?', 'How will I know the next step?'] },
+        { id: 'results', label: 'I have a screening result', heading: 'Understand the follow-up.', explanation: 'A screening result suggesting an abnormality does not by itself confirm cancer. Further tests may be needed. Ask the service that performed your test to explain the result and recommended follow-up.', questions: ['What does my result mean?', 'Do I need any further tests?', 'Who should I contact about follow-up?'] },
+      ],
     },
     pilot: {
       kicker: 'Starting in Embu, Kenya',
@@ -162,7 +281,7 @@ export const copy = {
       mapTitle: 'Embu County, Kenya',
       mapAlt: 'Map showing the Embu County boundary and its highlighted location within Kenya',
       mapSource: 'Boundary data (2020):',
-      action: 'See verification progress',
+      action: 'See the pilot plan',
       steps: [
         { title: 'Listen', description: 'Understand local needs and available services.' },
         { title: 'Verify', description: 'Confirm facility details with records and providers.' },
@@ -183,12 +302,95 @@ export const copy = {
       accessLabel: 'Appointments and referrals',
       verifiedLabel: 'Provider confirmed:',
     },
+    findCarePage: {
+      eyebrow: 'Find care in Embu',
+      title: 'A local directory, built on confirmed details.',
+      description: 'CancerCare is checking facility services, contact routes and how patients can access care. Listings will appear here only after direct provider confirmation.',
+      backHome: 'Back to home',
+      status: 'Facility verification in progress',
+      processTitle: 'How a facility becomes a listing',
+      processIntro: 'A public record helps us identify a facility. We then check the details people need before showing it as a care option.',
+      steps: [
+        { title: 'Identify', description: 'Check public facility records and record the source.' },
+        { title: 'Confirm', description: 'Ask the provider about current services, access and a working contact route.' },
+        { title: 'Publish', description: 'Show only confirmed details with the date they were checked.' },
+      ],
+    },
+    howPage: {
+      eyebrow: 'The Embu pilot',
+      title: 'How CancerCare is taking shape.',
+      description: 'This is a website preview, not a running care service. The learning guide can be explored now. Local service listings are still being prepared, and feedback can be sent by email.',
+      backHome: 'Back to home',
+      stateTitle: 'Where things stand',
+      availableLabel: 'Available to explore',
+      availableText: 'An English and Kiswahili learning guide, awaiting local clinical review.',
+      pendingLabel: 'Still being prepared',
+      pendingText: 'Verified facility listings and locally tested care guidance.',
+      processKicker: 'Proposed process',
+      processTitle: 'Listen. Verify. Improve.',
+      processIntro: 'These are the steps planned for the Embu pilot. We will show progress as each one is completed.',
+      stepStates: ['Planned', 'Initial research', 'Planned'],
+      steps: [
+        { title: 'Listen to local needs', description: 'Ask people seeking care, community groups and health professionals which questions and access problems the site should address. No findings are published here yet.' },
+        { title: 'Check each claim', description: 'Use public sources to identify facilities, then confirm current services, access and contact details directly with providers. Have health content reviewed locally before release.' },
+        { title: 'Test and improve', description: 'Ask Embu users to try the pages in English and Kiswahili. Correct confusing language and outdated details, and show when information was last checked.' },
+      ],
+      readinessKicker: 'Before wider use',
+      readinessTitle: 'What still needs to happen',
+      readinessIntro: 'The preview is useful for reviewing the idea. These checks are needed before presenting it as a dependable local care resource.',
+      checks: [
+        { title: 'Clinical review', description: 'A qualified local reviewer checks the educational wording and translations.' },
+        { title: 'Provider confirmation', description: 'The first Embu facility confirms its services, patient access and working contact route.' },
+        { title: 'Community testing', description: 'People in Embu try the site and help us fix unclear or missing information.' },
+      ],
+      exploreLearn: 'Explore the learning guide',
+      exploreCare: 'See directory progress',
+    },
+    getInvolvedPage: {
+      eyebrow: 'Get in touch',
+      title: 'Your ideas can make care clearer.',
+      description: 'Tell us what to improve, share a public facility detail to check, or offer to help with the Embu pilot.',
+      backHome: 'Back to home',
+      imageAlt: 'Two people looking through a printed guide together',
+      imageCaption: 'Illustrative image; not actual community members.',
+      formKicker: 'A note to the team',
+      formTitle: 'Send a message',
+      formIntro: 'Choose a topic and write a short note. Your email is optional.',
+      topicLegend: 'What is your message about?',
+      topics: [
+        { id: 'idea', title: 'Website feedback', description: 'Something to improve' },
+        { id: 'facility', title: 'Facility detail', description: 'Public information to check' },
+        { id: 'collaborate', title: 'Work together', description: 'Review or test the pilot' },
+      ],
+      replyEmailLabel: 'Your email address',
+      replyEmailHint: 'Optional. Include it if you would like a reply.',
+      replyEmailError: 'Enter a valid email address or leave this blank.',
+      messageLabel: 'Your message',
+      messagePlaceholder: 'Tell us what you noticed or would like us to improve…',
+      messageHint: 'At least 10 characters. Do not include names or private health details.',
+      messageError: 'Write 10–800 characters before sending.',
+      charactersLabel: 'characters',
+      sendAction: 'Send to CancerCare',
+      sendingLabel: 'Sending…',
+      sentTitle: 'Message accepted',
+      sentText: 'The mail service accepted your note for the CancerCare inbox. Thank you for helping us improve the project.',
+      anotherAction: 'Write another message',
+      sendError: 'Your message was not sent. Please try again later or use the email address on this page.',
+      checkingLabel: 'Checking the mail connection…',
+      unavailableTitle: 'Online sending is being connected',
+      unavailableText: 'You can write your note here, but Send will work once the project mailbox is connected.',
+      directEmailAction: 'Email the project directly',
+      sideTitle: 'Reach the CancerCare team',
+      safetyTitle: 'Project messages only',
+      safetyText: 'Use this form for website feedback, public service details or collaboration. It is not for medical advice, appointments or emergencies.',
+      privacyText: 'The project mailbox receives your message and optional email address. Please leave out private health information.',
+    },
     participation: {
       kicker: 'Working together',
       title: 'Build with the community',
       description: 'Health professionals, community groups and people with lived experience can help shape and check this service.',
-      note: 'Ways to share feedback will be added during the pilot.',
-      action: 'See the Embu pilot',
+      note: 'You can now send project feedback by email.',
+      action: 'Share an idea',
       diagram: {
         people: "People's voices",
         health: 'Health expertise',
@@ -236,8 +438,8 @@ export const copy = {
       programs: [
         {
           title: 'Fahamu saratani',
-          description: 'Miongozo ya Kiingereza na Kiswahili kuhusu hatari, uchunguzi na matibabu inapangwa.',
-          label: 'Inapangwa',
+          description: 'Soma miongozo mifupi yenye vyanzo kwa Kiingereza na Kiswahili.',
+          label: 'Mwongozo wa awali',
         },
         {
           title: 'Tafuta huduma',
@@ -267,6 +469,31 @@ export const copy = {
       ],
       sourceLabel: 'Soma taarifa ya WHO kuhusu saratani',
       reviewStatus: 'Ukaguzi wa mtaalamu wa afya wa eneo unasubiriwa',
+      guideAction: 'Chunguza mwongozo wa uchunguzi',
+    },
+    learnPage: {
+      eyebrow: 'Jifunze na CancerCare',
+      title: 'Elewa saratani kwa mwendo wako.',
+      description: 'Anza na majibu rahisi, elewa uchunguzi, na andaa maswali ya kumuuliza mhudumu wa afya. Kila mwongozo unaonyesha vyanzo na hali ya ukaguzi.',
+      backHome: 'Rudi mwanzo',
+      steps: ['Misingi ya saratani', 'Mwongozo wa uchunguzi', 'Maswali ya huduma'],
+    },
+    screening: {
+      kicker: 'Mwongozo wa uchunguzi',
+      title: 'Pata taarifa zinazolingana na swali lako.',
+      introduction: 'Chagua mada upate maelezo mafupi na maswali ya kumuuliza mhudumu wa afya. Mwongozo huu hauamui ni kipimo gani unahitaji.',
+      privacyNote: 'Chaguo lako linabaki kwenye ukurasa huu na halihifadhiwi.',
+      questionsTitle: 'Maswali unayoweza kuuliza',
+      directoryAction: 'Tazama maendeleo ya orodha ya vituo',
+      reviewStatus: 'Mwongozo wa awali · ukaguzi wa mtaalamu wa afya wa eneo unasubiriwa',
+      sourcesTitle: 'Vyanzo vya mwongozo huu',
+      kenyaSource: 'Mwongozo wa uchunguzi wa Wizara ya Afya Kenya (2024)',
+      whoSource: 'Taarifa ya WHO kuhusu saratani',
+      paths: [
+        { id: 'considering', label: 'Nataka kujua kuhusu uchunguzi', heading: 'Uchunguzi huu ni kwa watu wasio na dalili.', explanation: 'Uchunguzi hutafuta viashiria vinavyoweza kuonyesha aina fulani za saratani au hali zinazoweza kuwa saratani kabla ya dalili kujitokeza. Kipimo kinachofaa hutegemea umri, hatari na mwongozo wa afya. Mhudumu wa afya anaweza kukusaidia kuelewa chaguo zako.', questions: ['Je, uchunguzi unapendekezwa kwangu, na kwa nini?', 'Nitapata matokeo yangu kwa njia gani?', 'Nini kitafuata ikiwa vipimo zaidi vinahitajika?'] },
+        { id: 'symptoms', label: 'Nimeona mabadiliko katika afya yangu', heading: 'Omba tathmini ya mhudumu wa afya.', explanation: 'Uchunguzi wa watu wasio na dalili na tathmini ya dalili ni tofauti. Ukiona mabadiliko yasiyo ya kawaida, zungumza na mhudumu wa afya kuhusu tathmini badala ya kusubiri uchunguzi wa kawaida.', questions: ['Ninaweza kufanyiwa tathmini wapi?', 'Ni taarifa gani ninazopaswa kuleta?', 'Nitajuaje hatua inayofuata?'] },
+        { id: 'results', label: 'Nina matokeo ya uchunguzi', heading: 'Elewa hatua za ufuatiliaji.', explanation: 'Matokeo ya uchunguzi yanayodokeza hali isiyo ya kawaida hayathibitishi saratani. Vipimo zaidi vinaweza kuhitajika. Uliza kituo kilichokupima kikueleze matokeo na ufuatiliaji unaopendekezwa.', questions: ['Matokeo yangu yanamaanisha nini?', 'Je, ninahitaji vipimo zaidi?', 'Niwasiliane na nani kuhusu ufuatiliaji?'] },
+      ],
     },
     pilot: {
       kicker: 'Tunaanzia Embu, Kenya',
@@ -276,7 +503,7 @@ export const copy = {
       mapTitle: 'Kaunti ya Embu, Kenya',
       mapAlt: 'Ramani inayoonyesha mpaka wa Kaunti ya Embu na mahali pake palipoangaziwa nchini Kenya',
       mapSource: 'Taarifa za mipaka (2020):',
-      action: 'Tazama hatua za uthibitishaji',
+      action: 'Tazama mpango wa majaribio',
       steps: [
         { title: 'Sikiliza', description: 'Fahamu mahitaji ya eneo na huduma zilizopo.' },
         { title: 'Thibitisha', description: 'Kagua taarifa za vituo na watoa huduma.' },
@@ -297,12 +524,95 @@ export const copy = {
       accessLabel: 'Miadi na rufaa',
       verifiedLabel: 'Mtoa huduma amethibitisha:',
     },
+    findCarePage: {
+      eyebrow: 'Tafuta huduma Embu',
+      title: 'Orodha ya eneo inayojengwa kwa taarifa zilizothibitishwa.',
+      description: 'CancerCare inakagua huduma za vituo, njia za mawasiliano na jinsi wagonjwa wanavyoweza kupata huduma. Kituo kitaonyeshwa hapa baada tu ya mtoa huduma kuthibitisha taarifa zake moja kwa moja.',
+      backHome: 'Rudi mwanzo',
+      status: 'Uthibitishaji wa vituo unaendelea',
+      processTitle: 'Jinsi kituo kinavyoongezwa kwenye orodha',
+      processIntro: 'Sajili ya umma hutusaidia kutambua kituo. Kisha tunakagua taarifa ambazo watu wanahitaji kabla ya kukionyesha kama chaguo la huduma.',
+      steps: [
+        { title: 'Tambua', description: 'Kagua sajili za umma za vituo na rekodi chanzo.' },
+        { title: 'Thibitisha', description: 'Muulize mtoa huduma kuhusu huduma zilizopo, jinsi ya kuzipata na mawasiliano yanayofanya kazi.' },
+        { title: 'Onyesha', description: 'Onyesha taarifa zilizothibitishwa pekee pamoja na tarehe zilipokaguliwa.' },
+      ],
+    },
+    howPage: {
+      eyebrow: 'Majaribio ya Embu',
+      title: 'Jinsi CancerCare inavyojengwa.',
+      description: 'Huu ni muonekano wa awali wa tovuti, si huduma ya afya inayoendelea. Mwongozo wa kujifunza unaweza kutazamwa sasa. Orodha ya vituo bado inaandaliwa, na maoni yanaweza kutumwa kwa barua pepe.',
+      backHome: 'Rudi mwanzo',
+      stateTitle: 'Tulipofikia',
+      availableLabel: 'Unaweza kutazama sasa',
+      availableText: 'Mwongozo wa kujifunza kwa Kiingereza na Kiswahili; bado unasubiri ukaguzi wa wataalamu wa afya wa eneo.',
+      pendingLabel: 'Bado vinaandaliwa',
+      pendingText: 'Orodha ya vituo vilivyothibitishwa na mwongozo wa huduma uliojaribiwa na jamii.',
+      processKicker: 'Mpango wa majaribio',
+      processTitle: 'Sikiliza. Thibitisha. Boresha.',
+      processIntro: 'Hizi ni hatua zilizopangwa kwa majaribio ya Embu. Tutaonyesha maendeleo kila hatua inapokamilika.',
+      stepStates: ['Imepangwa', 'Utafiti wa awali', 'Imepangwa'],
+      steps: [
+        { title: 'Sikiliza mahitaji ya eneo', description: 'Waulize wanaotafuta huduma, vikundi vya jamii na wahudumu wa afya maswali na changamoto ambazo tovuti inapaswa kushughulikia. Hakuna matokeo yaliyochapishwa hapa bado.' },
+        { title: 'Kagua kila taarifa', description: 'Tumia vyanzo vya umma kutambua vituo, kisha thibitisha huduma, jinsi ya kuzipata na mawasiliano moja kwa moja na watoa huduma. Taarifa za afya zikaguliwe na wataalamu wa eneo kabla ya kutolewa.' },
+        { title: 'Jaribu na uboreshe', description: 'Waombe watu wa Embu wajaribu kurasa kwa Kiingereza na Kiswahili. Sahihisha maneno yasiyo wazi na taarifa zilizopitwa na wakati, na onyesha tarehe ya ukaguzi wa mwisho.' },
+      ],
+      readinessKicker: 'Kabla ya matumizi mapana',
+      readinessTitle: 'Kinachohitajika bado',
+      readinessIntro: 'Muonekano huu wa awali unasaidia kukagua wazo. Hatua hizi zinahitajika kabla ya kuutangaza kama nyenzo ya kuaminika ya huduma za eneo.',
+      checks: [
+        { title: 'Ukaguzi wa kitaalamu', description: 'Mtaalamu wa afya wa eneo akague maandishi ya elimu na tafsiri.' },
+        { title: 'Uthibitisho wa mtoa huduma', description: 'Kituo cha kwanza Embu kithibitishe huduma, jinsi wagonjwa wanavyozipata na mawasiliano yanayofanya kazi.' },
+        { title: 'Majaribio na jamii', description: 'Watu wa Embu wajaribu tovuti na kusaidia kusahihisha taarifa zisizo wazi au zinazokosekana.' },
+      ],
+      exploreLearn: 'Tazama mwongozo wa kujifunza',
+      exploreCare: 'Tazama maendeleo ya orodha',
+    },
+    getInvolvedPage: {
+      eyebrow: 'Wasiliana nasi',
+      title: 'Saidia kuboresha taarifa za huduma.',
+      description: 'Tuambie tuboreshe nini, tushirikishe taarifa ya umma ya kituo ya kukagua, au saidia majaribio ya Embu.',
+      backHome: 'Rudi mwanzo',
+      imageAlt: 'Watu wawili wakisoma mwongozo uliochapishwa pamoja',
+      imageCaption: 'Picha ya mfano; hawa si wanajamii halisi wa mradi.',
+      formKicker: 'Ujumbe kwa timu',
+      formTitle: 'Tuma ujumbe',
+      formIntro: 'Chagua mada na uandike ujumbe mfupi. Barua pepe si lazima.',
+      topicLegend: 'Ujumbe wako unahusu nini?',
+      topics: [
+        { id: 'idea', title: 'Maoni ya tovuti', description: 'Jambo la kuboresha' },
+        { id: 'facility', title: 'Taarifa ya kituo', description: 'Taarifa ya umma ya kukagua' },
+        { id: 'collaborate', title: 'Tushirikiane', description: 'Kagua au jaribu mradi' },
+      ],
+      replyEmailLabel: 'Anwani yako ya barua pepe',
+      replyEmailHint: 'Si lazima. Iweke ikiwa ungependa jibu.',
+      replyEmailError: 'Weka anwani sahihi ya barua pepe au acha nafasi hii wazi.',
+      messageLabel: 'Ujumbe wako',
+      messagePlaceholder: 'Tuambie ulichoona au unachopenda tuboreshe…',
+      messageHint: 'Angalau herufi 10. Usitaje majina au taarifa binafsi za afya.',
+      messageError: 'Andika herufi 10–800 kabla ya kutuma.',
+      charactersLabel: 'herufi',
+      sendAction: 'Tuma kwa CancerCare',
+      sendingLabel: 'Inatuma…',
+      sentTitle: 'Ujumbe umekubaliwa',
+      sentText: 'Huduma ya barua pepe imekubali ujumbe wako kwa kisanduku cha CancerCare. Asante kwa kusaidia kuboresha mradi.',
+      anotherAction: 'Andika ujumbe mwingine',
+      sendError: 'Ujumbe haukutumwa. Jaribu tena baadaye au tumia anwani ya barua pepe kwenye ukurasa huu.',
+      checkingLabel: 'Tunakagua muunganisho wa barua pepe…',
+      unavailableTitle: 'Huduma ya kutuma ujumbe inaunganishwa',
+      unavailableText: 'Unaweza kuandika ujumbe hapa, lakini kitufe cha kutuma kitafanya kazi kisanduku cha mradi kitakapounganishwa.',
+      directEmailAction: 'Tuma barua pepe moja kwa moja',
+      sideTitle: 'Wasiliana na timu ya CancerCare',
+      safetyTitle: 'Ujumbe kuhusu mradi pekee',
+      safetyText: 'Tuma maoni ya tovuti, taarifa za umma za huduma au ombi la kushirikiana. Hii si huduma ya ushauri wa afya, miadi au dharura.',
+      privacyText: 'Kisanduku cha mradi hupokea ujumbe wako na anwani yako ya barua pepe ukiitoa. Usiweke taarifa binafsi za afya.',
+    },
     participation: {
       kicker: 'Tukishirikiana',
       title: 'Tujenge pamoja na jamii',
       description: 'Wataalamu wa afya, vikundi vya jamii na watu wenye uzoefu wa kupata huduma wanaweza kusaidia kubuni na kukagua huduma hii.',
-      note: 'Njia za kutoa maoni zitaongezwa wakati wa majaribio.',
-      action: 'Tazama majaribio ya Embu',
+      note: 'Sasa unaweza kutuma maoni kuhusu mradi kwa barua pepe.',
+      action: 'Toa wazo',
       diagram: {
         people: 'Sauti za watu',
         health: 'Utaalamu wa afya',

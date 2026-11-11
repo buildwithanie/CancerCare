@@ -11,21 +11,27 @@ function initialLanguage(): Language {
   }
 }
 
-export function useLanguage() {
+export function useLanguage(page: 'home' | 'learn' | 'find-care' | 'how-it-works' | 'get-involved' = 'home') {
   const [language, setLanguage] = useState<Language>(initialLanguage);
 
   useEffect(() => {
     document.documentElement.lang = language;
-    document.title = language === 'sw'
-      ? 'CancerCare — Njia ya kupata huduma'
-      : 'CancerCare — A clearer path to care';
+    document.title = page === 'learn'
+      ? language === 'sw' ? 'Jifunze kuhusu saratani — CancerCare' : 'Learn about cancer — CancerCare'
+      : page === 'find-care'
+        ? language === 'sw' ? 'Tafuta huduma — CancerCare' : 'Find care — CancerCare'
+        : page === 'how-it-works'
+          ? language === 'sw' ? 'Inavyofanya kazi — CancerCare' : 'How it works — CancerCare'
+          : page === 'get-involved'
+            ? language === 'sw' ? 'Shiriki — CancerCare' : 'Get involved — CancerCare'
+        : language === 'sw' ? 'CancerCare — Njia ya kupata huduma' : 'CancerCare — A clearer path to care';
 
     try {
       window.localStorage.setItem(languageStorageKey, language);
     } catch {
       // The switch still works when browser storage is unavailable.
     }
-  }, [language]);
+  }, [language, page]);
 
   return { language, setLanguage, text: copy[language] };
 }
