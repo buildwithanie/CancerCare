@@ -4,7 +4,7 @@ import { pageContainer } from '@/lib/site-styles';
 import { cn } from '@/lib/utils';
 
 const icons = [BookOpen, Hospital, Signpost, HeartHandshake] as const;
-const hrefs = ['#learn', '#directory', '#pilot', '#plan'] as const;
+const hrefs = ['/learn/', '/find-care/', '/how-it-works/', '/get-involved/'] as const;
 
 export function FocusSection({ work }: { work: Copy['work'] }) {
   return <section id="work" aria-labelledby="work-title" className="bg-white py-5 md:py-6">

@@ -13,7 +13,7 @@ export function HeroSection({ hero }: { hero: Copy['hero'] }) {
         <p className="mt-6 max-w-[515px] text-[15px] leading-[1.65] text-copy sm:text-[17px]">{hero.description}</p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <a href="#work" className="inline-flex min-h-11 items-center gap-3 rounded-full bg-forest px-5 text-[13px] font-bold text-white shadow-[0_9px_22px_#0b563226] hover:bg-ink">{hero.primaryAction}<ArrowRight className="size-4" aria-hidden="true" /></a>
-          <a href="#pilot" className="inline-flex min-h-11 items-center gap-3 rounded-full border border-forest bg-white px-5 text-[13px] font-bold text-forest hover:bg-mist">{hero.secondaryAction}<ArrowRight className="size-4" aria-hidden="true" /></a>
+          <a href="/how-it-works/" className="inline-flex min-h-11 items-center gap-3 rounded-full border border-forest bg-white px-5 text-[13px] font-bold text-forest hover:bg-mist">{hero.secondaryAction}<ArrowRight className="size-4" aria-hidden="true" /></a>
         </div>
       </div>
       <figure className="relative -mx-[18px] h-[310px] overflow-hidden sm:-mx-[24px] sm:h-[390px] lg:-mr-[max(18px,calc((100vw-1284px)/2))] lg:ml-0 lg:h-full lg:min-h-[490px]">

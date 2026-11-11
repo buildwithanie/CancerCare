@@ -1,4 +1,4 @@
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
 import type { Copy } from '@/content';
 import { pageContainer, sectionKicker } from '@/lib/site-styles';
 import { cn } from '@/lib/utils';
@@ -19,7 +19,10 @@ export function LearnSection({ learn }: { learn: Copy['learn'] }) {
             <p className="mt-3 max-w-[650px] border-t border-line pt-3 text-[13px] leading-[1.7] text-copy">{item.answer}</p>
           </details>)}
         </div>
-        <a href="https://www.who.int/news-room/fact-sheets/detail/cancer" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-[12px] font-bold text-forest underline underline-offset-4">{learn.sourceLabel}<ArrowUpRight className="size-4" aria-hidden="true" /></a>
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          <a href="#screening" className="inline-flex min-h-10 items-center gap-2 rounded-full bg-forest px-4 text-[12px] font-bold text-white hover:bg-ink">{learn.guideAction}<ArrowRight className="size-4" aria-hidden="true" /></a>
+          <a href="https://www.who.int/news-room/fact-sheets/detail/cancer" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[12px] font-bold text-forest underline underline-offset-4">{learn.sourceLabel}<ArrowUpRight className="size-4" aria-hidden="true" /></a>
+        </div>
       </div>
     </div>
   </section>;

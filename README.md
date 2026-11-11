@@ -2,7 +2,7 @@
 
 CancerCare is an early, community-focused project concept for clearer access to cancer information and care, beginning in Embu County. This repository contains a responsive organization-style website preview built with React, TypeScript, and Vite.
 
-The preview has an English/Kiswahili switch and a short, source-linked cancer education section. The educational wording awaits local clinical review. The site does not yet provide medical advice, patient accounts, referrals, or a live facility directory.
+The preview has an English/Kiswahili switch, a dedicated `/learn/` page with source-linked cancer basics and an interactive screening guide, a `/find-care/` page that explains how facilities will be verified, a `/how-it-works/` page that separates current progress from the proposed Embu pilot, and a `/get-involved/` page for project feedback. The redesigned contact form is fillable on desktop and mobile; it sends directly to the project mailbox when SMTP is configured. The educational wording awaits local clinical review. The site does not yet provide medical advice, patient accounts, referrals, or live facility listings.
 
 ## Development
 
@@ -11,6 +11,8 @@ pnpm install
 pnpm dev
 ```
 
+For a local contact-form send, put a Gmail app password in the ignored `.env` file as `SMTP_PASS=...` and run `pnpm dev`. The Vite development server uses the same contact handler as the Cloudflare Pages Function. See [contact setup](docs/20-contact-rebuild.md).
+
 ## Build
 
 ```sh
@@ -18,6 +20,8 @@ pnpm build
 ```
 
 The build output is `dist/`. Cloudflare Pages can use `pnpm build` and `dist` when the site is ready to publish.
+
+The `/api/contact` endpoint is a Cloudflare Pages Function using Nodemailer and Gmail SMTP. The local `.env` file is ignored by Git and used only for local Pages development. To enable the deployed form, configure `SMTP_PASS` as a Cloudflare Pages encrypted secret containing an app password for `buildwithanie@gmail.com`, enable Node.js compatibility for Pages Functions, then confirm a non-sensitive live test reaches that inbox. Until the secret is configured, the form remains fillable and clearly disables Send. See [contact setup](docs/20-contact-rebuild.md).
 
 ## Project steps
 
@@ -35,6 +39,12 @@ The build output is `dist/`. Cloudflare Pages can use `pnpm build` and `dist` wh
 12. [Copy and layout polish](docs/12-copy-and-layout-polish.md)
 13. [Directory access readiness](docs/13-directory-access-readiness.md)
 14. [Hero imagery and first education guide](docs/14-hero-and-first-education-guide.md)
+15. [Screening guide preview](docs/15-screening-guide.md)
+16. [Dedicated Learn page](docs/16-dedicated-learn-page.md)
+17. [Dedicated Find care page](docs/17-dedicated-find-care-page.md)
+18. [Dedicated How it works page](docs/18-dedicated-how-it-works-page.md)
+19. [Get involved email flow](docs/19-get-involved-email-flow.md)
+20. [Contact page and on-site delivery](docs/20-contact-rebuild.md)
 
 The next steps are local clinical review of the introductory guide and direct provider confirmation of the first Embu facility. Publish facility details only after its services, access and contact route are verified.
 
@@ -43,7 +53,7 @@ The next steps are local clinical review of the introductory guide and direct pr
 ## Where to make changes
 
 - Edit words and translations in `src/content.ts`.
-- Edit one homepage section in `src/components/sections/`.
+- Edit a page section in `src/components/sections/`.
 - Edit the site colors and font tokens in `src/index.css`.
 - Reuse or customize shadcn components in `src/components/ui/`.
 - Edit language behavior in `src/hooks/useLanguage.ts`.
