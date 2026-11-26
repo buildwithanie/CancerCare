@@ -193,12 +193,12 @@ const baseTopics = [
   },
   {
     id: 'support',
-    keywords: ['support', 'caregiver', 'family', 'cope', 'scared', 'afraid', 'alone', 'sad', 'msaada', 'mlezi', 'familia', 'naogopa', 'peke yangu', 'huzuni'],
+    keywords: ['support', 'support someone', 'help someone', 'caregiver', 'caring for', 'look after my', 'family', 'cope', 'scared', 'afraid', 'alone', 'sad', 'msaada', 'mlezi', 'walezi', 'kumhudumia', 'kumsaidia', 'kumsaidia mtu', 'familia', 'naogopa', 'peke yangu', 'huzuni'],
     answer: {
-      en: 'Facing cancer, or caring for someone who is, can feel overwhelming. Talking to people you trust and to your care team helps. CancerCare is planning practical support resources with the Embu community. For now, you can explore the learning guide or tell us what support would help.',
-      sw: 'Kukabiliana na saratani, au kumhudumia mtu aliye nayo, kunaweza kuwa kugumu. Kuzungumza na watu unaowaamini na timu yako ya huduma husaidia. CancerCare inapanga rasilimali za msaada pamoja na jamii ya Embu. Kwa sasa, unaweza kusoma mwongozo wa elimu au kutueleza msaada unaoweza kusaidia.',
+      en: 'Facing cancer, or caring for someone who is, can feel overwhelming. Talking to people you trust and to your care team helps. The Caregiver corner has practical tips for supporting someone, looking after yourself and talking to children. Support groups and counselling can also help.',
+      sw: 'Kukabiliana na saratani, au kumhudumia mtu aliye nayo, kunaweza kuwa kugumu. Kuzungumza na watu unaowaamini na timu yako ya huduma husaidia. Kona ya walezi ina vidokezo vya kumsaidia mgonjwa, kujitunza na kuzungumza na watoto. Vikundi vya msaada na ushauri nasaha vinaweza pia kusaidia.',
     },
-    link: { href: '/get-involved/', label: { en: 'Tell us what would help', sw: 'Tueleze kinachoweza kusaidia' } },
+    link: { href: '/caregivers/', label: { en: 'Caregiver corner', sw: 'Kona ya walezi' } },
   },
   {
     id: 'involve',
@@ -312,7 +312,7 @@ Be friendly and human. Reply naturally to greetings (hello, habari, mambo, niaje
 What you know about the site and its current state:
 ${facts}
 - Kenya facts (sources: GLOBOCAN 2022 Kenya fact sheet; Ministry of Health): the most common cancers are breast, cervical, prostate, oesophageal and colorectal. The HPV vaccine is free for girls aged 10-14 and a single dose has been used since late 2025. The Social Health Authority (SHA) replaced NHIF and has an oncology benefit package; limits change, so tell people to confirm with SHA or the facility's SHA desk and do not quote amounts.
-- Site pages: / (home), /learn/ (cancer basics, screening guide, questions for a visit, myths and facts), /resources/ (printable leaflets), /find-care/ (directory progress), /how-it-works/ (Embu pilot plan), /about/ (who we are), /get-involved/ (contact form), /privacy/ (privacy and terms).
+- Site pages: / (home), /learn/ (cancer basics, screening guide, questions for a visit, myths and facts), /resources/ (printable leaflets), /caregivers/ (caregiver corner), /find-care/ (directory progress), /how-it-works/ (Embu pilot plan), /about/ (who we are), /get-involved/ (contact form), /privacy/ (privacy and terms).
 - The educational wording is awaiting local clinical review. The site does not provide medical advice, patient accounts, appointments, referrals or live facility listings yet.
 
 You can and should answer any cancer-related question well, drawing on accurate, mainstream medical knowledge consistent with WHO and the Kenya Ministry of Health: cancer types (for example breast, cervical, prostate, oesophageal, colorectal, liver, lung, skin, blood cancers, childhood cancers), causes and risk factors, prevention and vaccines, signs to get checked, screening and diagnostic tests, staging, treatment options in general terms and their side effects, nutrition, pain, palliative care, caregiving, emotional wellbeing, survivorship, myths, and how to prepare for a health visit. Give real, specific information, not only "see a doctor". Correct myths kindly. If a question is about the person's own situation, give the general information and suggest what to ask a health professional.

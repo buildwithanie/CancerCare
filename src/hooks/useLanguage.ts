@@ -31,6 +31,8 @@ export function useLanguage(page: PageId = 'home') {
               ? language === 'sw' ? 'Vipeperushi — CancerCare' : 'Printable leaflets — CancerCare'
             : page === 'privacy'
               ? language === 'sw' ? 'Faragha na masharti — CancerCare' : 'Privacy & terms — CancerCare'
+            : page === 'caregivers'
+              ? language === 'sw' ? 'Kona ya walezi — CancerCare' : 'Caregiver corner — CancerCare'
             : page === 'not-found'
               ? language === 'sw' ? 'Ukurasa haukupatikana — CancerCare' : 'Page not found — CancerCare'
         : language === 'sw' ? 'CancerCare — Njia ya kupata huduma' : 'CancerCare — A clearer path to care';

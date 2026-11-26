@@ -78,6 +78,7 @@ export default defineConfig(({ mode }) => ({
         about: fileURLToPath(new URL('./about/index.html', import.meta.url)),
         resources: fileURLToPath(new URL('./resources/index.html', import.meta.url)),
         privacy: fileURLToPath(new URL('./privacy/index.html', import.meta.url)),
+        caregivers: fileURLToPath(new URL('./caregivers/index.html', import.meta.url)),
         notFound: fileURLToPath(new URL('./404.html', import.meta.url)),
       },
     },

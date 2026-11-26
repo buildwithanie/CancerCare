@@ -218,3 +218,18 @@
 .mobile-menu { animation: menu-in .18s ease-out; }
 @keyframes menu-in { from { opacity: 0; transform: translateY(-6px); } }
 @media (prefers-reduced-motion: reduce) { .menu-panel > div, .mobile-menu { animation: none; } }
+
+/* Reading options: larger text (zooms page content, keeps the layout responsive) */
+html.reading-large main, html.reading-large footer, html.reading-large #cancercare-chat, html.reading-large #mobile-menu nav { zoom: var(--reading-zoom, 1); }
+input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+
+/* Reading options: high contrast */
+html.high-contrast { --border: #4b6656; }
+html.high-contrast body { color: #08150f; }
+html.high-contrast .text-copy, html.high-contrast .text-sage { color: #0f241c !important; }
+html.high-contrast .text-leaf { color: #0a4527 !important; }
+html.high-contrast .text-white\/70, html.high-contrast .text-white\/80, html.high-contrast .text-white\/85 { color: #fff !important; }
+html.high-contrast .border-line, html.high-contrast .ring-line { border-color: #5b7666 !important; --tw-ring-color: #5b7666 !important; }
+html.high-contrast .bg-sand, html.high-contrast .bg-\[\#f8faf6\], html.high-contrast .bg-\[\#f3f8f2\], html.high-contrast .bg-\[\#f6faf4\], html.high-contrast .bg-\[\#eaf4e9\], html.high-contrast .bg-\[\#f8faf7\] { background-color: #fff !important; }
+html.high-contrast main a:not([class*="bg-forest"]):not([class*="rounded-full"]) { text-decoration: underline; text-underline-offset: 3px; }
+html.high-contrast :focus-visible { outline: 3px solid #000 !important; outline-offset: 3px; }
