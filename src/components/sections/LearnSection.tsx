@@ -17,6 +17,7 @@ export function LearnSection({ learn }: { learn: Copy['learn'] }) {
           {learn.items.map((item, index) => <details key={item.question} open={index === 0} className="group rounded-[16px] border border-line bg-white px-5 py-4">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-bold tracking-[-.025em] marker:hidden [&::-webkit-details-marker]:hidden"><span>{item.question}</span><Plus aria-hidden="true" className="size-5 shrink-0 text-forest transition-transform group-open:rotate-45" /></summary>
             <p className="mt-3 max-w-[650px] border-t border-line pt-3 text-[13px] leading-[1.7] text-copy">{item.answer}</p>
+            {item.source && <a href={item.source.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-forest underline underline-offset-2">{item.source.label}<ArrowUpRight className="size-3" aria-hidden="true" /></a>}
           </details>)}
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-4">

@@ -4,7 +4,7 @@ This step adds a bilingual chat assistant to every page, two interactive learnin
 
 ## CancerCare assistant (chatbot)
 
-A floating **Ask CancerCare** button opens a chat panel on every page. It answers general questions about cancer, screening, results, prevention, finding care in Embu and getting involved, in English or Kiswahili (it follows the site language switch).
+A floating **Ask CancerCare** button opens a chat panel on every page. It answers greetings and small talk (hello, habari, mambo, niaje, shikamoo, how are you, thank you, goodbye) and general questions about cancer, the most common cancers in Kenya, warning signs, screening, results, prevention, the HPV vaccine, treatment types, palliative care, paying for care through SHA, finding care in Embu and getting involved, in English or Kiswahili (it follows the site language switch). Greetings only win when a message has no health question in it, so "Hi, what is screening?" is answered as a screening question.
 
 ![Assistant preview](21-assistant-preview.png)
 
@@ -12,7 +12,7 @@ It works in two modes:
 
 | Mode | When | How answers are made |
 | --- | --- | --- |
-| AI answers | `ANTHROPIC_API_KEY` is set | `/api/chat` (Cloudflare Pages Function) sends the conversation to the Anthropic Messages API with a strict safety prompt built from `shared/assistant.js`. |
+| AI answers | `GEMINI_API_KEY` is set | `/api/chat` (Cloudflare Pages Function) sends the conversation to the Gemini API (`generateContent`) with a strict safety prompt built from `shared/assistant.js`. |
 | Quick answers | No key, or the AI call fails | The browser matches the question to reviewed site answers in `shared/assistant.js` and links to the right page. |
 
 The quick-answers mode means the chat is useful even before an API key is configured. The header shows "Quick answers mode" when it is active.
@@ -27,12 +27,14 @@ The quick-answers mode means the chat is useful even before an API key is config
 
 To change what the assistant knows, edit the topics in `shared/assistant.js` (both languages). The same file builds the AI system prompt.
 
-### Enable AI answers
+### Enable AI answers (Gemini)
 
-1. Create an API key in the Anthropic Console.
-2. Local: add `ANTHROPIC_API_KEY=...` to the ignored `.env` file (see `.env.example`) and run `pnpm dev`. `http://localhost:5173/api/chat` should return `{ "ready": true }`.
-3. Cloudflare Pages: add `ANTHROPIC_API_KEY` under **Settings → Variables and Secrets** as an **encrypted** secret for production. Optionally set `CHAT_MODEL` to override the default model (`claude-haiku-5-5`).
-4. Deploy, confirm `/api/chat` returns `{ "ready": true }`, and ask a few test questions in both languages. Set a monthly spend limit in the Anthropic Console.
+1. Sign in to [Google AI Studio](https://aistudio.google.com/) and create an API key.
+2. Local: add `GEMINI_API_KEY=...` to the ignored `.env` file (see `.env.example`) and run `pnpm dev`. `http://localhost:5173/api/chat` should return `{ "ready": true }`.
+3. Cloudflare Pages: add `GEMINI_API_KEY` under **Settings → Variables and Secrets** as an **encrypted** secret for production. Optionally set `CHAT_MODEL` to change the model (default `gemini-3.8-flash`). Google retires older model names regularly, so update `CHAT_MODEL` if requests start failing.
+4. Deploy, confirm `/api/chat` returns `{ "ready": true }`, and ask a few test questions in both languages.
+
+**Privacy note.** Check Google's Gemini API terms for how your tier handles content. On the free tier, Google may use prompts to improve its products. Because this is a health site, consider a paid (billing-enabled) project before wide public use, and keep the "do not share private health details" notice. If Gemini blocks a reply or the call fails, visitors get the built-in quick answer instead.
 
 ## Questions for a health visit (`/learn/#visit-questions`)
 
@@ -46,6 +48,19 @@ Four flip cards contrast common myths with facts based on the WHO cancer fact sh
 
 ![Myths and facts preview](21-myths-preview.png)
 
+## New learning content
+
+The Learn page has four new answers, each with a source link:
+
+- Which cancers are most common in Kenya (GLOBOCAN 2022 Kenya fact sheet).
+- Which changes to get checked (general warning signs).
+- How cervical cancer can be prevented: the HPV vaccine is free for girls aged 10–14, with one dose since late 2025 (WHO Africa).
+- How to pay for care: the SHA cancer benefit package. Amounts are deliberately not quoted because they change; visitors are told to confirm with SHA or the facility's SHA desk.
+
+## Image captions
+
+The "AI illustration / not actual patients" captions on the home, mission and contact images were removed at the owner's request. Image alt text is unchanged. The map credit captions remain because the boundary data licence requires attribution.
+
 ## Site completeness
 
 - Sections fade in on scroll (turned off for people who prefer reduced motion).
@@ -58,7 +73,7 @@ Four flip cards contrast common myths with facts based on the WHO cancer fact sh
 ## Checks
 
 - `pnpm build`
-- `pnpm test` (contact, facilities and chat tests). The chat tests cover readiness, the missing-key fallback, emergency replies, the safety prompt, request validation, AI failures and rate limiting, using a mock API.
+- `pnpm test` (22 tests: contact, facilities and chat). The chat tests cover readiness, the missing-key fallback, emergency replies, the safety prompt, request validation, AI failures and rate limiting, using a mock API.
 - Browser checks at 1366 px and 390 px in English and Kiswahili: chat, emergency reply, question builder, flip cards and the 404 page, with no console errors.
 
 Not yet tested: a live AI conversation, because no API key was available while building. Do this after step 2 or 3 above.

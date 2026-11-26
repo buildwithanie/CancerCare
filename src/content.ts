@@ -22,7 +22,6 @@ export type Copy = {
     primaryAction: string;
     secondaryAction: string;
     imageAlt: string;
-    imageCaption: string;
   };
   principles: [string, string, string];
   mission: {
@@ -32,7 +31,6 @@ export type Copy = {
     quote: string;
     quoteAttribution: string;
     imageAlt: string;
-    imageCaption: string;
   };
   work: {
     kicker: string;
@@ -43,7 +41,7 @@ export type Copy = {
     kicker: string;
     title: string;
     introduction: string;
-    items: { question: string; answer: string }[];
+    items: { question: string; answer: string; source?: { label: string; url: string } }[];
     sourceLabel: string;
     reviewStatus: string;
     guideAction: string;
@@ -137,7 +135,6 @@ export type Copy = {
     description: string;
     backHome: string;
     imageAlt: string;
-    imageCaption: string;
     formKicker: string;
     formTitle: string;
     formIntro: string;
@@ -245,7 +242,6 @@ export const copy = {
       primaryAction: 'Explore our approach',
       secondaryAction: 'How it works',
       imageAlt: 'Illustration of a woman in a green headscarf smiling with a supportive clinician',
-      imageCaption: 'AI illustration. Not actual patients or staff.',
     },
     principles: ['Clear information', 'Verified services', 'Community input'],
     mission: {
@@ -255,7 +251,6 @@ export const copy = {
       quote: 'Listen first. Build around people seeking care.',
       quoteAttribution: 'Our guiding principle',
       imageAlt: 'AI-generated scene of two adults reading a health information booklet outdoors',
-      imageCaption: 'AI illustration. Not actual patients.',
     },
     work: {
       kicker: 'Our focus',
@@ -286,11 +281,15 @@ export const copy = {
     learn: {
       kicker: 'Cancer education',
       title: 'Start with clear answers.',
-      introduction: 'A short introduction based on World Health Organization information. This is general education, not a diagnosis or personal medical advice.',
+      introduction: 'Short answers based on World Health Organization, GLOBOCAN and Kenya Ministry of Health information. This is general education, not a diagnosis or personal medical advice.',
       items: [
         { question: 'What is cancer?', answer: 'Cancer is a group of diseases in which abnormal cells grow and may spread to nearby tissue or other parts of the body.' },
         { question: 'What is screening?', answer: 'Screening looks for signs of certain cancers before symptoms appear. If you notice an unusual change in your health, speak with a health professional about an assessment.' },
         { question: 'What if a screening result suggests a problem?', answer: 'A screening result does not confirm cancer. Further tests are needed to establish a diagnosis and guide the next step.' },
+        { question: 'Which cancers are most common in Kenya?', answer: 'Breast, cervical, prostate, oesophageal (food pipe) and colorectal (bowel) cancers are the most common in Kenya. Breast and cervical cancer mostly affect women, prostate cancer affects men, and oesophageal and colorectal cancer affect both.', source: { label: 'GLOBOCAN Kenya fact sheet', url: 'https://gco.iarc.who.int/media/globocan/factsheets/populations/404-kenya-fact-sheet.pdf' } },
+        { question: 'Which changes should I get checked?', answer: 'A new lump or swelling; unusual bleeding (between periods, after sex, or blood in urine, stool or cough); a cough, hoarse voice or difficulty swallowing that does not go away; weight loss without trying; a sore that does not heal; or changes in bowel or urine habits. Most are caused by something less serious, but early checks matter.' },
+        { question: 'How can cervical cancer be prevented?', answer: 'The HPV vaccine protects against the virus behind most cervical cancer. In Kenya it is free for girls aged 10 to 14, and one dose is enough for this age group. Women can also ask a health professional about cervical screening, which can find changes before they become cancer.', source: { label: 'WHO Africa: Kenya single-dose HPV vaccination', url: 'https://afro.who.int/pt/node/22661' } },
+        { question: 'How can I pay for cancer care?', answer: 'The Social Health Authority (SHA), which replaced NHIF, has a cancer benefit package. Covered services and limits can change, so register early and ask the SHA desk at the facility or SHA itself what is covered before treatment starts.', source: { label: 'Social Health Authority', url: 'https://sha.go.ke' } },
       ],
       sourceLabel: 'Read the WHO cancer fact sheet',
       reviewStatus: 'Local clinical review pending',
@@ -399,7 +398,6 @@ export const copy = {
       description: 'Tell us what to improve, share a public facility detail to check, or offer to help with the Embu pilot.',
       backHome: 'Back to home',
       imageAlt: 'Two people looking through a printed guide together',
-      imageCaption: 'Illustrative image; not actual community members.',
       formKicker: 'A note to the team',
       formTitle: 'Send a message',
       formIntro: 'Choose a topic and write a short note. Your email is optional.',
@@ -450,7 +448,7 @@ export const copy = {
       close: 'Close chat',
       title: 'CancerCare assistant',
       subtitle: 'General information · not medical advice',
-      greeting: 'Hello! I can answer general questions about cancer, screening and this project, in English or Kiswahili. What would you like to know?',
+      greeting: 'Hello, and welcome! I can answer general questions about cancer, warning signs, screening, the HPV vaccine, SHA cover and this project, in English or Kiswahili. What would you like to know?',
       notice: 'Please do not share names or private health details. This chat is kept only in this browser tab. In an emergency call 999 or 112.',
       placeholder: 'Type your question…',
       send: 'Send',
@@ -459,7 +457,7 @@ export const copy = {
       error: 'Something went wrong, so here is a quick answer instead.',
       restart: 'Start over',
       human: 'Message the team',
-      suggestions: ['What is cancer?', 'What is screening?', 'Where can I find care in Embu?', 'How can I help?'],
+      suggestions: ['What is cancer?', 'Warning signs to check', 'Is the HPV vaccine free?', 'Where can I find care in Embu?'],
     },
     visitPlanner: {
       kicker: 'Prepare for a visit',
@@ -523,7 +521,6 @@ export const copy = {
       primaryAction: 'Chunguza njia yetu',
       secondaryAction: 'Inavyofanya kazi',
       imageAlt: 'Taswira ya mwanamke aliyevaa kitambaa cha kijani kichwani akitabasamu na mhudumu wa afya',
-      imageCaption: 'Taswira ya AI. Si wagonjwa au wahudumu halisi.',
     },
     principles: ['Taarifa zilizo wazi', 'Huduma zilizothibitishwa', 'Maoni ya jamii'],
     mission: {
@@ -533,7 +530,6 @@ export const copy = {
       quote: 'Sikiliza kwanza. Jenga kwa ajili ya wanaotafuta huduma.',
       quoteAttribution: 'Kanuni yetu',
       imageAlt: 'Taswira iliyotengenezwa kwa AI ya watu wawili wakisoma kijitabu cha taarifa za afya nje',
-      imageCaption: 'Taswira ya AI. Si wagonjwa halisi.',
     },
     work: {
       kicker: 'Tunacholenga',
@@ -564,11 +560,15 @@ export const copy = {
     learn: {
       kicker: 'Elimu ya saratani',
       title: 'Anza na majibu yaliyo wazi.',
-      introduction: 'Utangulizi mfupi unaotegemea taarifa za Shirika la Afya Duniani. Hizi ni taarifa za jumla, si utambuzi au ushauri wa afya wa mtu binafsi.',
+      introduction: 'Majibu mafupi yanayotegemea taarifa za Shirika la Afya Duniani, GLOBOCAN na Wizara ya Afya ya Kenya. Hizi ni taarifa za jumla, si utambuzi au ushauri wa afya wa mtu binafsi.',
       items: [
         { question: 'Saratani ni nini?', answer: 'Saratani ni kundi la magonjwa ambapo seli zisizo za kawaida hukua na zinaweza kuenea kwenye tishu zilizo karibu au sehemu nyingine za mwili.' },
         { question: 'Uchunguzi wa mapema ni nini?', answer: 'Uchunguzi wa mapema hutafuta viashiria vya aina fulani za saratani kabla ya dalili kujitokeza. Ukiona mabadiliko yasiyo ya kawaida katika afya yako, zungumza na mhudumu wa afya kuhusu kupimwa.' },
         { question: 'Matokeo ya uchunguzi yakidokeza tatizo?', answer: 'Matokeo ya uchunguzi hayathibitishi saratani. Vipimo zaidi vinahitajika ili kuthibitisha hali na kuamua hatua inayofuata.' },
+        { question: 'Ni saratani zipi zinazotokea zaidi Kenya?', answer: 'Saratani za matiti, shingo ya kizazi, tezi dume, umio (njia ya chakula) na utumbo mpana ndizo zinazotokea zaidi Kenya. Saratani za matiti na shingo ya kizazi huwapata zaidi wanawake, ya tezi dume huwapata wanaume, na za umio na utumbo huwapata wote.', source: { label: 'GLOBOCAN: taarifa ya Kenya', url: 'https://gco.iarc.who.int/media/globocan/factsheets/populations/404-kenya-fact-sheet.pdf' } },
+        { question: 'Ni mabadiliko gani ninapaswa kukaguliwa?', answer: 'Uvimbe mpya; kutokwa damu isivyo kawaida (kati ya hedhi, baada ya tendo la ndoa, au damu kwenye mkojo, choo au makohozi); kikohozi, sauti kukwaruza au shida ya kumeza isiyoisha; kupungua uzito bila kujaribu; kidonda kisichopona; au mabadiliko ya choo au mkojo. Mara nyingi husababishwa na jambo dogo, lakini kukaguliwa mapema ni muhimu.' },
+        { question: 'Saratani ya shingo ya kizazi inazuiwaje?', answer: 'Chanjo ya HPV hukinga dhidi ya virusi vinavyosababisha saratani nyingi za shingo ya kizazi. Nchini Kenya ni bure kwa wasichana wa miaka 10 hadi 14, na dozi moja inatosha kwa umri huu. Wanawake pia wanaweza kumuuliza mhudumu wa afya kuhusu uchunguzi wa shingo ya kizazi, unaoweza kugundua mabadiliko kabla hayajawa saratani.', source: { label: 'WHO Afrika: chanjo ya HPV ya dozi moja Kenya', url: 'https://afro.who.int/pt/node/22661' } },
+        { question: 'Ninawezaje kulipia huduma za saratani?', answer: 'Mamlaka ya Afya ya Jamii (SHA), iliyochukua nafasi ya NHIF, ina kifurushi cha huduma za saratani. Huduma zinazogharamiwa na viwango vinaweza kubadilika, kwa hivyo jisajili mapema na uliza dawati la SHA kituoni au SHA yenyewe kabla ya matibabu kuanza.', source: { label: 'Mamlaka ya Afya ya Jamii (SHA)', url: 'https://sha.go.ke' } },
       ],
       sourceLabel: 'Soma taarifa ya WHO kuhusu saratani',
       reviewStatus: 'Ukaguzi wa mtaalamu wa afya wa eneo unasubiriwa',
@@ -677,7 +677,6 @@ export const copy = {
       description: 'Tuambie tuboreshe nini, tushirikishe taarifa ya umma ya kituo ya kukagua, au saidia majaribio ya Embu.',
       backHome: 'Rudi mwanzo',
       imageAlt: 'Watu wawili wakisoma mwongozo uliochapishwa pamoja',
-      imageCaption: 'Picha ya mfano; hawa si wanajamii halisi wa mradi.',
       formKicker: 'Ujumbe kwa timu',
       formTitle: 'Tuma ujumbe',
       formIntro: 'Chagua mada na uandike ujumbe mfupi. Barua pepe si lazima.',
@@ -728,7 +727,7 @@ export const copy = {
       close: 'Funga mazungumzo',
       title: 'Msaidizi wa CancerCare',
       subtitle: 'Taarifa za jumla · si ushauri wa afya',
-      greeting: 'Habari! Ninaweza kujibu maswali ya jumla kuhusu saratani, uchunguzi na mradi huu, kwa Kiswahili au Kiingereza. Ungependa kujua nini?',
+      greeting: 'Habari, karibu! Ninaweza kujibu maswali ya jumla kuhusu saratani, dalili za tahadhari, uchunguzi, chanjo ya HPV, bima ya SHA na mradi huu, kwa Kiswahili au Kiingereza. Ungependa kujua nini?',
       notice: 'Tafadhali usiweke majina au taarifa binafsi za afya. Mazungumzo haya yanabaki kwenye kichupo hiki pekee. Wakati wa dharura piga 999 au 112.',
       placeholder: 'Andika swali lako…',
       send: 'Tuma',
@@ -737,7 +736,7 @@ export const copy = {
       error: 'Kuna hitilafu, kwa hivyo hili ni jibu la haraka badala yake.',
       restart: 'Anza upya',
       human: 'Tuma ujumbe kwa timu',
-      suggestions: ['Saratani ni nini?', 'Uchunguzi wa mapema ni nini?', 'Nitapata huduma wapi Embu?', 'Ninawezaje kusaidia?'],
+      suggestions: ['Saratani ni nini?', 'Dalili za saratani ni zipi?', 'Je, chanjo ya HPV ni bure?', 'Nitapata huduma wapi Embu?'],
     },
     visitPlanner: {
       kicker: 'Jiandae kwa ziara',
