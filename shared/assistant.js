@@ -2,14 +2,16 @@
 // Used by the browser (offline answers, urgent-help detection) and by
 // functions/api/chat.js (AI system prompt). Keep both languages in step.
 
+import { cancerTopics } from './cancer-topics.js';
+
 export const emergencyNumbers = '999 / 112';
 
 /** @typedef {'en' | 'sw'} Language */
 /** @typedef {{ en: string; sw: string }} Localized */
-/** @typedef {{ id: string; keywords: string[]; answer: Localized; link?: { href: string; label: Localized }; smallTalk?: boolean }} Topic */
+/** @typedef {{ id: string; keywords: string[]; answer: Localized; link?: { href: string; label: Localized }; smallTalk?: boolean; specific?: boolean }} Topic */
 
 /** @type {Topic[]} */
-export const topics = [
+const baseTopics = [
   {
     id: 'greeting',
     smallTalk: true,
@@ -93,7 +95,7 @@ export const topics = [
   },
   {
     id: 'results',
-    keywords: ['result', 'positive', 'abnormal', 'diagnosis', 'diagnosed', 'biopsy', 'matokeo', 'nimegunduliwa', 'hali isiyo ya kawaida'],
+    keywords: ['result', 'positive', 'abnormal', 'diagnosed', 'matokeo', 'nimegunduliwa', 'hali isiyo ya kawaida'],
     answer: {
       en: 'A screening result suggesting a problem does not by itself confirm cancer. Further tests may be needed. Ask the service that tested you to explain your result and the follow-up they recommend.',
       sw: 'Matokeo ya uchunguzi yanayodokeza tatizo hayathibitishi saratani yenyewe. Vipimo zaidi vinaweza kuhitajika. Uliza kituo kilichokupima kikueleze matokeo yako na ufuatiliaji unaopendekezwa.',
@@ -191,6 +193,9 @@ export const topics = [
   },
 ];
 
+/** @type {Topic[]} */
+export const topics = [...baseTopics, ...cancerTopics.map(topic => ({ ...topic, specific: true }))];
+
 const medicalEmergency = /can'?t breathe|cannot breathe|not breathing|chest pain|unconscious|passed out|fainted|seizure|heavy bleeding|bleeding (a lot|heavily)|emergency|overdose|dharura|hapumui|siwezi kupumua|maumivu (makali )?ya kifua|amezimia|kuzimia|degedege|anavuja damu|kutokwa damu nyingi/i;
 const selfHarm = /suicid|kill myself|end my life|want to die|hurt myself|kujiua|kujiumiza|nataka kufa/i;
 
@@ -221,22 +226,53 @@ function normalize(text) {
  * @param {string} text
  * @returns {Topic | null}
  */
-export function matchTopic(text) {
-  const query = normalize(text);
+function closeEnough(word, keyword) {
+  // Allows one typo (missing, extra or wrong letter) in longer words: "screning", "prostrate".
+  const a = word.slice(0, keyword.length + 1);
+  const b = keyword;
+  if (Math.abs(a.length - b.length) > 1) return false;
+  const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+  for (let i = 1; i <= a.length; i += 1) {
+    let diagonal = previous[0];
+    previous[0] = i;
+    let rowMin = previous[0];
+    for (let j = 1; j <= b.length; j += 1) {
+      const above = previous[j];
+      previous[j] = Math.min(previous[j] + 1, previous[j - 1] + 1, diagonal + (a[i - 1] === b[j - 1] ? 0 : 1));
+      diagonal = above;
+      rowMin = Math.min(rowMin, previous[j]);
+    }
+    if (rowMin > 1) return false;
+  }
+  return Math.min(previous[b.length], ...previous.slice(Math.max(0, b.length - 1))) <= 1;
+}
+
+function bestTopic(query, words, fuzzy) {
   let best = null;
   let bestScore = 0;
   for (const topic of topics) {
     let score = 0;
     for (const keyword of topic.keywords) {
       const key = normalize(keyword).trimEnd();
+      const bare = key.trim();
       // Health topics match at the start of a word ("screen" matches "screening").
       // Small talk must match whole words so "hi" does not match "hiv".
-      const found = topic.smallTalk ? query.includes(`${key} `) : query.includes(key);
-      if (found) score += (keyword.includes(' ') ? 3 : 1) * (topic.smallTalk ? 0.4 : 1);
+      const found = fuzzy
+        ? !topic.smallTalk && !bare.includes(' ') && bare.length >= 6 && words.some(word => word.length >= 5 && closeEnough(word, bare))
+        : topic.smallTalk ? query.includes(`${key} `) : query.includes(key);
+      // Specific cancer topics outrank broad ones on a tie: "a lump in my breast" is about breast cancer.
+      if (found) score += (keyword.includes(' ') ? 3 : 1) * (topic.smallTalk ? 0.4 : topic.specific ? 1.5 : 1);
     }
     if (score > bestScore) { best = topic; bestScore = score; }
   }
   return best;
+}
+
+export function matchTopic(text) {
+  const query = normalize(text);
+  const words = query.trim().split(' ');
+  // Exact words first; only if nothing matches, allow one typo in longer words.
+  return bestTopic(query, words, false) ?? bestTopic(query, words, true);
 }
 
 /** @param {Language} language */
@@ -251,7 +287,7 @@ export function systemPrompt(language) {
   const facts = topics.filter(topic => !topic.smallTalk).map(topic => `- ${topic.id}: ${topic.answer.en} (page: ${topic.link?.href ?? '/'})`).join('\n');
   return `You are the CancerCare assistant on the website of CancerCare, an early community project in Embu County, Kenya, that is building clear cancer information and a directory of verified care services.
 
-Reply in ${language === 'sw' ? 'Kiswahili' : 'English'} unless the user writes in the other language; then match them. Use short, warm, plain sentences (at most about 120 words). No markdown headings or tables.
+Reply in ${language === 'sw' ? 'Kiswahili' : 'English'} unless the user writes in the other language; then match them. Use warm, plain language that a secondary-school reader understands. Keep most answers under about 180 words; use a short list with "- " when listing signs or steps, and **bold** sparingly. No headings or tables.
 
 Be friendly and human. Reply naturally to greetings (hello, habari, mambo, niaje, shikamoo, good morning), thanks, goodbyes and small talk such as "how are you", in one or two sentences, then offer help. If asked, say you are the CancerCare assistant, a computer program and not a doctor.
 
@@ -261,12 +297,15 @@ ${facts}
 - Site pages: / (home), /learn/ (cancer basics, screening guide, questions for a visit, myths and facts), /find-care/ (directory progress), /how-it-works/ (Embu pilot plan), /get-involved/ (contact form).
 - The educational wording is awaiting local clinical review. The site does not provide medical advice, patient accounts, appointments, referrals or live facility listings yet.
 
+You can and should answer any cancer-related question well, drawing on accurate, mainstream medical knowledge consistent with WHO and the Kenya Ministry of Health: cancer types (for example breast, cervical, prostate, oesophageal, colorectal, liver, lung, skin, blood cancers, childhood cancers), causes and risk factors, prevention and vaccines, signs to get checked, screening and diagnostic tests, staging, treatment options in general terms and their side effects, nutrition, pain, palliative care, caregiving, emotional wellbeing, survivorship, myths, and how to prepare for a health visit. Give real, specific information, not only "see a doctor". Correct myths kindly. If a question is about the person's own situation, give the general information and suggest what to ask a health professional.
+
 Rules you must follow:
-1. You give general health education only. Never diagnose, interpret a specific person's symptoms or results, recommend specific treatments, medicines or doses, or estimate anyone's risk or prognosis. Encourage speaking with a health professional.
+1. Never diagnose, tell someone whether their own symptom or result is or is not cancer, choose a treatment, medicine or dose for them, or estimate their personal risk, survival or prognosis. Encourage speaking with a health professional for personal decisions.
 2. If something sounds like an emergency or the person may harm themselves, tell them to call ${emergencyNumbers} or go to the nearest health facility now.
 3. Never name, recommend or invent specific facilities, phone numbers, prices or opening hours. The directory has no confirmed listings yet; say so and point to /find-care/.
 4. If you are not sure, say so. Do not invent statistics or sources. You may refer to the World Health Organization and Kenya Ministry of Health guidance in general terms.
 5. Ask people not to share names or private health details. You do not store conversations.
 6. When useful, point to a relevant site page by its path, for example /learn/.
-7. Stay on cancer information, care navigation and the CancerCare project. Politely decline unrelated tasks.`;
+7. Stay on cancer, general health linked to cancer, care navigation and the CancerCare project. Politely decline unrelated tasks.
+8. Never claim that herbal remedies, special diets or other unproven methods cure cancer.`;
 }

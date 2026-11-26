@@ -11,8 +11,10 @@ import { HowItWorksPage } from '@/components/sections/HowItWorksPage';
 import { LearnSection } from '@/components/sections/LearnSection';
 import { LearnPageIntro } from '@/components/sections/LearnPageIntro';
 import { MissionSection } from '@/components/sections/MissionSection';
+import { AwarenessSection } from '@/components/sections/AwarenessSection';
 import { MythsSection } from '@/components/sections/MythsSection';
 import { NotFoundPage } from '@/components/sections/NotFoundPage';
+import { PartnersMarquee } from '@/components/sections/PartnersMarquee';
 import { PilotSection } from '@/components/sections/PilotSection';
 import { ScreeningGuideSection } from '@/components/sections/ScreeningGuideSection';
 import { VisitPlannerSection } from '@/components/sections/VisitPlannerSection';
@@ -62,6 +64,7 @@ function App() {
           <FindCarePage content={text.findCarePage} directory={text.directory} pilot={text.pilot} language={language} />
         </> : currentPage === 'how-it-works' ? <>
           <HowItWorksPage content={text.howPage} pilot={text.pilot} />
+          <PartnersMarquee content={text.partners} />
         </> : currentPage === 'get-involved' ? <>
           <GetInvolvedPage content={text.getInvolvedPage} />
         </> : currentPage === 'not-found' ? <>
@@ -71,8 +74,10 @@ function App() {
           <FocusSection work={text.work} />
           <MissionSection mission={text.mission} />
           <MythsSection myths={text.myths} />
+          <AwarenessSection content={text.awareness} />
           <PilotSection pilot={text.pilot} />
           <CollaborationSection participation={text.participation} />
+          <PartnersMarquee content={text.partners} />
         </>}
       </main>
       <SiteFooter language={language} text={text} currentPage={currentPage} />

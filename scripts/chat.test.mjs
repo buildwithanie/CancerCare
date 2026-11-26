@@ -103,7 +103,7 @@ test('offline matching answers greetings and small talk without hijacking questi
   assert.equal(matchTopic('Are you a doctor?')?.id, 'capabilities');
   assert.equal(matchTopic('Hi, what is screening?')?.id, 'screening');
   assert.equal(matchTopic('Habari, saratani ni nini?')?.id, 'what-is-cancer');
-  assert.equal(matchTopic('hiv'), null);
+  assert.equal(matchTopic('hiv')?.id, 'causes');
 });
 
 test('offline matching covers Kenya cancer topics', () => {
@@ -115,6 +115,24 @@ test('offline matching covers Kenya cancer topics', () => {
   assert.equal(matchTopic('What is palliative care?')?.id, 'palliative');
   assert.match(systemPrompt('en'), /greetings/);
   assert.doesNotMatch(systemPrompt('en'), /- greeting:/);
+});
+
+test('offline matching covers wider cancer questions and typos', () => {
+  const cases = {
+    'I found a lump in my breast': 'breast-cancer',
+    'tell me about prostrate cancer': 'prostate-cancer',
+    'screning test': 'screening',
+    'Is it okay to drink very hot tea?': 'oesophageal-cancer',
+    'blood in stool': 'colorectal-cancer',
+    'Can my child get cancer?': 'childhood-cancer',
+    'what is a biopsy': 'diagnosis-tests',
+    'what does stage 4 mean': 'stages',
+    'is cancer contagious': 'contagious',
+    'side effects of chemo': 'side-effects',
+    'Saratani ya matiti': 'breast-cancer',
+    'chai moto na saratani': 'oesophageal-cancer',
+  };
+  for (const [question, id] of Object.entries(cases)) assert.equal(matchTopic(question)?.id, id, question);
 });
 
 test('offline matching finds bilingual topics', () => {

@@ -4,7 +4,12 @@ import { fallbackReply, isUrgent, matchTopic, urgentReply } from '../../shared/a
 import type { Copy, Language } from '@/content';
 import { cn } from '@/lib/utils';
 
-type Message = { role: 'user' | 'assistant'; content: string; link?: { href: string; label: string }; urgent?: boolean; note?: string };
+type Message = { role: 'user' | 'assistant'; content: string; link?: { href: string; label: string }; urgent?: boolean; note?: string; suggest?: boolean };
+
+/** Opens the assistant and asks a question from anywhere on the site. */
+export function askAssistant(question: string) {
+  window.dispatchEvent(new CustomEvent('cancercare:ask', { detail: question }));
+}
 type Mode = 'unknown' | 'ai' | 'offline';
 
 const storageKey = 'cancercare.chat';
@@ -22,14 +27,33 @@ function loadMessages(): Message[] {
 function offlineAnswer(question: string, language: Language): Message {
   if (isUrgent(question)) return { role: 'assistant', content: urgentReply(language, question), urgent: true };
   const topic = matchTopic(question);
-  if (!topic) return { role: 'assistant', content: fallbackReply(language), link: { href: '/get-involved/', label: language === 'sw' ? 'Tuma ujumbe kwa timu' : 'Message the team' } };
+  if (!topic) return { role: 'assistant', content: fallbackReply(language), suggest: true };
   return { role: 'assistant', content: topic.answer[language], link: topic.link && { href: topic.link.href, label: topic.link.label[language] } };
 }
 
+function Inline({ text }: { text: string }) {
+  return <>{text.split(/(\*\*[^*]+\*\*)/g).map((chunk, index) => chunk.startsWith('**') && chunk.endsWith('**') && chunk.length > 4
+    ? <strong key={index} className="font-bold">{chunk.slice(2, -2)}</strong>
+    : chunk.split(sitePath).map((part, inner) => inner % 2 === 1
+      ? <a key={`${index}-${inner}`} href={part} className="font-semibold text-forest underline underline-offset-2">{part}</a>
+      : <span key={`${index}-${inner}`}>{part}</span>))}</>;
+}
+
+// Renders plain text with simple lists ("- item"), **bold** and site page links.
 function RichText({ text }: { text: string }) {
-  return <>{text.split(sitePath).map((part, index) => index % 2 === 1
-    ? <a key={index} href={part} className="font-semibold text-forest underline underline-offset-2">{part}</a>
-    : <span key={index}>{part}</span>)}</>;
+  const blocks: { list: boolean; lines: string[] }[] = [];
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    const item = /^(?:[-*•]|\d+[.)])\s+(.*)$/.exec(line);
+    const last = blocks.at(-1);
+    if (item) {
+      if (last?.list) last.lines.push(item[1]); else blocks.push({ list: true, lines: [item[1]] });
+    } else blocks.push({ list: false, lines: [line] });
+  }
+  return <div className="space-y-2">{blocks.map((block, index) => block.list
+    ? <ul key={index} className="space-y-1 pl-1">{block.lines.map((line, inner) => <li key={inner} className="flex gap-2"><span aria-hidden="true" className="mt-[7px] size-1.5 shrink-0 rounded-full bg-leaf" /><span><Inline text={line} /></span></li>)}</ul>
+    : <p key={index}><Inline text={block.lines[0]} /></p>)}</div>;
 }
 
 export function ChatWidget({ language, content }: { language: Language; content: Copy['assistant'] }) {
@@ -60,6 +84,26 @@ export function ChatWidget({ language, content }: { language: Language; content:
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const pending = useRef<string | null>(null);
+  useEffect(() => {
+    function onAsk(event: Event) {
+      const question = (event as CustomEvent<string>).detail;
+      if (typeof question !== 'string') return;
+      pending.current = question;
+      setOpen(true);
+    }
+    window.addEventListener('cancercare:ask', onAsk);
+    return () => window.removeEventListener('cancercare:ask', onAsk);
+  }, []);
+
+  useEffect(() => {
+    if (open && pending.current && mode !== 'unknown') {
+      const question = pending.current;
+      pending.current = null;
+      void ask(question);
+    }
+  }, [open, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function close() {
     setOpen(false);
@@ -129,10 +173,11 @@ export function ChatWidget({ language, content }: { language: Language; content:
 
         {messages.map((message, index) => message.role === 'user'
           ? <div key={index} className="ml-auto w-fit max-w-[85%] rounded-[16px] rounded-tr-[5px] bg-forest px-3.5 py-2.5 text-[13px] leading-[1.5] whitespace-pre-wrap text-white">{message.content}</div>
-          : <div key={index} className={cn('max-w-[90%] rounded-[16px] rounded-tl-[5px] px-3.5 py-2.5 text-[13px] leading-[1.55] whitespace-pre-wrap ring-1', message.urgent ? 'bg-[#fff1ee] text-[#7a1d0f] ring-[#f1b8ac]' : 'bg-white text-ink ring-line')}>
+          : <div key={index} className={cn('max-w-[90%] rounded-[16px] rounded-tl-[5px] px-3.5 py-2.5 text-[13px] leading-[1.55] ring-1', message.urgent ? 'bg-[#fff1ee] text-[#7a1d0f] ring-[#f1b8ac]' : 'bg-white text-ink ring-line')}>
             {message.note && <p className="mb-1.5 text-[11px] text-copy italic">{message.note}</p>}
             <RichText text={message.content} />
             {message.urgent && <span className="mt-2.5 flex gap-2">{['999', '112'].map(number => <a key={number} href={`tel:${number}`} className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-[#b3261e] px-3.5 text-[12px] font-bold text-white"><Phone className="size-3.5" aria-hidden="true" />{number}</a>)}</span>}
+            {message.suggest && <span className="mt-2.5 flex flex-wrap gap-1.5">{content.suggestions.map(suggestion => <button key={suggestion} type="button" onClick={() => void ask(suggestion)} className="rounded-full border border-forest/30 bg-white px-2.5 py-1 text-left text-[11px] font-semibold text-forest hover:bg-mist">{suggestion}</button>)}</span>}
             {message.link && <a href={message.link.href} {...(message.link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="mt-2.5 flex w-fit items-center gap-1.5 rounded-full bg-mist px-3 py-1.5 text-[12px] font-bold text-forest hover:bg-line">{message.link.label}<ArrowRight className="size-3.5" aria-hidden="true" /></a>}
           </div>)}
 

@@ -216,6 +216,15 @@ export type Copy = {
     reviewStatus: string;
     items: { myth: string; fact: string }[];
   };
+  partners: { partnersKicker: string; partnersTitle: string; sourcesKicker: string; sourcesTitle: string; becomePartner: string; pause: string; play: string };
+  awareness: {
+    kicker: string;
+    title: string;
+    introduction: string;
+    nowLabel: string;
+    askAction: string;
+    items: { month: number; when: string; title: string; text: string; question: string }[];
+  };
   share: { title: string; whatsapp: string; copy: string; copied: string };
   notFound: { title: string; description: string; home: string; learn: string };
   footer: {
@@ -497,6 +506,21 @@ export const copy = {
         { myth: 'Screening is only for people who already feel sick.', fact: 'Screening is for people without symptoms. If you have noticed a change, ask for an assessment instead of waiting.' },
       ],
     },
+    partners: { partnersKicker: 'Our partners', partnersTitle: 'Working together for clearer cancer care', sourcesKicker: 'Trusted information', sourcesTitle: 'Our guides draw on these public sources', becomePartner: 'Become a partner', pause: 'Pause scrolling', play: 'Resume scrolling' },
+    awareness: {
+      kicker: 'Awareness through the year',
+      title: 'A good month to talk about it.',
+      introduction: 'These yearly awareness moments are a reminder to learn, get checked and support each other. Tap one to ask the assistant.',
+      nowLabel: 'This month',
+      askAction: 'Ask the assistant',
+      items: [
+        { month: 1, when: 'January', title: 'Cervical Cancer Awareness Month', text: 'HPV vaccination for girls and screening for women.', question: 'How can cervical cancer be prevented?' },
+        { month: 2, when: '4 February', title: 'World Cancer Day', text: 'A global day to raise awareness and act on cancer.', question: 'What are the warning signs of cancer?' },
+        { month: 9, when: 'September', title: 'Childhood Cancer Awareness Month', text: 'Children can get cancer, and many can be cured.', question: 'Can children get cancer?' },
+        { month: 10, when: 'October', title: 'Breast Cancer Awareness Month', text: 'Know what is normal for your breasts and get changes checked.', question: 'What are the signs of breast cancer?' },
+        { month: 11, when: 'November', title: "Men's health and prostate cancer", text: 'Movember encourages men to talk about prostate health.', question: 'Tell me about prostate cancer' },
+      ],
+    },
     share: { title: 'Share this page', whatsapp: 'Share on WhatsApp', copy: 'Copy link', copied: 'Link copied' },
     notFound: { title: 'We could not find that page.', description: 'The link may be old or mistyped. You can return home or explore the learning guide.', home: 'Go to home', learn: 'Learn about cancer' },
     footer: {
@@ -774,6 +798,21 @@ export const copy = {
         { myth: 'Kugunduliwa na saratani kila mara kunamaanisha kifo.', fact: 'Saratani nyingi zinaweza kutibika zikigunduliwa mapema na kutibiwa ipasavyo. Tathmini ya mapema ni muhimu.' },
         { myth: 'Hakuna kinachoweza kufanywa kupunguza hatari ya saratani.', fact: 'WHO inakadiria kwamba asilimia 30–50 ya saratani zinaweza kuzuiwa, kwa mfano kwa kuepuka tumbaku, kupunguza pombe na kupata chanjo zinazopendekezwa.' },
         { myth: 'Uchunguzi ni kwa watu wanaojisikia wagonjwa tu.', fact: 'Uchunguzi ni kwa watu wasio na dalili. Ukiona mabadiliko, omba tathmini badala ya kusubiri.' },
+      ],
+    },
+    partners: { partnersKicker: 'Washirika wetu', partnersTitle: 'Tunashirikiana kwa huduma za saratani zilizo wazi', sourcesKicker: 'Taarifa za kuaminika', sourcesTitle: 'Miongozo yetu inategemea vyanzo hivi vya umma', becomePartner: 'Kuwa mshirika', pause: 'Simamisha', play: 'Endelea' },
+    awareness: {
+      kicker: 'Uhamasishaji mwaka mzima',
+      title: 'Mwezi mzuri wa kulizungumzia.',
+      introduction: 'Siku na miezi hii ya uhamasishaji hutukumbusha kujifunza, kukaguliwa na kusaidiana. Gusa mmoja umuulize msaidizi.',
+      nowLabel: 'Mwezi huu',
+      askAction: 'Muulize msaidizi',
+      items: [
+        { month: 1, when: 'Januari', title: 'Mwezi wa uhamasishaji wa saratani ya shingo ya kizazi', text: 'Chanjo ya HPV kwa wasichana na uchunguzi kwa wanawake.', question: 'Saratani ya shingo ya kizazi inazuiwaje?' },
+        { month: 2, when: '4 Februari', title: 'Siku ya Saratani Duniani', text: 'Siku ya dunia ya kuhamasisha na kuchukua hatua dhidi ya saratani.', question: 'Dalili za saratani ni zipi?' },
+        { month: 9, when: 'Septemba', title: 'Mwezi wa saratani ya watoto', text: 'Watoto wanaweza kupata saratani, na wengi wanaweza kutibika.', question: 'Je, watoto wanaweza kupata saratani?' },
+        { month: 10, when: 'Oktoba', title: 'Mwezi wa uhamasishaji wa saratani ya matiti', text: 'Fahamu hali ya kawaida ya matiti yako na ukaguliwe ukiona mabadiliko.', question: 'Dalili za saratani ya matiti ni zipi?' },
+        { month: 11, when: 'Novemba', title: 'Afya ya wanaume na saratani ya tezi dume', text: 'Movember huwahimiza wanaume kuzungumza kuhusu afya ya tezi dume.', question: 'Nieleze kuhusu saratani ya tezi dume' },
       ],
     },
     share: { title: 'Shiriki ukurasa huu', whatsapp: 'Shiriki kwenye WhatsApp', copy: 'Nakili kiungo', copied: 'Kiungo kimenakiliwa' },

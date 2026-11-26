@@ -1,7 +1,7 @@
 type Language = 'en' | 'sw';
 type Localized = { en: string; sw: string };
 
-export type Topic = { id: string; keywords: string[]; answer: Localized; link?: { href: string; label: Localized }; smallTalk?: boolean };
+export type Topic = { id: string; keywords: string[]; answer: Localized; link?: { href: string; label: Localized }; smallTalk?: boolean; specific?: boolean };
 
 export const emergencyNumbers: string;
 export const topics: Topic[];
