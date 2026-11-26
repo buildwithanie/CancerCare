@@ -11,15 +11,19 @@ import { HowItWorksPage } from '@/components/sections/HowItWorksPage';
 import { LearnSection } from '@/components/sections/LearnSection';
 import { LearnPageIntro } from '@/components/sections/LearnPageIntro';
 import { MissionSection } from '@/components/sections/MissionSection';
+import { AboutPage } from '@/components/sections/AboutPage';
 import { AwarenessSection } from '@/components/sections/AwarenessSection';
 import { MythsSection } from '@/components/sections/MythsSection';
 import { NotFoundPage } from '@/components/sections/NotFoundPage';
 import { PartnersMarquee } from '@/components/sections/PartnersMarquee';
+import { PrivacyPage } from '@/components/sections/PrivacyPage';
+import { ResourcesPage } from '@/components/sections/ResourcesPage';
 import { PilotSection } from '@/components/sections/PilotSection';
 import { ScreeningGuideSection } from '@/components/sections/ScreeningGuideSection';
 import { VisitPlannerSection } from '@/components/sections/VisitPlannerSection';
 import { useLanguage } from '@/hooks/useLanguage';
 import { pageFromPath } from '@/lib/pages';
+import { pagesCopy } from '@/content-pages';
 
 const currentPage = pageFromPath(window.location.pathname);
 
@@ -48,6 +52,7 @@ function useSectionReveal() {
 
 function App() {
   const { language, setLanguage, text } = useLanguage(currentPage);
+  const pages = pagesCopy[language];
   useSectionReveal();
 
   return (
@@ -56,7 +61,7 @@ function App() {
       <main id="main">
         {currentPage === 'learn' ? <>
           <LearnPageIntro content={text.learnPage} language={language} />
-          <LearnSection learn={text.learn} />
+          <LearnSection learn={text.learn} language={language} />
           <ScreeningGuideSection screening={text.screening} />
           <VisitPlannerSection key={language} planner={text.visitPlanner} />
           <MythsSection myths={text.myths} />
@@ -67,6 +72,13 @@ function App() {
           <PartnersMarquee content={text.partners} />
         </> : currentPage === 'get-involved' ? <>
           <GetInvolvedPage content={text.getInvolvedPage} />
+        </> : currentPage === 'about' ? <>
+          <AboutPage content={pages.about} language={language} />
+          <PartnersMarquee content={text.partners} />
+        </> : currentPage === 'resources' ? <>
+          <ResourcesPage content={pages.resources} language={language} speech={pages.speech} />
+        </> : currentPage === 'privacy' ? <>
+          <PrivacyPage content={pages.privacy} />
         </> : currentPage === 'not-found' ? <>
           <NotFoundPage content={text.notFound} />
         </> : <>

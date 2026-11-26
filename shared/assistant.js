@@ -165,6 +165,24 @@ const baseTopics = [
     },
   },
   {
+    id: 'leaflets',
+    keywords: ['leaflet', 'poster', 'handout', 'brochure', 'print', 'pdf', 'kipeperushi', 'vipeperushi', 'chapisha', 'bango'],
+    answer: {
+      en: 'You can print free one-page leaflets in English or Kiswahili on cancer warning signs, breast, cervical and prostate cancer, or share them on WhatsApp. They are good for homes, churches, schools and barazas.',
+      sw: 'Unaweza kuchapisha vipeperushi vya bure vya ukurasa mmoja kwa Kiingereza au Kiswahili kuhusu dalili za saratani, saratani ya matiti, shingo ya kizazi na tezi dume, au kuvishiriki kwenye WhatsApp. Vinafaa nyumbani, makanisani, shuleni na barazani.',
+    },
+    link: { href: '/resources/', label: { en: 'Printable leaflets', sw: 'Vipeperushi' } },
+  },
+  {
+    id: 'privacy',
+    keywords: ['privacy', 'my data', 'personal data', 'confidential', 'do you store', 'save my', 'faragha', 'data yangu', 'siri', 'mnahifadhi'],
+    answer: {
+      en: 'CancerCare does not ask for names or health details and does not store chats on a server; your chat stays in this browser tab. If the AI assistant is on, your messages are sent to Google\'s Gemini service to create a reply. Please do not share private details.',
+      sw: 'CancerCare haiombi majina wala taarifa za afya na haihifadhi mazungumzo kwenye seva; mazungumzo yako hubaki kwenye kichupo hiki. Msaidizi wa AI akiwashwa, ujumbe wako hutumwa kwa huduma ya Gemini ya Google ili kutengeneza jibu. Tafadhali usishiriki taarifa binafsi.',
+    },
+    link: { href: '/privacy/', label: { en: 'Privacy & terms', sw: 'Faragha na masharti' } },
+  },
+  {
     id: 'find-care',
     keywords: ['hospital', 'facility', 'clinic', 'where', 'near me', 'oncology', 'embu', 'hospitali', 'kituo', 'zahanati', 'wapi', 'karibu nami', 'find care'],
     answer: {
@@ -294,7 +312,7 @@ Be friendly and human. Reply naturally to greetings (hello, habari, mambo, niaje
 What you know about the site and its current state:
 ${facts}
 - Kenya facts (sources: GLOBOCAN 2022 Kenya fact sheet; Ministry of Health): the most common cancers are breast, cervical, prostate, oesophageal and colorectal. The HPV vaccine is free for girls aged 10-14 and a single dose has been used since late 2025. The Social Health Authority (SHA) replaced NHIF and has an oncology benefit package; limits change, so tell people to confirm with SHA or the facility's SHA desk and do not quote amounts.
-- Site pages: / (home), /learn/ (cancer basics, screening guide, questions for a visit, myths and facts), /find-care/ (directory progress), /how-it-works/ (Embu pilot plan), /get-involved/ (contact form).
+- Site pages: / (home), /learn/ (cancer basics, screening guide, questions for a visit, myths and facts), /resources/ (printable leaflets), /find-care/ (directory progress), /how-it-works/ (Embu pilot plan), /about/ (who we are), /get-involved/ (contact form), /privacy/ (privacy and terms).
 - The educational wording is awaiting local clinical review. The site does not provide medical advice, patient accounts, appointments, referrals or live facility listings yet.
 
 You can and should answer any cancer-related question well, drawing on accurate, mainstream medical knowledge consistent with WHO and the Kenya Ministry of Health: cancer types (for example breast, cervical, prostate, oesophageal, colorectal, liver, lung, skin, blood cancers, childhood cancers), causes and risk factors, prevention and vaccines, signs to get checked, screening and diagnostic tests, staging, treatment options in general terms and their side effects, nutrition, pain, palliative care, caregiving, emotional wellbeing, survivorship, myths, and how to prepare for a health visit. Give real, specific information, not only "see a doctor". Correct myths kindly. If a question is about the person's own situation, give the general information and suggest what to ask a health professional.

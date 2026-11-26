@@ -162,6 +162,7 @@ export type Copy = {
     safetyTitle: string;
     safetyText: string;
     privacyText: string;
+    privacyLink: string;
   };
   participation: {
     kicker: string;
@@ -438,6 +439,7 @@ export const copy = {
       safetyTitle: 'Project messages only',
       safetyText: 'Use this form for website feedback, public service details or collaboration. It is not for medical advice, appointments or emergencies.',
       privacyText: 'The project mailbox receives your message and optional email address. Please leave out private health information.',
+      privacyLink: 'Read our privacy notice',
     },
     participation: {
       kicker: 'Working together',
@@ -732,6 +734,7 @@ export const copy = {
       safetyTitle: 'Ujumbe kuhusu mradi pekee',
       safetyText: 'Tuma maoni ya tovuti, taarifa za umma za huduma au ombi la kushirikiana. Hii si huduma ya ushauri wa afya, miadi au dharura.',
       privacyText: 'Kisanduku cha mradi hupokea ujumbe wako na anwani yako ya barua pepe ukiitoa. Usiweke taarifa binafsi za afya.',
+      privacyLink: 'Soma ilani yetu ya faragha',
     },
     participation: {
       kicker: 'Tukishirikiana',

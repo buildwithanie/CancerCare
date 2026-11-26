@@ -1,10 +1,22 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { ArrowRight, MessageCircle, Phone, RotateCcw, Send, Sparkles, X } from 'lucide-react';
+import { ArrowRight, MessageCircle, Mic, MicOff, Phone, RotateCcw, Send, Sparkles, X } from 'lucide-react';
+import { ReadAloudButton } from '@/components/ReadAloud';
+import { pagesCopy } from '@/content-pages';
 import { fallbackReply, isUrgent, matchTopic, urgentReply } from '../../shared/assistant.js';
 import type { Copy, Language } from '@/content';
 import { cn } from '@/lib/utils';
 
 type Message = { role: 'user' | 'assistant'; content: string; link?: { href: string; label: string }; urgent?: boolean; note?: string; suggest?: boolean };
+
+type Recognition = {
+  lang: string; interimResults: boolean; continuous: boolean;
+  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onerror: (() => void) | null; onend: (() => void) | null;
+  start: () => void; stop: () => void;
+};
+const RecognitionClass = typeof window === 'undefined' ? undefined
+  : (window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition }).SpeechRecognition
+    ?? (window as unknown as { webkitSpeechRecognition?: new () => Recognition }).webkitSpeechRecognition;
 
 /** Opens the assistant and asks a question from anywhere on the site. */
 export function askAssistant(question: string) {
@@ -13,7 +25,7 @@ export function askAssistant(question: string) {
 type Mode = 'unknown' | 'ai' | 'offline';
 
 const storageKey = 'cancercare.chat';
-const sitePath = /(\/(?:learn|find-care|how-it-works|get-involved)\/(?:#[\w-]+)?)/g;
+const sitePath = /(\/(?:learn|find-care|how-it-works|get-involved|resources|about|privacy)\/(?:#[\w-]+)?)/g;
 
 function loadMessages(): Message[] {
   try {
@@ -65,6 +77,25 @@ export function ChatWidget({ language, content }: { language: Language; content:
   const input = useRef<HTMLInputElement>(null);
   const list = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
+  const speech = pagesCopy[language].speech;
+  const recognition = useRef<Recognition | null>(null);
+  const [listening, setListening] = useState(false);
+  const [micError, setMicError] = useState(false);
+
+  function toggleMic() {
+    if (!RecognitionClass) return;
+    if (listening) { recognition.current?.stop(); return; }
+    setMicError(false);
+    const recogniser = new RecognitionClass();
+    recogniser.lang = language === 'sw' ? 'sw-KE' : 'en-KE';
+    recogniser.interimResults = true;
+    recogniser.continuous = false;
+    recogniser.onresult = event => setDraft(Array.from(event.results).map(result => result[0].transcript).join(' ').slice(0, 600));
+    recogniser.onerror = () => setMicError(true);
+    recogniser.onend = () => { setListening(false); input.current?.focus(); };
+    recognition.current = recogniser;
+    try { recogniser.start(); setListening(true); } catch { setMicError(true); }
+  }
 
   useEffect(() => {
     try { window.sessionStorage.setItem(storageKey, JSON.stringify(messages)); } catch { /* storage unavailable */ }
@@ -150,7 +181,7 @@ export function ChatWidget({ language, content }: { language: Language; content:
   }
 
   return <>
-    <button ref={launcher} type="button" onClick={() => open ? close() : setOpen(true)} aria-expanded={open} aria-controls="cancercare-chat" className={cn('fixed right-4 bottom-4 z-40 inline-flex min-h-14 items-center gap-2 rounded-full bg-forest px-4 text-[13px] font-bold text-white shadow-[0_14px_34px_#07533140] transition hover:bg-ink sm:right-6 sm:bottom-6 sm:px-5', open && 'max-sm:hidden')}>
+    <button ref={launcher} type="button" onClick={() => open ? close() : setOpen(true)} aria-expanded={open} aria-controls="cancercare-chat" className={cn('chat-launcher fixed right-4 bottom-4 z-40 inline-flex min-h-14 items-center gap-2 rounded-full bg-forest px-4 text-[13px] font-bold text-white shadow-[0_14px_34px_#07533140] transition hover:bg-ink sm:right-6 sm:bottom-6 sm:px-5', open && 'max-sm:hidden')}>
       {open ? <X className="size-5" aria-hidden="true" /> : <MessageCircle className="size-5" aria-hidden="true" />}
       <span className={cn(open && 'sr-only')}>{open ? content.close : content.open}</span>
       {!open && <span aria-hidden="true" className="absolute -top-0.5 -right-0.5 size-3 animate-pulse rounded-full border-2 border-white bg-[#8fd19e]" />}
@@ -178,6 +209,7 @@ export function ChatWidget({ language, content }: { language: Language; content:
             <RichText text={message.content} />
             {message.urgent && <span className="mt-2.5 flex gap-2">{['999', '112'].map(number => <a key={number} href={`tel:${number}`} className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-[#b3261e] px-3.5 text-[12px] font-bold text-white"><Phone className="size-3.5" aria-hidden="true" />{number}</a>)}</span>}
             {message.suggest && <span className="mt-2.5 flex flex-wrap gap-1.5">{content.suggestions.map(suggestion => <button key={suggestion} type="button" onClick={() => void ask(suggestion)} className="rounded-full border border-forest/30 bg-white px-2.5 py-1 text-left text-[11px] font-semibold text-forest hover:bg-mist">{suggestion}</button>)}</span>}
+            <ReadAloudButton text={message.content} language={language} labels={speech} className="mt-2.5 mr-2" />
             {message.link && <a href={message.link.href} {...(message.link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="mt-2.5 flex w-fit items-center gap-1.5 rounded-full bg-mist px-3 py-1.5 text-[12px] font-bold text-forest hover:bg-line">{message.link.label}<ArrowRight className="size-3.5" aria-hidden="true" /></a>}
           </div>)}
 
@@ -191,9 +223,12 @@ export function ChatWidget({ language, content }: { language: Language; content:
       <form onSubmit={submit} className="border-t border-line bg-white p-3">
         <div className="flex items-center gap-2">
           <label htmlFor="chat-input" className="sr-only">{content.placeholder}</label>
-          <input ref={input} id="chat-input" value={draft} onChange={event => setDraft(event.target.value)} maxLength={600} autoComplete="off" placeholder={content.placeholder} className="min-h-11 flex-1 rounded-full border border-input bg-sand px-4 text-[14px] outline-none focus:border-forest focus:ring-2 focus:ring-forest/20" />
+          {RecognitionClass && <button type="button" onClick={toggleMic} aria-pressed={listening} aria-label={listening ? speech.listening : speech.speakQuestion} title={listening ? speech.listening : speech.speakQuestion} className={cn('grid size-11 shrink-0 place-items-center rounded-full border transition', listening ? 'animate-pulse border-[#b3261e] bg-[#fff1ee] text-[#b3261e]' : 'border-line bg-white text-forest hover:bg-mist')}>{listening ? <MicOff className="size-4" aria-hidden="true" /> : <Mic className="size-4" aria-hidden="true" />}</button>}
+          <input ref={input} id="chat-input" value={draft} onChange={event => setDraft(event.target.value)} maxLength={600} autoComplete="off" placeholder={listening ? speech.listening : content.placeholder} className="min-h-11 flex-1 rounded-full border border-input bg-sand px-4 text-[14px] outline-none focus:border-forest focus:ring-2 focus:ring-forest/20" />
           <button type="submit" disabled={!draft.trim() || busy} aria-label={content.send} className="grid size-11 shrink-0 place-items-center rounded-full bg-forest text-white transition hover:bg-ink disabled:opacity-40"><Send className="size-4" aria-hidden="true" /></button>
         </div>
+        {listening && <p role="status" className="mt-2 text-center text-[11px] font-semibold text-[#b3261e]">{speech.listening}</p>}
+        {micError && !listening && <p role="status" className="mt-2 text-center text-[11px] text-copy">{speech.micError}</p>}
         <a href="/get-involved/" className="mt-2 block text-center text-[11px] font-semibold text-forest underline underline-offset-2">{content.human}</a>
       </form>
     </section>}

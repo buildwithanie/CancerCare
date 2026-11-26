@@ -186,12 +186,21 @@
   .myth-card-inner, .chat-panel { transition: none; animation: none; }
 }
 
-/* Printing the visit question list prints only the list. */
+/* Printing one part of a page (visit questions, a leaflet): see src/lib/print.ts */
 @media print {
-  body * { visibility: hidden; }
-  .visit-print, .visit-print * { visibility: visible; }
-  .visit-print { position: absolute; inset: 0 auto auto 0; width: 100%; border: 0; box-shadow: none; }
+  html.print-one body * { visibility: hidden; }
+  html.print-one .print-target, html.print-one .print-target * { visibility: visible; }
+  html.print-one .print-target { position: absolute; inset: 0 auto auto 0; width: 100%; margin: 0; border: 0; box-shadow: none; }
+  /* Remove everything else from the layout so no blank pages follow. */
+  html.print-one body *:not(:has(.print-target)):not(.print-target):not(.print-target *) { display: none !important; }
+  html.print-one .print-target.leaflet { min-height: 268mm; border-radius: 0; }
+  html.print-one .leaflet h2 { font-size: 38px; }
+  html.print-one .leaflet p, html.print-one .leaflet li { font-size: 15px; line-height: 1.5; }
+  html.print-one .leaflet h3 { font-size: 13px; }
+  html.print-one .leaflet footer { font-size: 12px; }
+  #cancercare-chat, .chat-launcher { display: none !important; }
 }
+@page { size: A4; margin: 14mm; }
 
 /* Partners / sources marquee */
 .marquee { display: flex; overflow: hidden; gap: 14px; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }

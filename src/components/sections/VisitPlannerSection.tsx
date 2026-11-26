@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
+import { printOnly } from '@/lib/print';
 import { Check, ClipboardCopy, Plus, Printer, Send, X } from 'lucide-react';
 import type { Copy } from '@/content';
 import { pageContainer, sectionKicker } from '@/lib/site-styles';
@@ -9,6 +10,7 @@ export function VisitPlannerSection({ planner }: { planner: Copy['visitPlanner']
   const [custom, setCustom] = useState<string[]>([]);
   const [draft, setDraft] = useState('');
   const [copied, setCopied] = useState(false);
+  const card = useRef<HTMLDivElement>(null);
   const list = [...selected, ...custom];
   const listText = `${planner.listHeading}\n\n${list.map((question, index) => `${index + 1}. ${question}`).join('\n')}`;
 
@@ -66,7 +68,7 @@ export function VisitPlannerSection({ planner }: { planner: Copy['visitPlanner']
         </form>
       </div>
 
-      <div className="visit-print rounded-[20px] border border-forest/25 bg-white p-6 shadow-[0_16px_40px_#07533112] lg:sticky lg:top-6 lg:self-start">
+      <div ref={card} className="rounded-[20px] border border-forest/25 bg-white p-6 shadow-[0_16px_40px_#07533112] lg:sticky lg:top-6 lg:self-start">
         <h3 className="text-[20px] font-bold tracking-[-.03em]"><span className="print:hidden">{planner.selectedTitle}</span><span className="hidden print:inline">{planner.listHeading}</span></h3>
         <p className="mt-1 text-[11px] text-copy print:hidden">{planner.privacyNote}</p>
         {list.length === 0
@@ -77,7 +79,7 @@ export function VisitPlannerSection({ planner }: { planner: Copy['visitPlanner']
             <button type="button" onClick={() => remove(question)} aria-label={`${planner.remove}: ${question}`} className="grid size-6 shrink-0 place-items-center rounded-full text-copy hover:bg-line print:hidden"><X className="size-3.5" aria-hidden="true" /></button>
           </li>)}</ol>}
         <div className="mt-5 flex flex-wrap gap-2 border-t border-line pt-5 print:hidden">
-          <button type="button" disabled={!list.length} onClick={() => window.print()} className={cn(actionClass, 'bg-forest text-white hover:bg-ink')}><Printer className="size-4" aria-hidden="true" />{planner.printAction}</button>
+          <button type="button" disabled={!list.length} onClick={() => printOnly(card.current)} className={cn(actionClass, 'bg-forest text-white hover:bg-ink')}><Printer className="size-4" aria-hidden="true" />{planner.printAction}</button>
           <button type="button" disabled={!list.length} onClick={() => void copyList()} className={cn(actionClass, 'bg-white text-forest ring-1 ring-forest hover:bg-mist')}>{copied ? <Check className="size-4" aria-hidden="true" /> : <ClipboardCopy className="size-4" aria-hidden="true" />}<span aria-live="polite">{copied ? planner.copiedLabel : planner.copyAction}</span></button>
           <a href={`https://wa.me/?text=${encodeURIComponent(listText)}`} target="_blank" rel="noopener noreferrer" aria-disabled={!list.length} onClick={event => { if (!list.length) event.preventDefault(); }} className={cn(actionClass, 'bg-[#e7f6ea] text-forest hover:bg-mist', !list.length && 'pointer-events-none opacity-40')}><Send className="size-4" aria-hidden="true" />{planner.whatsappAction}</a>
         </div>
