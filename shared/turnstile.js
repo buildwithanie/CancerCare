@@ -4,6 +4,14 @@
 const verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 const passLifetimeMs = 2 * 60 * 60 * 1000; // a verified chat stays verified for 2 hours
 
+/** The visitor's IP address on Cloudflare or Vercel (used for rate limits and Turnstile). */
+export function clientIp(request) {
+  return request.headers.get('cf-connecting-ip')
+    ?? request.headers.get('x-real-ip')
+    ?? request.headers.get('x-forwarded-for')?.split(',')[0].trim()
+    ?? null;
+}
+
 export function turnstileEnabled(env) {
   return Boolean(env?.TURNSTILE_SITE_KEY?.trim() && env?.TURNSTILE_SECRET_KEY?.trim());
 }
@@ -18,7 +26,7 @@ export async function verifyTurnstile(token, request, env, fetcher = fetch) {
   const body = new FormData();
   body.append('secret', env.TURNSTILE_SECRET_KEY.trim());
   body.append('response', token);
-  const ip = request.headers.get('cf-connecting-ip');
+  const ip = clientIp(request);
   if (ip) body.append('remoteip', ip);
   try {
     const result = await fetcher(verifyUrl, { method: 'POST', body, signal: AbortSignal.timeout(8000) });

@@ -16,8 +16,16 @@ function isCurrent(href: string) {
   return window.location.pathname === path && (hash ? window.location.hash === `#${hash}` : !window.location.hash);
 }
 
-function LanguageSwitch({ language, onLanguageChange }: Pick<Props, 'language' | 'onLanguageChange'>) {
-  return <div role="group" aria-label="Language / Lugha" className="flex shrink-0 items-center rounded-full border border-line bg-sand p-1 text-[11px] font-bold">
+// One small button for narrow phones: shows the current language and switches to the other.
+function CompactLanguageSwitch({ language, onLanguageChange, className }: Pick<Props, 'language' | 'onLanguageChange'> & { className?: string }) {
+  const other = language === 'en' ? 'sw' : 'en';
+  return <button type="button" onClick={() => onLanguageChange(other)} aria-label={language === 'en' ? 'Badilisha lugha kuwa Kiswahili' : 'Switch language to English'} lang={other} className={cn('h-10 shrink-0 items-center gap-0.5 rounded-full border border-line bg-sand px-2.5 text-[11px] font-bold max-[339px]:h-9 max-[339px]:px-2', className)}>
+    <span className="text-forest">{language.toUpperCase()}</span><span aria-hidden="true" className="text-copy/60">/{other.toUpperCase()}</span>
+  </button>;
+}
+
+function LanguageSwitch({ language, onLanguageChange, className }: Pick<Props, 'language' | 'onLanguageChange'> & { className?: string }) {
+  return <div role="group" aria-label="Language / Lugha" className={cn("flex shrink-0 items-center rounded-full border border-line bg-sand p-1 text-[11px] font-bold", className)}>
     {(['en', 'sw'] as const).map(option => <button key={option} type="button" lang={option} aria-pressed={language === option} onClick={() => onLanguageChange(option)} className={cn('grid size-8 place-items-center rounded-full text-copy', language === option && 'bg-forest text-white')}>{option.toUpperCase()}</button>)}
   </div>;
 }
@@ -136,14 +144,15 @@ export function SiteHeader({ language, onLanguageChange, currentPage }: Props) {
       </div>
     </div>
     <header className="relative z-20 border-b border-line bg-white">
-      <div className={cn(pageContainer, 'flex min-h-[72px] items-center justify-between gap-4')}>
+      <div className={cn(pageContainer, 'flex min-h-[72px] items-center justify-between gap-2 sm:gap-4')}>
         <a href="/" aria-label={language === 'sw' ? 'Ukurasa wa mwanzo wa CancerCare' : 'CancerCare home'}><Brand /></a>
         <DesktopMenu language={language} currentPage={currentPage} />
-        <div className="flex items-center gap-1.5 sm:gap-3">
-          <SearchButton language={language} />
-          <LanguageSwitch language={language} onLanguageChange={onLanguageChange} />
+        <div className="flex shrink-0 items-center gap-1 min-[340px]:gap-1.5 sm:gap-3">
+          <SearchButton language={language} className="max-[399px]:size-10 max-[339px]:size-9" />
+          <LanguageSwitch language={language} onLanguageChange={onLanguageChange} className="max-[399px]:hidden" />
+          <CompactLanguageSwitch language={language} onLanguageChange={onLanguageChange} className="flex min-[400px]:hidden" />
           <a href={getInvolved.href} aria-current={currentPage === 'get-involved' ? 'page' : undefined} className="hidden min-h-11 items-center gap-2 rounded-full bg-forest px-5 text-[13px] font-bold text-white shadow-[0_8px_20px_#07533126] transition hover:bg-ink lg:inline-flex">{getInvolved.label[language]}<ArrowRight className="size-4" aria-hidden="true" /></a>
-          <button ref={menuButton} type="button" onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-controls="mobile-menu" aria-label={language === 'sw' ? 'Fungua menyu' : 'Open menu'} className="grid size-11 place-items-center rounded-full border border-line text-ink hover:bg-mist lg:hidden"><Menu className="size-5" aria-hidden="true" /></button>
+          <button ref={menuButton} type="button" onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-controls="mobile-menu" aria-label={language === 'sw' ? 'Fungua menyu' : 'Open menu'} className="grid size-11 shrink-0 place-items-center rounded-full border border-line text-ink hover:bg-mist max-[399px]:size-10 max-[339px]:size-9 lg:hidden"><Menu className="size-5" aria-hidden="true" /></button>
         </div>
       </div>
     </header>

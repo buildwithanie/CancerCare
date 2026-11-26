@@ -1,5 +1,5 @@
 import { isUrgent, systemPrompt, urgentReply } from '../../shared/assistant.js';
-import { issuePass, turnstileEnabled, turnstilePublic, validPass, verifyTurnstile } from '../../shared/turnstile.js';
+import { clientIp, issuePass, turnstileEnabled, turnstilePublic, validPass, verifyTurnstile } from '../../shared/turnstile.js';
 
 const defaultModel = 'gemini-3.8-flash';
 const maxMessages = 12;
@@ -76,7 +76,7 @@ export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
 
     if (!configured(env)) return response({ error: 'unavailable' }, 503);
 
-    const client = request.headers.get('cf-connecting-ip') ?? 'local';
+    const client = clientIp(request) ?? 'local';
     if (limited(client)) return response({ error: 'rate_limited' }, 429);
 
     // Spam check: a Turnstile token on the first message earns a 2-hour signed pass.

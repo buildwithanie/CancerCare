@@ -13,6 +13,10 @@ pnpm dev
 
 For a local contact-form send, put a Gmail app password in the ignored `.env` file as `SMTP_PASS=...` and run `pnpm dev`. For AI chat answers, also add a Google AI Studio key as `GEMINI_API_KEY=...`; without it the assistant uses built-in quick answers. See [assistant setup](docs/21-assistant-and-interactive-learning.md) and `.env.example`. The Vite development server uses the same contact handler as the Cloudflare Pages Function. See [contact setup](docs/20-contact-rebuild.md).
 
+## Hosting
+
+The site runs on **Vercel** (`vercel.json`, functions in `api/`) or **Cloudflare Pages** (`public/_headers`, functions in `functions/api/`). Both use the same handler code. Set the keys as environment variables on the host and redeploy; see [Vercel setup](docs/29-mobile-header-and-vercel.md).
+
 ## Build
 
 ```sh
@@ -57,6 +61,7 @@ Run all tests with `pnpm test`.
 26. [Display options](docs/26-display-options.md)
 27. [Spam protection and visitor counts](docs/27-spam-protection-analytics.md)
 28. [Security review](docs/28-security-review.md)
+29. [Narrow-phone header and Vercel support](docs/29-mobile-header-and-vercel.md)
 
 The next steps are local clinical review of the introductory guide and direct provider confirmation of the first Embu facility. Publish facility details only after its services, access and contact route are verified.
 

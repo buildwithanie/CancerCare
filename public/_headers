@@ -1,3 +1,4 @@
+# Keep in step with vercel.json (Vercel reads that file; Cloudflare Pages reads this one).
 # Security and caching headers for Cloudflare Pages.
 # If you add a new outside service (scripts, fonts, iframes), allow it in the
 # Content-Security-Policy below or the browser will block it.
