@@ -147,3 +147,9 @@ test('offline matching finds bilingual topics', () => {
   for (const topic of topics) assert.ok(topic.answer.en && topic.answer.sw, topic.id);
   assert.match(systemPrompt('en'), /Reply in English/);
 });
+
+test('offline matching points to leaflets and privacy', () => {
+  assert.equal(matchTopic('Do you have leaflets I can print?')?.id, 'leaflets');
+  assert.equal(matchTopic('Do you store my data?')?.id, 'privacy');
+  assert.match(systemPrompt('en'), /\/resources\//);
+});

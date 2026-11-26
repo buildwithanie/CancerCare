@@ -25,6 +25,12 @@ export function useLanguage(page: PageId = 'home') {
           ? language === 'sw' ? 'Inavyofanya kazi — CancerCare' : 'How it works — CancerCare'
           : page === 'get-involved'
             ? language === 'sw' ? 'Shiriki — CancerCare' : 'Get involved — CancerCare'
+            : page === 'about'
+              ? language === 'sw' ? 'Kuhusu sisi — CancerCare' : 'About us — CancerCare'
+            : page === 'resources'
+              ? language === 'sw' ? 'Vipeperushi — CancerCare' : 'Printable leaflets — CancerCare'
+            : page === 'privacy'
+              ? language === 'sw' ? 'Faragha na masharti — CancerCare' : 'Privacy & terms — CancerCare'
             : page === 'not-found'
               ? language === 'sw' ? 'Ukurasa haukupatikana — CancerCare' : 'Page not found — CancerCare'
         : language === 'sw' ? 'CancerCare — Njia ya kupata huduma' : 'CancerCare — A clearer path to care';

@@ -195,7 +195,7 @@ export function GetInvolvedPage({ content }: { content: PageCopy }) {
               <ShieldCheck className="mt-0.5 size-5 shrink-0 text-[#b4dfbd]" aria-hidden="true" />
               <div><h3 className="text-[14px] font-bold">{content.safetyTitle}</h3><p className="mt-2 text-[12px] leading-[1.65] text-[#d5e6d9]">{content.safetyText}</p></div>
             </div>
-            <p className="mt-6 border-t border-white/15 pt-5 text-[11px] leading-[1.65] text-[#d5e6d9]">{content.privacyText}</p>
+            <p className="mt-6 border-t border-white/15 pt-5 text-[11px] leading-[1.65] text-[#d5e6d9]">{content.privacyText} <a href="/privacy/" className="font-semibold text-white underline underline-offset-2">{content.privacyLink}</a></p>
           </div>
         </aside>
       </div>

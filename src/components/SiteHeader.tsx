@@ -4,11 +4,11 @@ import type { Copy, Language } from '@/content';
 import { pageContainer } from '@/lib/site-styles';
 import type { PageId } from '@/lib/pages';
 import { cn } from '@/lib/utils';
+import { pagesCopy } from '@/content-pages';
 
 export function SiteHeader({ language, onLanguageChange, text, currentPage }: { language: Language; onLanguageChange: (language: Language) => void; text: Copy; currentPage: PageId }) {
-  const homeSection = (id: string) => currentPage === 'home' ? `#${id}` : `/#${id}`;
   const links = [
-    { href: homeSection('mission'), label: text.navigation.mission },
+    { href: '/about/', label: pagesCopy[language].nav.about },
     { href: '/learn/', label: text.navigation.work },
     { href: '/find-care/', label: text.navigation.directory },
     { href: '/how-it-works/', label: text.navigation.pilot },
