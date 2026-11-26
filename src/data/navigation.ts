@@ -1,4 +1,4 @@
-import { BookOpen, BadgeCheck, ClipboardList, FileText, HandCoins, Handshake, HelpCircle, Info, MapPinned, Route, ScanSearch, Shield, type LucideIcon } from 'lucide-react';
+import { BookOpen, HeartHandshake, BadgeCheck, ClipboardList, FileText, HandCoins, Handshake, HelpCircle, Info, MapPinned, Route, ScanSearch, Shield, type LucideIcon } from 'lucide-react';
 import type { Language } from '@/content';
 import type { PageId } from '@/lib/pages';
 
@@ -11,12 +11,13 @@ export const navigation: NavGroup[] = [
   {
     id: 'learn',
     label: { en: 'Learn', sw: 'Jifunze' },
-    pages: ['learn', 'resources'],
+    pages: ['learn', 'resources', 'caregivers'],
     items: [
       { href: '/learn/#learn', icon: BookOpen, label: { en: 'Cancer basics', sw: 'Misingi ya saratani' }, description: { en: 'What cancer is, common cancers in Kenya', sw: 'Saratani ni nini, saratani za kawaida Kenya' } },
       { href: '/learn/#screening', icon: ScanSearch, label: { en: 'Screening guide', sw: 'Mwongozo wa uchunguzi' }, description: { en: 'Find what fits your question', sw: 'Pata kinacholingana na swali lako' } },
       { href: '/learn/#visit-questions', icon: ClipboardList, label: { en: 'Questions for your visit', sw: 'Maswali ya ziara yako' }, description: { en: 'Build and print your list', sw: 'Andaa na uchapishe orodha yako' } },
       { href: '/learn/#myths', icon: HelpCircle, label: { en: 'Myths and facts', sw: 'Dhana na ukweli' }, description: { en: 'Check what you have heard', sw: 'Kagua ulichosikia' } },
+      { href: '/caregivers/', icon: HeartHandshake, label: { en: 'Caregiver corner', sw: 'Kona ya walezi' }, description: { en: 'Supporting someone with cancer', sw: 'Kumsaidia mtu mwenye saratani' } },
       { href: '/resources/', icon: FileText, label: { en: 'Printable leaflets', sw: 'Vipeperushi vya kuchapisha' }, description: { en: 'English and Kiswahili, ready to share', sw: 'Kiingereza na Kiswahili, tayari kushiriki' } },
     ],
   },

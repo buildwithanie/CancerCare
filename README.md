@@ -53,6 +53,7 @@ Run all tests with `pnpm test`.
 22. [Smarter assistant, partners strip and awareness calendar](docs/22-smarter-assistant-partners-awareness.md)
 23. [About page, privacy and terms, voice features and printable leaflets](docs/23-about-privacy-voice-leaflets.md)
 24. [Grouped navigation menus](docs/24-navigation-menus.md)
+25. [Site search, reading options, offline app and caregiver corner](docs/25-search-reading-offline-caregivers.md)
 
 The next steps are local clinical review of the introductory guide and direct provider confirmation of the first Embu facility. Publish facility details only after its services, access and contact route are verified.
 
@@ -66,6 +67,8 @@ The next steps are local clinical review of the introductory guide and direct pr
 - Edit partners and trusted sources in `src/data/partners.ts`.
 - Edit organisation facts and the team in `src/data/organisation.ts`.
 - Edit the About, Privacy, Leaflets and voice wording in `src/content-pages.ts`.
+- Edit the Caregiver corner in `src/content-caregivers.ts`.
+- Offline behaviour lives in `public/sw.js`; bump `VERSION` there to replace saved files.
 - Edit a page section in `src/components/sections/`.
 - Edit the site colors and font tokens in `src/index.css`.
 - Reuse or customize shadcn components in `src/components/ui/`.

@@ -25,7 +25,7 @@ export function askAssistant(question: string) {
 type Mode = 'unknown' | 'ai' | 'offline';
 
 const storageKey = 'cancercare.chat';
-const sitePath = /(\/(?:learn|find-care|how-it-works|get-involved|resources|about|privacy)\/(?:#[\w-]+)?)/g;
+const sitePath = /(\/(?:learn|find-care|how-it-works|get-involved|resources|about|privacy|caregivers)\/(?:#[\w-]+)?)/g;
 
 function loadMessages(): Message[] {
   try {

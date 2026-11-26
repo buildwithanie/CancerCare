@@ -65,7 +65,7 @@ const en = {
       { title: 'What we collect, and why', body: [
         'Contact form: your message, the topic you choose and, only if you give it, your email address. We use these to read and reply to your message and to improve the project. Messages are delivered to the project email inbox; we do not store them in a database.',
         'CancerCare assistant: the questions you type or speak in the chat. When the AI assistant is switched on, the conversation is sent to Google\'s Gemini API to generate a reply. Depending on the service tier, Google may keep and review this content to improve its services. In quick answers mode, your questions do not leave your device.',
-        'Your browser: we save your language choice and your current chat (only for the open tab) on your own device. Questions you build for a health visit are not saved at all.',
+        'Your browser: we save your language choice, reading options (text size and contrast) and your current chat (only for the open tab) on your own device. To work offline, the site also saves copies of pages you visit on your device; these contain no personal information. Questions you build for a health visit are not saved at all.',
         'Hosting: our hosting provider, Cloudflare, processes technical data such as your IP address to deliver the site and protect it from abuse.',
         'Voice features: read-aloud uses your device\'s own voices. If you use the microphone, your browser\'s speech service (for example Google in Chrome) converts your speech to text.',
       ] },
@@ -198,7 +198,7 @@ const sw: PagesCopy = {
       { title: 'Tunachokusanya, na kwa nini', body: [
         'Fomu ya mawasiliano: ujumbe wako, mada unayochagua na, ukiitoa tu, barua pepe yako. Tunazitumia kusoma na kujibu ujumbe wako na kuboresha mradi. Ujumbe hufika kwenye sanduku la barua pepe la mradi; hatuzihifadhi kwenye hifadhidata.',
         'Msaidizi wa CancerCare: maswali unayoandika au kusema kwenye mazungumzo. Msaidizi wa AI ukiwashwa, mazungumzo hutumwa kwa Gemini API ya Google ili kutengeneza jibu. Kulingana na kiwango cha huduma, Google inaweza kuhifadhi na kukagua maudhui haya ili kuboresha huduma zake. Katika hali ya majibu ya haraka, maswali yako hayaondoki kwenye kifaa chako.',
-        'Kivinjari chako: tunahifadhi lugha uliyochagua na mazungumzo yako ya sasa (kwa kichupo kilicho wazi tu) kwenye kifaa chako. Maswali unayoandaa kwa ziara ya afya hayahifadhiwi kabisa.',
+        'Kivinjari chako: tunahifadhi lugha uliyochagua, chaguo za kusoma (ukubwa wa herufi na rangi) na mazungumzo yako ya sasa (kwa kichupo kilicho wazi tu) kwenye kifaa chako. Ili ifanye kazi bila mtandao, tovuti pia huhifadhi nakala za kurasa unazotembelea kwenye kifaa chako; hazina taarifa zako binafsi. Maswali unayoandaa kwa ziara ya afya hayahifadhiwi kabisa.',
         'Upangishaji: mtoa huduma wetu, Cloudflare, huchakata data za kiufundi kama anwani yako ya IP ili kuwasilisha tovuti na kuilinda dhidi ya matumizi mabaya.',
         'Huduma za sauti: usomaji kwa sauti hutumia sauti za kifaa chako. Ukitumia maikrofoni, huduma ya sauti ya kivinjari chako (kwa mfano Google kwenye Chrome) hubadilisha sauti yako kuwa maandishi.',
       ] },

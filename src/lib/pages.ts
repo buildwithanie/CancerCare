@@ -1,4 +1,4 @@
-export type PageId = 'home' | 'learn' | 'find-care' | 'how-it-works' | 'get-involved' | 'about' | 'resources' | 'privacy' | 'not-found';
+export type PageId = 'home' | 'learn' | 'find-care' | 'how-it-works' | 'get-involved' | 'about' | 'resources' | 'privacy' | 'caregivers' | 'not-found';
 
 const routes: [RegExp, PageId][] = [
   [/^\/(?:index\.html)?$/, 'home'],
@@ -9,6 +9,7 @@ const routes: [RegExp, PageId][] = [
   [/^\/about(?:\/|$)/, 'about'],
   [/^\/resources(?:\/|$)/, 'resources'],
   [/^\/privacy(?:\/|$)/, 'privacy'],
+  [/^\/caregivers(?:\/|$)/, 'caregivers'],
 ];
 
 export function pageFromPath(pathname: string): PageId {

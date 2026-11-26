@@ -11,6 +11,8 @@ import { HowItWorksPage } from '@/components/sections/HowItWorksPage';
 import { LearnSection } from '@/components/sections/LearnSection';
 import { LearnPageIntro } from '@/components/sections/LearnPageIntro';
 import { MissionSection } from '@/components/sections/MissionSection';
+import { CaregiversPage } from '@/components/sections/CaregiversPage';
+import { caregiverCopy } from '@/content-caregivers';
 import { AboutPage } from '@/components/sections/AboutPage';
 import { AwarenessSection } from '@/components/sections/AwarenessSection';
 import { MythsSection } from '@/components/sections/MythsSection';
@@ -92,6 +94,8 @@ function App() {
           <ResourcesPage content={pages.resources} language={language} speech={pages.speech} />
         </> : currentPage === 'privacy' ? <>
           <PrivacyPage content={pages.privacy} />
+        </> : currentPage === 'caregivers' ? <>
+          <CaregiversPage content={caregiverCopy[language]} language={language} speech={pages.speech} />
         </> : currentPage === 'not-found' ? <>
           <NotFoundPage content={text.notFound} />
         </> : <>

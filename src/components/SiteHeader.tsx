@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ChevronDown, MapPin, Menu, X } from 'lucide-react';
 import { Brand } from '@/components/Brand';
+import { SearchButton } from '@/components/SearchDialog';
+import { ReadingControls } from '@/components/ReadingControls';
 import type { Copy, Language } from '@/content';
 import { getInvolved, navigation, type NavGroup } from '@/data/navigation';
 import type { PageId } from '@/lib/pages';
@@ -127,17 +129,18 @@ export function SiteHeader({ language, onLanguageChange, text, currentPage }: Pr
 
   return <>
     <a href="#main" className="fixed -top-16 left-5 z-50 rounded bg-white px-4 py-3 focus:top-3">{language === 'sw' ? 'Ruka hadi maudhui' : 'Skip to content'}</a>
-    <div className="bg-forest text-white">
+    <div className="relative z-30 bg-forest text-white">
       <div className={cn(pageContainer, 'flex min-h-8 items-center justify-between gap-3 text-[11px] font-medium')}>
         <span className="inline-flex items-center gap-1.5"><MapPin className="size-3.5" aria-hidden="true" />{language === 'sw' ? 'Kaunti ya Embu, Kenya' : 'Embu County, Kenya'}</span>
-        <span className="font-semibold tracking-[.04em] uppercase">{text.status}</span>
+        <span className="flex items-center gap-3"><ReadingControls language={language} /><span className="hidden font-semibold tracking-[.04em] uppercase sm:inline">{text.status}</span></span>
       </div>
     </div>
     <header className="relative z-20 border-b border-line bg-white">
       <div className={cn(pageContainer, 'flex min-h-[72px] items-center justify-between gap-4')}>
         <a href="/" aria-label={language === 'sw' ? 'Ukurasa wa mwanzo wa CancerCare' : 'CancerCare home'}><Brand /></a>
         <DesktopMenu language={language} currentPage={currentPage} />
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          <SearchButton language={language} />
           <LanguageSwitch language={language} onLanguageChange={onLanguageChange} />
           <a href={getInvolved.href} aria-current={currentPage === 'get-involved' ? 'page' : undefined} className="hidden min-h-11 items-center gap-2 rounded-full bg-forest px-5 text-[13px] font-bold text-white shadow-[0_8px_20px_#07533126] transition hover:bg-ink lg:inline-flex">{getInvolved.label[language]}<ArrowRight className="size-4" aria-hidden="true" /></a>
           <button ref={menuButton} type="button" onClick={() => setMenuOpen(true)} aria-expanded={menuOpen} aria-controls="mobile-menu" aria-label={language === 'sw' ? 'Fungua menyu' : 'Open menu'} className="grid size-11 place-items-center rounded-full border border-line text-ink hover:bg-mist lg:hidden"><Menu className="size-5" aria-hidden="true" /></button>
