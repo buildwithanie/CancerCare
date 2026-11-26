@@ -56,6 +56,7 @@ Run all tests with `pnpm test`.
 25. [Site search, reading options, offline app and caregiver corner](docs/25-search-reading-offline-caregivers.md)
 26. [Display options](docs/26-display-options.md)
 27. [Spam protection and visitor counts](docs/27-spam-protection-analytics.md)
+28. [Security review](docs/28-security-review.md)
 
 The next steps are local clinical review of the introductory guide and direct provider confirmation of the first Embu facility. Publish facility details only after its services, access and contact route are verified.
 
