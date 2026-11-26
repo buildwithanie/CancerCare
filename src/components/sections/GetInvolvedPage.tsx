@@ -114,7 +114,6 @@ export function GetInvolvedPage({ content }: { content: PageCopy }) {
           </div>
           <figure className="relative overflow-hidden rounded-[28px] bg-[#cbdcc6] shadow-[0_22px_45px_#123b241c]">
             <img src="/cancer-care-mission.jpg" alt={content.imageAlt} className="aspect-[1.5] w-full object-cover" />
-            <figcaption className="absolute bottom-3 left-3 right-3 rounded-[12px] bg-white/95 px-3 py-2 text-[11px] leading-[1.4] text-copy backdrop-blur-sm sm:bottom-4 sm:left-4 sm:right-auto">{content.imageCaption}</figcaption>
           </figure>
         </div>
       </div>

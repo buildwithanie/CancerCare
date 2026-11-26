@@ -6,13 +6,58 @@ export const emergencyNumbers = '999 / 112';
 
 /** @typedef {'en' | 'sw'} Language */
 /** @typedef {{ en: string; sw: string }} Localized */
-/** @typedef {{ id: string; keywords: string[]; answer: Localized; link?: { href: string; label: Localized } }} Topic */
+/** @typedef {{ id: string; keywords: string[]; answer: Localized; link?: { href: string; label: Localized }; smallTalk?: boolean }} Topic */
 
 /** @type {Topic[]} */
 export const topics = [
   {
+    id: 'greeting',
+    smallTalk: true,
+    keywords: ['hello', 'hi', 'hey', 'hallo', 'good morning', 'good afternoon', 'good evening', 'greetings', 'habari', 'hujambo', 'jambo', 'mambo', 'niaje', 'salaam', 'salam', 'shikamoo', 'habari yako', 'habari za asubuhi', 'habari za mchana', 'habari za jioni'],
+    answer: {
+      en: 'Hello, and welcome to CancerCare! I am happy to help. You can ask me about cancer basics, warning signs, screening, the HPV vaccine, paying for care with SHA, or finding care in Embu.',
+      sw: 'Habari, karibu CancerCare! Nafurahi kukusaidia. Unaweza kuniuliza kuhusu misingi ya saratani, dalili za tahadhari, uchunguzi, chanjo ya HPV, kulipia huduma kupitia SHA, au kupata huduma Embu.',
+    },
+  },
+  {
+    id: 'how-are-you',
+    smallTalk: true,
+    keywords: ['how are you', 'how is it going', 'how are things', 'u good', 'uko aje', 'uko poa', 'u hali gani', 'habari gani', 'uko salama'],
+    answer: {
+      en: 'I am doing well, thank you for asking! I hope you are well too. How can I help you today?',
+      sw: 'Niko salama, asante kwa kuuliza! Natumaini nawe uko salama. Nikusaidie vipi leo?',
+    },
+  },
+  {
+    id: 'thanks',
+    smallTalk: true,
+    keywords: ['thank', 'thanks', 'thx', 'appreciate', 'asante', 'shukran', 'nashukuru'],
+    answer: {
+      en: 'You are very welcome! If you have another question, I am here. Take care of yourself.',
+      sw: 'Karibu sana! Ukiwa na swali jingine, niko hapa. Jitunze.',
+    },
+  },
+  {
+    id: 'goodbye',
+    smallTalk: true,
+    keywords: ['bye', 'goodbye', 'good night', 'see you', 'later', 'kwaheri', 'usiku mwema', 'tutaonana', 'baadaye'],
+    answer: {
+      en: 'Goodbye, and take care! You can come back to CancerCare any time.',
+      sw: 'Kwaheri, jitunze! Unaweza kurudi CancerCare wakati wowote.',
+    },
+  },
+  {
+    id: 'capabilities',
+    smallTalk: true,
+    keywords: ['what can you do', 'who are you', 'are you a robot', 'are you human', 'are you a doctor', 'help me', 'unaweza kufanya nini', 'wewe ni nani', 'wewe ni daktari', 'nisaidie'],
+    answer: {
+      en: 'I am the CancerCare assistant, a computer program, not a doctor. I can explain cancer basics, warning signs, screening, the HPV vaccine, treatment types, palliative care and SHA cover, and point you to the right page. I cannot diagnose or replace a health professional.',
+      sw: 'Mimi ni msaidizi wa CancerCare, programu ya kompyuta, si daktari. Ninaweza kueleza misingi ya saratani, dalili za tahadhari, uchunguzi, chanjo ya HPV, aina za matibabu, huduma shufaa na bima ya SHA, na kukuelekeza kwenye ukurasa unaofaa. Siwezi kutambua ugonjwa wala kuchukua nafasi ya mhudumu wa afya.',
+    },
+  },
+  {
     id: 'about',
-    keywords: ['cancercare', 'who are you', 'what is this', 'about you', 'project', 'organisation', 'organization', 'ngo', 'mission', 'nyinyi ni nani', 'mradi', 'shirika', 'dhamira', 'kuhusu nyinyi'],
+    keywords: ['cancercare', 'what is this', 'about you', 'project', 'organisation', 'organization', 'ngo', 'mission', 'nyinyi ni nani', 'mradi', 'shirika', 'dhamira', 'kuhusu nyinyi'],
     answer: {
       en: 'CancerCare is an early, community-focused project making cancer information clearer and care easier to find, starting in Embu County, Kenya. Right now the site offers a short learning guide in English and Kiswahili. Verified facility listings are still being prepared.',
       sw: 'CancerCare ni mradi wa jamii ulio katika hatua za mwanzo, unaolenga kurahisisha taarifa za saratani na kupata huduma, kuanzia Kaunti ya Embu, Kenya. Kwa sasa tovuti ina mwongozo mfupi wa elimu kwa Kiingereza na Kiswahili. Orodha ya vituo vilivyothibitishwa bado inaandaliwa.',
@@ -57,7 +102,7 @@ export const topics = [
   },
   {
     id: 'prevention',
-    keywords: ['prevent', 'prevention', 'risk', 'avoid', 'smoking', 'tobacco', 'alcohol', 'hpv', 'vaccine', 'kuzuia', 'hatari', 'sigara', 'tumbaku', 'pombe', 'chanjo'],
+    keywords: ['prevent', 'prevention', 'risk', 'avoid', 'smoking', 'tobacco', 'alcohol', 'kuzuia', 'hatari', 'sigara', 'tumbaku', 'pombe'],
     answer: {
       en: 'According to the World Health Organization, between 30 and 50% of cancers can be prevented by reducing risk factors such as tobacco use and alcohol, and through measures like HPV and hepatitis B vaccination. A health professional can explain which steps apply to you.',
       sw: 'Kulingana na Shirika la Afya Duniani, kati ya asilimia 30 na 50 ya saratani zinaweza kuzuiwa kwa kupunguza vihatarishi kama matumizi ya tumbaku na pombe, na kupitia hatua kama chanjo ya HPV na homa ya ini B. Mhudumu wa afya anaweza kukueleza hatua zinazokuhusu.',
@@ -65,8 +110,61 @@ export const topics = [
     link: { href: '/learn/#myths', label: { en: 'Myths and facts', sw: 'Dhana na ukweli' } },
   },
   {
+    id: 'common-cancers',
+    keywords: ['common cancer', 'most common', 'types of cancer', 'kinds of cancer', 'breast cancer', 'cervical cancer', 'prostate', 'oesophag', 'esophag', 'colorectal', 'colon', 'kenya cancer', 'aina za saratani', 'saratani ya matiti', 'saratani ya shingo ya kizazi', 'saratani ya tezi dume', 'saratani ya umio', 'saratani ya utumbo'],
+    answer: {
+      en: 'In Kenya, the most common cancers are breast, cervical, prostate, oesophageal (food pipe) and colorectal (bowel) cancer. Breast and cervical cancer mostly affect women, prostate cancer affects men, and oesophageal and colorectal cancer affect both. Many of these can be found early or prevented.',
+      sw: 'Nchini Kenya, saratani zinazotokea zaidi ni za matiti, shingo ya kizazi, tezi dume, umio (njia ya chakula) na utumbo mpana. Saratani za matiti na shingo ya kizazi huwapata zaidi wanawake, ya tezi dume huwapata wanaume, na za umio na utumbo huwapata wote. Nyingi kati ya hizi zinaweza kugunduliwa mapema au kuzuiwa.',
+    },
+    link: { href: '/learn/', label: { en: 'Cancer basics', sw: 'Misingi ya saratani' } },
+  },
+  {
+    id: 'warning-signs',
+    keywords: ['warning sign', 'early sign', 'signs of cancer', 'how do i know', 'dalili za saratani', 'dalili za mapema', 'ishara'],
+    answer: {
+      en: 'Changes worth getting checked include: a new lump or swelling; unusual bleeding (for example between periods, after sex, or blood in urine, stool or cough); a cough, hoarse voice or difficulty swallowing that does not go away; weight loss without trying; a sore that does not heal; and changes in bowel or urine habits. Most of these are caused by something less serious, but early checks matter. Please see a health professional.',
+      sw: 'Mabadiliko yanayostahili kukaguliwa ni pamoja na: uvimbe mpya; kutokwa damu isivyo kawaida (kwa mfano kati ya hedhi, baada ya tendo la ndoa, au damu kwenye mkojo, choo au makohozi); kikohozi, sauti kukwaruza au shida ya kumeza isiyoisha; kupungua uzito bila kujaribu; kidonda kisichopona; na mabadiliko ya choo au mkojo. Mara nyingi husababishwa na jambo dogo, lakini kukaguliwa mapema ni muhimu. Tafadhali muone mhudumu wa afya.',
+    },
+    link: { href: '/learn/#visit-questions', label: { en: 'Prepare questions for your visit', sw: 'Andaa maswali ya ziara yako' } },
+  },
+  {
+    id: 'hpv-vaccine',
+    keywords: ['hpv', 'vaccine', 'vaccination', 'jab', 'chanjo', 'kuchanjwa'],
+    answer: {
+      en: 'The HPV vaccine protects against the virus that causes most cervical cancer. In Kenya it is free for girls aged 10 to 14, and since late 2025 one dose is enough for this age group. Ask your nearest health facility or school health programme. Older girls and women can ask a health professional about vaccination and cervical screening.',
+      sw: 'Chanjo ya HPV hukinga dhidi ya virusi vinavyosababisha saratani nyingi za shingo ya kizazi. Nchini Kenya ni bure kwa wasichana wa miaka 10 hadi 14, na tangu mwishoni mwa 2025 dozi moja inatosha kwa umri huu. Uliza kituo cha afya kilicho karibu au mpango wa afya shuleni. Wasichana wakubwa na wanawake wanaweza kumuuliza mhudumu wa afya kuhusu chanjo na uchunguzi wa shingo ya kizazi.',
+    },
+    link: { href: '/learn/#myths', label: { en: 'Myths and facts', sw: 'Dhana na ukweli' } },
+  },
+  {
+    id: 'cost-sha',
+    keywords: ['sha', 'nhif', 'shif', 'insurance', 'cost', 'pay', 'money', 'afford', 'expensive', 'bima', 'gharama', 'kulipa', 'pesa', 'ghali'],
+    answer: {
+      en: 'Cancer care in Kenya is partly covered by the Social Health Authority (SHA), which replaced NHIF and has a cancer (oncology) benefit package. What is covered and the limits can change, so ask the SHA desk at the facility or contact SHA directly before treatment starts. Registering with SHA early helps.',
+      sw: 'Huduma za saratani nchini Kenya zinagharamiwa kwa sehemu na Mamlaka ya Afya ya Jamii (SHA), iliyochukua nafasi ya NHIF na ina kifurushi cha huduma za saratani. Huduma zinazogharamiwa na viwango vinaweza kubadilika, kwa hivyo uliza dawati la SHA kituoni au wasiliana na SHA moja kwa moja kabla ya matibabu kuanza. Kujisajili na SHA mapema husaidia.',
+    },
+    link: { href: 'https://sha.go.ke', label: { en: 'Social Health Authority', sw: 'Mamlaka ya Afya ya Jamii (SHA)' } },
+  },
+  {
+    id: 'treatment',
+    keywords: ['treatment', 'treat', 'cure', 'chemo', 'chemotherapy', 'radiotherapy', 'radiation', 'surgery', 'operation', 'herbal', 'matibabu', 'kutibu', 'tiba', 'upasuaji', 'mionzi', 'dawa za kienyeji', 'mitishamba'],
+    answer: {
+      en: 'Common cancer treatments include surgery, chemotherapy (medicines), radiotherapy (radiation) and other targeted or hormone treatments. The right plan depends on the type and stage of cancer and is decided with a specialist team. Please talk to your care team before using herbal or other remedies, as some can interfere with treatment.',
+      sw: 'Matibabu ya kawaida ya saratani ni pamoja na upasuaji, tibakemikali (dawa), tiba ya mionzi na matibabu mengine kama ya homoni. Mpango unaofaa hutegemea aina na hatua ya saratani na huamuliwa pamoja na timu ya wataalamu. Tafadhali zungumza na timu yako ya huduma kabla ya kutumia dawa za mitishamba au nyinginezo, kwani baadhi zinaweza kuathiri matibabu.',
+    },
+    link: { href: '/learn/#visit-questions', label: { en: 'Questions for your care team', sw: 'Maswali kwa timu yako ya huduma' } },
+  },
+  {
+    id: 'palliative',
+    keywords: ['palliative', 'pain relief', 'hospice', 'end of life', 'comfort care', 'huduma shufaa', 'kupunguza maumivu', 'mwisho wa maisha'],
+    answer: {
+      en: 'Palliative care focuses on comfort and quality of life: easing pain and other symptoms, and supporting patients and families emotionally and practically. It can be given alongside treatment at any stage, not only at the end of life. Ask the care team about palliative services.',
+      sw: 'Huduma shufaa hulenga faraja na ubora wa maisha: kupunguza maumivu na dalili nyingine, na kuwasaidia wagonjwa na familia kihisia na kivitendo. Inaweza kutolewa pamoja na matibabu katika hatua yoyote, si mwishoni mwa maisha pekee. Uliza timu ya huduma kuhusu huduma shufaa.',
+    },
+  },
+  {
     id: 'find-care',
-    keywords: ['hospital', 'facility', 'clinic', 'where', 'near me', 'doctor', 'treatment', 'chemo', 'oncology', 'embu', 'hospitali', 'kituo', 'zahanati', 'wapi', 'daktari', 'matibabu', 'karibu'],
+    keywords: ['hospital', 'facility', 'clinic', 'where', 'near me', 'oncology', 'embu', 'hospitali', 'kituo', 'zahanati', 'wapi', 'karibu nami', 'find care'],
     answer: {
       en: 'The CancerCare directory has no listings yet. We only publish a facility after the provider confirms its services, access and contact details. In the meantime, the public Kenya Health Facility Registry lists registered facilities, and your nearest health facility can advise on referral.',
       sw: 'Orodha ya CancerCare bado haina vituo. Tunaonyesha kituo tu baada ya mtoa huduma kuthibitisha huduma, jinsi ya kuzipata na mawasiliano. Kwa sasa, Sajili ya Umma ya Vituo vya Afya Kenya inaorodhesha vituo vilivyosajiliwa, na kituo cha afya kilicho karibu nawe kinaweza kukushauri kuhusu rufaa.',
@@ -84,7 +182,7 @@ export const topics = [
   },
   {
     id: 'involve',
-    keywords: ['volunteer', 'help', 'donate', 'partner', 'contact', 'email', 'feedback', 'join', 'work with', 'kujitolea', 'kusaidia', 'mchango', 'kushirikiana', 'wasiliana', 'barua pepe', 'maoni'],
+    keywords: ['volunteer', 'how can i help', 'donate', 'partner', 'contact', 'email', 'feedback', 'join', 'work with', 'kujitolea', 'ninawezaje kusaidia', 'mchango', 'kushirikiana', 'wasiliana', 'barua pepe', 'maoni'],
     answer: {
       en: 'Thank you for wanting to help. You can send website feedback, a public facility detail to check, or an offer to review or test the Embu pilot through the Get involved page. Please leave out names and private health details.',
       sw: 'Asante kwa kutaka kusaidia. Unaweza kutuma maoni ya tovuti, taarifa ya umma ya kituo ya kukagua, au ombi la kukagua au kujaribu mradi wa Embu kupitia ukurasa wa Shiriki. Tafadhali usiweke majina au taarifa binafsi za afya.',
@@ -130,8 +228,11 @@ export function matchTopic(text) {
   for (const topic of topics) {
     let score = 0;
     for (const keyword of topic.keywords) {
-      // Match at the start of a word, so "screen" also matches "screening".
-      if (query.includes(normalize(keyword).trimEnd())) score += keyword.includes(' ') ? 3 : 1;
+      const key = normalize(keyword).trimEnd();
+      // Health topics match at the start of a word ("screen" matches "screening").
+      // Small talk must match whole words so "hi" does not match "hiv".
+      const found = topic.smallTalk ? query.includes(`${key} `) : query.includes(key);
+      if (found) score += (keyword.includes(' ') ? 3 : 1) * (topic.smallTalk ? 0.4 : 1);
     }
     if (score > bestScore) { best = topic; bestScore = score; }
   }
@@ -141,19 +242,22 @@ export function matchTopic(text) {
 /** @param {Language} language */
 export function fallbackReply(language) {
   return language === 'sw'
-    ? 'Sina jibu la swali hilo bado. Ninaweza kusaidia kuhusu saratani ni nini, uchunguzi, matokeo, kuzuia, kutafuta huduma Embu au jinsi ya kushiriki. Kwa maswali ya afya yako binafsi, tafadhali zungumza na mhudumu wa afya.'
-    : 'I do not have an answer to that yet. I can help with what cancer is, screening, results, prevention, finding care in Embu or how to get involved. For questions about your own health, please speak with a health professional.';
+    ? 'Sina jibu la swali hilo bado. Ninaweza kusaidia kuhusu saratani ni nini, saratani zinazotokea zaidi Kenya, dalili za tahadhari, uchunguzi, matokeo, chanjo ya HPV, matibabu, huduma shufaa, bima ya SHA, kupata huduma Embu au jinsi ya kushiriki. Kwa maswali ya afya yako binafsi, tafadhali zungumza na mhudumu wa afya.'
+    : 'I do not have an answer to that yet. I can help with what cancer is, common cancers in Kenya, warning signs, screening, results, the HPV vaccine, treatment, palliative care, SHA cover, finding care in Embu or how to get involved. For questions about your own health, please speak with a health professional.';
 }
 
 /** @param {Language} language */
 export function systemPrompt(language) {
-  const facts = topics.map(topic => `- ${topic.id}: ${topic.answer.en} (page: ${topic.link?.href ?? '/'})`).join('\n');
+  const facts = topics.filter(topic => !topic.smallTalk).map(topic => `- ${topic.id}: ${topic.answer.en} (page: ${topic.link?.href ?? '/'})`).join('\n');
   return `You are the CancerCare assistant on the website of CancerCare, an early community project in Embu County, Kenya, that is building clear cancer information and a directory of verified care services.
 
 Reply in ${language === 'sw' ? 'Kiswahili' : 'English'} unless the user writes in the other language; then match them. Use short, warm, plain sentences (at most about 120 words). No markdown headings or tables.
 
+Be friendly and human. Reply naturally to greetings (hello, habari, mambo, niaje, shikamoo, good morning), thanks, goodbyes and small talk such as "how are you", in one or two sentences, then offer help. If asked, say you are the CancerCare assistant, a computer program and not a doctor.
+
 What you know about the site and its current state:
 ${facts}
+- Kenya facts (sources: GLOBOCAN 2022 Kenya fact sheet; Ministry of Health): the most common cancers are breast, cervical, prostate, oesophageal and colorectal. The HPV vaccine is free for girls aged 10-14 and a single dose has been used since late 2025. The Social Health Authority (SHA) replaced NHIF and has an oncology benefit package; limits change, so tell people to confirm with SHA or the facility's SHA desk and do not quote amounts.
 - Site pages: / (home), /learn/ (cancer basics, screening guide, questions for a visit, myths and facts), /find-care/ (directory progress), /how-it-works/ (Embu pilot plan), /get-involved/ (contact form).
 - The educational wording is awaiting local clinical review. The site does not provide medical advice, patient accounts, appointments, referrals or live facility listings yet.
 

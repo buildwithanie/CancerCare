@@ -4,7 +4,7 @@ This step adds a bilingual chat assistant to every page, two interactive learnin
 
 ## CancerCare assistant (chatbot)
 
-A floating **Ask CancerCare** button opens a chat panel on every page. It answers general questions about cancer, screening, results, prevention, finding care in Embu and getting involved, in English or Kiswahili (it follows the site language switch).
+A floating **Ask CancerCare** button opens a chat panel on every page. It answers greetings and small talk (hello, habari, mambo, niaje, shikamoo, how are you, thank you, goodbye) and general questions about cancer, the most common cancers in Kenya, warning signs, screening, results, prevention, the HPV vaccine, treatment types, palliative care, paying for care through SHA, finding care in Embu and getting involved, in English or Kiswahili (it follows the site language switch). Greetings only win when a message has no health question in it, so "Hi, what is screening?" is answered as a screening question.
 
 ![Assistant preview](21-assistant-preview.png)
 
@@ -48,6 +48,19 @@ Four flip cards contrast common myths with facts based on the WHO cancer fact sh
 
 ![Myths and facts preview](21-myths-preview.png)
 
+## New learning content
+
+The Learn page has four new answers, each with a source link:
+
+- Which cancers are most common in Kenya (GLOBOCAN 2022 Kenya fact sheet).
+- Which changes to get checked (general warning signs).
+- How cervical cancer can be prevented: the HPV vaccine is free for girls aged 10–14, with one dose since late 2025 (WHO Africa).
+- How to pay for care: the SHA cancer benefit package. Amounts are deliberately not quoted because they change; visitors are told to confirm with SHA or the facility's SHA desk.
+
+## Image captions
+
+The "AI illustration / not actual patients" captions on the home, mission and contact images were removed at the owner's request. Image alt text is unchanged. The map credit captions remain because the boundary data licence requires attribution.
+
 ## Site completeness
 
 - Sections fade in on scroll (turned off for people who prefer reduced motion).
@@ -60,7 +73,7 @@ Four flip cards contrast common myths with facts based on the WHO cancer fact sh
 ## Checks
 
 - `pnpm build`
-- `pnpm test` (contact, facilities and chat tests). The chat tests cover readiness, the missing-key fallback, emergency replies, the safety prompt, request validation, AI failures and rate limiting, using a mock API.
+- `pnpm test` (22 tests: contact, facilities and chat). The chat tests cover readiness, the missing-key fallback, emergency replies, the safety prompt, request validation, AI failures and rate limiting, using a mock API.
 - Browser checks at 1366 px and 390 px in English and Kiswahili: chat, emergency reply, question builder, flip cards and the 404 page, with no console errors.
 
 Not yet tested: a live AI conversation, because no API key was available while building. Do this after step 2 or 3 above.

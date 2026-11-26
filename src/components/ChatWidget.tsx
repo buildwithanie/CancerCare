@@ -133,7 +133,7 @@ export function ChatWidget({ language, content }: { language: Language; content:
             {message.note && <p className="mb-1.5 text-[11px] text-copy italic">{message.note}</p>}
             <RichText text={message.content} />
             {message.urgent && <span className="mt-2.5 flex gap-2">{['999', '112'].map(number => <a key={number} href={`tel:${number}`} className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-[#b3261e] px-3.5 text-[12px] font-bold text-white"><Phone className="size-3.5" aria-hidden="true" />{number}</a>)}</span>}
-            {message.link && <a href={message.link.href} className="mt-2.5 flex w-fit items-center gap-1.5 rounded-full bg-mist px-3 py-1.5 text-[12px] font-bold text-forest hover:bg-line">{message.link.label}<ArrowRight className="size-3.5" aria-hidden="true" /></a>}
+            {message.link && <a href={message.link.href} {...(message.link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="mt-2.5 flex w-fit items-center gap-1.5 rounded-full bg-mist px-3 py-1.5 text-[12px] font-bold text-forest hover:bg-line">{message.link.label}<ArrowRight className="size-3.5" aria-hidden="true" /></a>}
           </div>)}
 
         {busy && <div className="flex w-fit items-center gap-1 rounded-[16px] bg-white px-4 py-3 ring-1 ring-line" aria-label={content.thinking}>{[0, 1, 2].map(dot => <span key={dot} className="size-1.5 animate-bounce rounded-full bg-leaf" style={{ animationDelay: `${dot * 120}ms` }} />)}</div>}

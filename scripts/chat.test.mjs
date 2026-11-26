@@ -94,6 +94,29 @@ test('limits repeated requests from one address', async () => {
   assert.equal(statuses.at(-1), 429);
 });
 
+test('offline matching answers greetings and small talk without hijacking questions', () => {
+  for (const greeting of ['hi', 'Hello!', 'Good morning', 'habari', 'Mambo vipi', 'niaje', 'shikamoo']) assert.equal(matchTopic(greeting)?.id, 'greeting', greeting);
+  assert.equal(matchTopic('How are you?')?.id, 'how-are-you');
+  assert.equal(matchTopic('Uko aje')?.id, 'how-are-you');
+  assert.equal(matchTopic('Asante sana')?.id, 'thanks');
+  assert.equal(matchTopic('kwaheri')?.id, 'goodbye');
+  assert.equal(matchTopic('Are you a doctor?')?.id, 'capabilities');
+  assert.equal(matchTopic('Hi, what is screening?')?.id, 'screening');
+  assert.equal(matchTopic('Habari, saratani ni nini?')?.id, 'what-is-cancer');
+  assert.equal(matchTopic('hiv'), null);
+});
+
+test('offline matching covers Kenya cancer topics', () => {
+  assert.equal(matchTopic('What are the most common cancers in Kenya?')?.id, 'common-cancers');
+  assert.equal(matchTopic('What are the warning signs of cancer?')?.id, 'warning-signs');
+  assert.equal(matchTopic('Je, chanjo ya HPV ni bure?')?.id, 'hpv-vaccine');
+  assert.equal(matchTopic('Does SHA cover chemo?')?.id, 'cost-sha');
+  assert.equal(matchTopic('Can herbal medicine cure cancer?')?.id, 'treatment');
+  assert.equal(matchTopic('What is palliative care?')?.id, 'palliative');
+  assert.match(systemPrompt('en'), /greetings/);
+  assert.doesNotMatch(systemPrompt('en'), /- greeting:/);
+});
+
 test('offline matching finds bilingual topics', () => {
   assert.equal(matchTopic('What is cancer?')?.id, 'what-is-cancer');
   assert.equal(matchTopic('Saratani ni nini?')?.id, 'what-is-cancer');

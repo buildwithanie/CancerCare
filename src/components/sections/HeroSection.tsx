@@ -18,7 +18,6 @@ export function HeroSection({ hero }: { hero: Copy['hero'] }) {
       </div>
       <figure className="relative -mx-[18px] h-[310px] overflow-hidden sm:-mx-[24px] sm:h-[390px] lg:-mr-[max(18px,calc((100vw-1284px)/2))] lg:ml-0 lg:h-full lg:min-h-[490px]">
         <img src="/hero-care-cutout.png" alt={hero.imageAlt} width="2058" height="764" fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[50%_bottom]" />
-        <figcaption className="absolute right-3 bottom-3 rounded-md bg-white/90 px-2.5 py-1 text-[10px] text-ink sm:right-5">{hero.imageCaption}</figcaption>
       </figure>
     </div>
   </section>;

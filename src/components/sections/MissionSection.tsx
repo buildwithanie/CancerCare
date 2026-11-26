@@ -7,7 +7,6 @@ export function MissionSection({ mission }: { mission: Copy['mission'] }) {
     <div className={cn(pageContainer, 'grid items-center gap-8 md:grid-cols-[.92fr_1.08fr] md:gap-12')}>
       <figure>
         <img src="/cancer-care-mission.jpg" alt={mission.imageAlt} width="1672" height="941" loading="lazy" className="aspect-[1.95] w-full rounded-[20px] object-cover object-center" />
-        <figcaption className="mt-2 text-[10px] text-copy">{mission.imageCaption}</figcaption>
       </figure>
       <div className="border-l border-leaf/50 pl-6 md:pl-10">
         <p className={cn(sectionKicker, 'mb-3')}>{mission.kicker}</p>
