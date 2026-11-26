@@ -16,7 +16,7 @@ export function SiteFooter({ language, text }: { language: Language; text: Copy;
       <div>
         <Brand light />
         <p className="mt-3 max-w-[280px] text-[12px] leading-[1.5] text-white/80">{text.footer.line}</p>
-        <p className="mt-3 flex items-start gap-2 text-[12px] text-white/85"><MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />{language === 'sw' ? 'Kaunti ya Embu, Kenya' : 'Embu County, Kenya'} · <span className="font-semibold text-[#c3e7bc]">{text.status}</span></p>
+        <p className="mt-3 flex items-start gap-2 text-[12px] text-white/85"><MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />{language === 'sw' ? 'Kaunti ya Embu, Kenya' : 'Embu County, Kenya'}</p>
         <div className="mt-5"><ShareLinks share={text.share} /></div>
         <div className="mt-3"><InstallButton language={language} /></div>
       </div>

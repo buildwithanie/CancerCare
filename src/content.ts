@@ -13,7 +13,6 @@ type Step = {
 
 export type Copy = {
   navigation: { mission: string; work: string; pilot: string; directory: string; plan: string };
-  status: string;
   hero: {
     eyebrow: string;
     title: string;
@@ -243,7 +242,6 @@ export const copy = {
       directory: 'Find care',
       plan: 'Get involved',
     },
-    status: 'In development',
     hero: {
       eyebrow: 'Cancer information and care in Embu',
       title: 'Clearer information.',
@@ -274,7 +272,7 @@ export const copy = {
         {
           title: 'Find care',
           description: 'A directory of verified Embu services is being prepared.',
-          label: 'In development',
+          label: 'Coming soon',
         },
         {
           title: 'Navigate care',
@@ -538,7 +536,6 @@ export const copy = {
       directory: 'Tafuta huduma',
       plan: 'Shiriki',
     },
-    status: 'Mradi unaendelezwa',
     hero: {
       eyebrow: 'Taarifa za saratani na huduma Embu',
       title: 'Taarifa zilizo wazi.',

@@ -219,6 +219,49 @@
 @keyframes menu-in { from { opacity: 0; transform: translateY(-6px); } }
 @media (prefers-reduced-motion: reduce) { .menu-panel > div, .mobile-menu { animation: none; } }
 
+/* Display options (src/lib/reading.ts) */
+/* Text size: zooms page content, footer and chat; the header keeps its size so the menu fits on phones. */
+html.reading-scaled main, html.reading-scaled footer, html.reading-scaled #cancercare-chat, html.reading-scaled #mobile-menu nav { zoom: var(--reading-zoom, 1); }
+input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+.display-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 999px; background: #fff; border: 3px solid #075331; box-shadow: 0 2px 6px #15352c40; cursor: grab; }
+.display-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 999px; background: #fff; border: 3px solid #075331; cursor: grab; }
+
+/* Wider line spacing */
+html.reading-spacing main :is(p, li, dd, summary, label), html.reading-spacing #cancercare-chat p { line-height: 1.95 !important; letter-spacing: .012em; word-spacing: .06em; }
+
+/* Pause animations */
+html.reading-calm *, html.reading-calm *::before, html.reading-calm *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+html.reading-calm .marquee { mask-image: none; flex-wrap: wrap; justify-content: center; padding-inline: 18px; }
+html.reading-calm .marquee-track { flex-wrap: wrap; justify-content: center; min-width: 0; }
+html.reading-calm .marquee-track[aria-hidden="true"] { display: none; }
+
+/* High contrast */
+html.theme-contrast { --border: #4b6656; }
+html.theme-contrast body { color: #08150f; }
+html.theme-contrast .text-copy, html.theme-contrast .text-sage { color: #0f241c !important; }
+html.theme-contrast .text-leaf { color: #0a4527 !important; }
+html.theme-contrast .text-white\/70, html.theme-contrast .text-white\/80, html.theme-contrast .text-white\/85 { color: #fff !important; }
+html.theme-contrast .border-line, html.theme-contrast .ring-line { border-color: #5b7666 !important; --tw-ring-color: #5b7666 !important; }
+html.theme-contrast .bg-sand, html.theme-contrast .bg-\[\#f8faf6\], html.theme-contrast .bg-\[\#f3f8f2\], html.theme-contrast .bg-\[\#f6faf4\], html.theme-contrast .bg-\[\#eaf4e9\], html.theme-contrast .bg-\[\#f8faf7\] { background-color: #fff !important; }
+html.theme-contrast main a:not([class*="bg-forest"]):not([class*="rounded-full"]) { text-decoration: underline; text-underline-offset: 3px; }
+html.theme-contrast :focus-visible { outline: 3px solid #000 !important; outline-offset: 3px; }
+
+/* Dark: invert the page, then turn photos and the logo mark back so they look natural */
+html.theme-dark { background: #0e1512; filter: invert(.92) hue-rotate(180deg); }
+/* Keep the deep green blocks (top bar, footer, buttons) dark green */
+html.theme-dark .bg-forest { filter: invert(1) hue-rotate(180deg) brightness(.92); }
+html.theme-dark .bg-forest img { filter: none; }
+html.theme-dark img, html.theme-dark video, html.theme-dark picture, html.theme-dark [style*="background-image"], html.theme-dark .swatch { filter: invert(1) hue-rotate(180deg); }
+
+/* Soft: warm paper tones with less glare */
+html.theme-soft { filter: sepia(.28) saturate(.9) brightness(.97); background: #f3ecdc; }
+
+/* Navigation menus */
+.menu-panel:not([hidden]) > div { animation: menu-in .16s ease-out; }
+.mobile-menu { animation: menu-in .18s ease-out; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .menu-panel > div, .mobile-menu { animation: none; } }
+
 /* Reading options: larger text (zooms page content, keeps the layout responsive) */
 html.reading-large main, html.reading-large footer, html.reading-large #cancercare-chat, html.reading-large #mobile-menu nav { zoom: var(--reading-zoom, 1); }
 input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
