@@ -7,8 +7,8 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
 const localApis = {
-  contact: { handler: './functions/api/contact.js', env: ['SMTP_PASS'] },
-  chat: { handler: './functions/api/chat.js', env: ['GEMINI_API_KEY', 'CHAT_MODEL'] },
+  contact: { handler: './functions/api/contact.js', env: ['SMTP_PASS', 'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY'] },
+  chat: { handler: './functions/api/chat.js', env: ['GEMINI_API_KEY', 'CHAT_MODEL', 'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY'] },
 } as const;
 
 // Serves the Cloudflare Pages Functions through Vite during development and preview.

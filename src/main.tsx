@@ -26,3 +26,15 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     }).catch(() => { /* offline support is optional */ });
   });
 }
+
+// Privacy-friendly visitor counts (Cloudflare Web Analytics, no cookies).
+// Set VITE_CF_ANALYTICS_TOKEN in the Cloudflare Pages build settings, or turn on
+// Web Analytics for the Pages project in the Cloudflare dashboard instead.
+const analyticsToken = import.meta.env.VITE_CF_ANALYTICS_TOKEN as string | undefined;
+if (import.meta.env.PROD && analyticsToken) {
+  const beacon = document.createElement('script');
+  beacon.defer = true;
+  beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  beacon.dataset.cfBeacon = JSON.stringify({ token: analyticsToken });
+  document.head.append(beacon);
+}

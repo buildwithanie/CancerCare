@@ -10,6 +10,7 @@
     "test:facilities": "node --test scripts/facilities.test.mjs",
     "test:chat": "node --test scripts/chat.test.mjs",
     "test": "node --test scripts/*.test.mjs",
+    "test:turnstile": "node --test scripts/turnstile.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

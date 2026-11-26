@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, MessageCircle, Mic, MicOff, Phone, RotateCcw, Send, Sparkles, X } from 'lucide-react';
 import { ReadAloudButton } from '@/components/ReadAloud';
 import { pagesCopy } from '@/content-pages';
+import { getTurnstileToken } from '@/lib/turnstile';
 import { fallbackReply, isUrgent, matchTopic, urgentReply } from '../../shared/assistant.js';
 import type { Copy, Language } from '@/content';
 import { cn } from '@/lib/utils';
@@ -25,6 +26,11 @@ export function askAssistant(question: string) {
 type Mode = 'unknown' | 'ai' | 'offline';
 
 const storageKey = 'cancercare.chat';
+const passKey = 'cancercare.chat-pass';
+
+function savedPass() {
+  try { return window.sessionStorage.getItem(passKey) ?? undefined; } catch { return undefined; }
+}
 const sitePath = /(\/(?:learn|find-care|how-it-works|get-involved|resources|about|privacy|caregivers)\/(?:#[\w-]+)?)/g;
 
 function loadMessages(): Message[] {
@@ -74,6 +80,8 @@ export function ChatWidget({ language, content }: { language: Language; content:
   const [messages, setMessages] = useState<Message[]>(loadMessages);
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
+  const [siteKey, setSiteKey] = useState('');
+  const humanCheck = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const list = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
@@ -108,7 +116,7 @@ export function ChatWidget({ language, content }: { language: Language; content:
     if (mode === 'unknown') {
       fetch('/api/chat', { headers: { accept: 'application/json' } })
         .then(result => result.ok ? result.json() : { ready: false })
-        .then(result => setMode(result.ready === true ? 'ai' : 'offline'))
+        .then(result => { setMode(result.ready === true ? 'ai' : 'offline'); if (typeof result.siteKey === 'string') setSiteKey(result.siteKey); })
         .catch(() => setMode('offline'));
     }
     function onKey(event: KeyboardEvent) { if (event.key === 'Escape') close(); }
@@ -155,12 +163,21 @@ export function ChatWidget({ language, content }: { language: Language; content:
 
     setBusy(true);
     try {
-      const result = await fetch('/api/chat', {
+      const body = { language, messages: history.slice(-12).map(({ role, content }) => ({ role, content })) };
+      const send = async (extra: Record<string, string | undefined>) => fetch('/api/chat', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ language, messages: history.slice(-12).map(({ role, content }) => ({ role, content })) }),
+        body: JSON.stringify({ ...body, ...extra }),
       });
+      // Spam check: reuse the signed pass, or run Turnstile once when the server asks for it.
+      let result = await send({ pass: savedPass() });
+      if (result.status === 403 && siteKey && humanCheck.current) {
+        try { window.sessionStorage.removeItem(passKey); } catch { /* storage unavailable */ }
+        const turnstileToken = await getTurnstileToken(humanCheck.current, siteKey, language);
+        result = await send({ turnstileToken });
+      }
       const payload = await result.json().catch(() => ({}));
+      if (typeof payload.pass === 'string') { try { window.sessionStorage.setItem(passKey, payload.pass); } catch { /* storage unavailable */ } }
       if (result.ok && typeof payload.reply === 'string') {
         setMessages([...history, { role: 'assistant', content: payload.reply, urgent: payload.urgent === true }]);
       } else {
@@ -221,6 +238,7 @@ export function ChatWidget({ language, content }: { language: Language; content:
       </div>
 
       <form onSubmit={submit} className="border-t border-line bg-white p-3">
+        <div ref={humanCheck} className="mb-2 flex justify-center empty:hidden" />
         <div className="flex items-center gap-2">
           <label htmlFor="chat-input" className="sr-only">{content.placeholder}</label>
           {RecognitionClass && <button type="button" onClick={toggleMic} aria-pressed={listening} aria-label={listening ? speech.listening : speech.speakQuestion} title={listening ? speech.listening : speech.speakQuestion} className={cn('grid size-11 shrink-0 place-items-center rounded-full border transition', listening ? 'animate-pulse border-[#b3261e] bg-[#fff1ee] text-[#b3261e]' : 'border-line bg-white text-forest hover:bg-mist')}>{listening ? <MicOff className="size-4" aria-hidden="true" /> : <Mic className="size-4" aria-hidden="true" />}</button>}

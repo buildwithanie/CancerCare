@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { turnstileEnabled, turnstilePublic, verifyTurnstile } from '../../shared/turnstile.js';
 
 const recipient = 'buildwithanie@gmail.com';
 const topics = {
@@ -22,9 +23,9 @@ function configured(env) {
   return Boolean(env?.SMTP_PASS?.trim());
 }
 
-export function createContactHandlers(createTransport = nodemailer.createTransport) {
+export function createContactHandlers(createTransport = nodemailer.createTransport, fetcher = (...args) => fetch(...args)) {
   function onRequestGet({ env }) {
-    return response({ ready: configured(env) });
+    return response({ ready: configured(env), ...turnstilePublic(env) });
   }
 
   async function onRequestPost({ request, env }) {
@@ -65,6 +66,11 @@ export function createContactHandlers(createTransport = nodemailer.createTranspo
       '',
       message,
     ].join('\n');
+
+    // Spam check last, so only otherwise valid messages use a Turnstile verification.
+    if (turnstileEnabled(env) && !(await verifyTurnstile(input.turnstileToken, request, env, fetcher))) {
+      return response({ error: 'verification_failed' }, 403);
+    }
 
     let delivery;
     try {

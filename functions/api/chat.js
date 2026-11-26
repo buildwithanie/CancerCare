@@ -1,4 +1,5 @@
 import { isUrgent, systemPrompt, urgentReply } from '../../shared/assistant.js';
+import { issuePass, turnstileEnabled, turnstilePublic, validPass, verifyTurnstile } from '../../shared/turnstile.js';
 
 const defaultModel = 'gemini-3.8-flash';
 const maxMessages = 12;
@@ -48,7 +49,7 @@ function validMessages(input) {
 
 export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
   function onRequestGet({ env }) {
-    return response({ ready: configured(env) });
+    return response({ ready: configured(env), ...turnstilePublic(env) });
   }
 
   async function onRequestPost({ request, env }) {
@@ -78,6 +79,13 @@ export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
     const client = request.headers.get('cf-connecting-ip') ?? 'local';
     if (limited(client)) return response({ error: 'rate_limited' }, 429);
 
+    // Spam check: a Turnstile token on the first message earns a 2-hour signed pass.
+    let pass;
+    if (turnstileEnabled(env) && !(await validPass(input?.pass, env))) {
+      if (!(await verifyTurnstile(input?.turnstileToken, request, env, fetcher))) return response({ error: 'verification_required' }, 403);
+      pass = await issuePass(env);
+    }
+
     let result;
     try {
       const model = encodeURIComponent(env.CHAT_MODEL?.trim() || defaultModel);
@@ -105,7 +113,7 @@ export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
       ? parts.filter(part => typeof part?.text === 'string' && !part.thought).map(part => part.text).join('').trim()
       : '';
     if (!reply) return response({ error: 'assistant_failed' }, 502);
-    return response({ reply });
+    return response(pass ? { reply, pass } : { reply });
   }
 
   return { onRequestGet, onRequestPost };

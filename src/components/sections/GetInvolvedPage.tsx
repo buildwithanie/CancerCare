@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Check, Mail, MessageCircle, Send, ShieldCheck } 
 import type { Copy } from '@/content';
 import { pageContainer, sectionKicker } from '@/lib/site-styles';
 import { cn } from '@/lib/utils';
+import { getTurnstileToken } from '@/lib/turnstile';
 
 const contactEmail = 'buildwithanie@gmail.com';
 type PageCopy = Copy['getInvolvedPage'];
@@ -23,12 +24,18 @@ export function GetInvolvedPage({ content }: { content: PageCopy }) {
   const emailInput = useRef<HTMLInputElement>(null);
   const messageInput = useRef<HTMLTextAreaElement>(null);
   const requestId = useRef<string | null>(null);
+  const [siteKey, setSiteKey] = useState('');
+  const humanCheck = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/contact', { signal: controller.signal, headers: { accept: 'application/json' } })
       .then(async result => result.ok ? result.json() : { ready: false })
-      .then(result => { if (!controller.signal.aborted) setService(result.ready === true ? 'ready' : 'unavailable'); })
+      .then(result => {
+        if (controller.signal.aborted) return;
+        setService(result.ready === true ? 'ready' : 'unavailable');
+        if (typeof result.siteKey === 'string') setSiteKey(result.siteKey);
+      })
       .catch(() => { if (!controller.signal.aborted) setService('unavailable'); });
     return () => controller.abort();
   }, []);
@@ -60,6 +67,15 @@ export function GetInvolvedPage({ content }: { content: PageCopy }) {
     setSending(true);
     setSendError('');
     try {
+      let turnstileToken: string | undefined;
+      if (siteKey && humanCheck.current) {
+        try {
+          turnstileToken = await getTurnstileToken(humanCheck.current, siteKey, document.documentElement.lang === 'sw' ? 'sw' : 'en');
+        } catch {
+          setSendError(content.sendError);
+          return;
+        }
+      }
       const result = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -69,6 +85,7 @@ export function GetInvolvedPage({ content }: { content: PageCopy }) {
           message: draft.trimmedMessage,
           website,
           requestId: requestId.current,
+          turnstileToken,
         }),
       });
       const payload = await result.json();
@@ -169,6 +186,7 @@ export function GetInvolvedPage({ content }: { content: PageCopy }) {
             </div>
 
             <div className="absolute -left-[10000px]" aria-hidden="true"><label htmlFor="contact-website">Website</label><input id="contact-website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={event => setWebsite(event.target.value)} /></div>
+            <div ref={humanCheck} className="mt-5 empty:hidden" />
             {sendError && <p role="alert" className="mt-5 rounded-[12px] bg-red-50 p-3 text-[12px] font-semibold text-red-700">{sendError}</p>}
             <div className="mt-7 flex flex-wrap items-center gap-4 border-t border-line pt-6">
               <button type="submit" disabled={service !== 'ready' || sending} className="inline-flex min-h-12 items-center gap-3 rounded-full bg-forest px-6 text-[13px] font-bold text-white shadow-[0_8px_20px_#07533125] hover:bg-ink disabled:cursor-not-allowed disabled:opacity-50">
