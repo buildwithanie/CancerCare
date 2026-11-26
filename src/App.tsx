@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { ChatWidget } from '@/components/ChatWidget';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import { CollaborationSection } from '@/components/sections/CollaborationSection';
@@ -9,17 +11,42 @@ import { HowItWorksPage } from '@/components/sections/HowItWorksPage';
 import { LearnSection } from '@/components/sections/LearnSection';
 import { LearnPageIntro } from '@/components/sections/LearnPageIntro';
 import { MissionSection } from '@/components/sections/MissionSection';
+import { MythsSection } from '@/components/sections/MythsSection';
+import { NotFoundPage } from '@/components/sections/NotFoundPage';
 import { PilotSection } from '@/components/sections/PilotSection';
 import { ScreeningGuideSection } from '@/components/sections/ScreeningGuideSection';
+import { VisitPlannerSection } from '@/components/sections/VisitPlannerSection';
 import { useLanguage } from '@/hooks/useLanguage';
+import { pageFromPath } from '@/lib/pages';
+
+const currentPage = pageFromPath(window.location.pathname);
+
+// Gently fades sections in as they scroll into view.
+function useSectionReveal() {
+  useEffect(() => {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('main section')).slice(1);
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top > window.innerHeight) {
+        section.classList.add('reveal');
+        observer.observe(section);
+      }
+    }
+    return () => observer.disconnect();
+  }, []);
+}
 
 function App() {
-  const currentPage = /^\/learn(?:\/|$)/.test(window.location.pathname)
-    ? 'learn'
-    : /^\/find-care(?:\/|$)/.test(window.location.pathname) ? 'find-care'
-      : /^\/how-it-works(?:\/|$)/.test(window.location.pathname) ? 'how-it-works'
-        : /^\/get-involved(?:\/|$)/.test(window.location.pathname) ? 'get-involved' : 'home';
   const { language, setLanguage, text } = useLanguage(currentPage);
+  useSectionReveal();
 
   return (
     <div className="overflow-hidden bg-sand text-ink">
@@ -29,21 +56,27 @@ function App() {
           <LearnPageIntro content={text.learnPage} language={language} />
           <LearnSection learn={text.learn} />
           <ScreeningGuideSection screening={text.screening} />
+          <VisitPlannerSection key={language} planner={text.visitPlanner} />
+          <MythsSection myths={text.myths} />
         </> : currentPage === 'find-care' ? <>
           <FindCarePage content={text.findCarePage} directory={text.directory} pilot={text.pilot} language={language} />
         </> : currentPage === 'how-it-works' ? <>
           <HowItWorksPage content={text.howPage} pilot={text.pilot} />
         </> : currentPage === 'get-involved' ? <>
           <GetInvolvedPage content={text.getInvolvedPage} />
+        </> : currentPage === 'not-found' ? <>
+          <NotFoundPage content={text.notFound} />
         </> : <>
           <HeroSection hero={text.hero} />
           <FocusSection work={text.work} />
           <MissionSection mission={text.mission} />
+          <MythsSection myths={text.myths} />
           <PilotSection pilot={text.pilot} />
           <CollaborationSection participation={text.participation} />
         </>}
       </main>
       <SiteFooter language={language} text={text} currentPage={currentPage} />
+      <ChatWidget language={language} content={text.assistant} />
     </div>
   );
 }

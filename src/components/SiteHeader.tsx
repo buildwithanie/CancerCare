@@ -2,9 +2,10 @@ import { MapPin } from 'lucide-react';
 import { Brand } from '@/components/Brand';
 import type { Copy, Language } from '@/content';
 import { pageContainer } from '@/lib/site-styles';
+import type { PageId } from '@/lib/pages';
 import { cn } from '@/lib/utils';
 
-export function SiteHeader({ language, onLanguageChange, text, currentPage }: { language: Language; onLanguageChange: (language: Language) => void; text: Copy; currentPage: 'home' | 'learn' | 'find-care' | 'how-it-works' | 'get-involved' }) {
+export function SiteHeader({ language, onLanguageChange, text, currentPage }: { language: Language; onLanguageChange: (language: Language) => void; text: Copy; currentPage: PageId }) {
   const homeSection = (id: string) => currentPage === 'home' ? `#${id}` : `/#${id}`;
   const links = [
     { href: homeSection('mission'), label: text.navigation.mission },

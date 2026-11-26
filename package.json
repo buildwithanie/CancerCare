@@ -8,6 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "test:contact": "node --test scripts/contact.test.mjs",
     "test:facilities": "node --test scripts/facilities.test.mjs",
+    "test:chat": "node --test scripts/chat.test.mjs",
+    "test": "node --test scripts/*.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

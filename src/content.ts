@@ -174,6 +174,53 @@ export type Copy = {
     action: string;
     diagram: { people: string; health: string; community: string; outcome: string };
   };
+  assistant: {
+    open: string;
+    close: string;
+    title: string;
+    subtitle: string;
+    greeting: string;
+    notice: string;
+    placeholder: string;
+    send: string;
+    thinking: string;
+    offline: string;
+    error: string;
+    restart: string;
+    human: string;
+    suggestions: [string, string, string, string];
+  };
+  visitPlanner: {
+    kicker: string;
+    title: string;
+    introduction: string;
+    privacyNote: string;
+    groups: { title: string; questions: string[] }[];
+    customLabel: string;
+    customPlaceholder: string;
+    addAction: string;
+    selectedTitle: string;
+    emptySelection: string;
+    remove: string;
+    printAction: string;
+    copyAction: string;
+    copiedLabel: string;
+    whatsappAction: string;
+    listHeading: string;
+  };
+  myths: {
+    kicker: string;
+    title: string;
+    introduction: string;
+    mythLabel: string;
+    factLabel: string;
+    reveal: string;
+    hide: string;
+    reviewStatus: string;
+    items: { myth: string; fact: string }[];
+  };
+  share: { title: string; whatsapp: string; copy: string; copied: string };
+  notFound: { title: string; description: string; home: string; learn: string };
   footer: {
     line: string;
     notice: string;
@@ -398,6 +445,62 @@ export const copy = {
         outcome: 'Clearer care information, together.',
       },
     },
+    assistant: {
+      open: 'Ask CancerCare',
+      close: 'Close chat',
+      title: 'CancerCare assistant',
+      subtitle: 'General information · not medical advice',
+      greeting: 'Hello! I can answer general questions about cancer, screening and this project, in English or Kiswahili. What would you like to know?',
+      notice: 'Please do not share names or private health details. This chat is kept only in this browser tab. In an emergency call 999 or 112.',
+      placeholder: 'Type your question…',
+      send: 'Send',
+      thinking: 'Thinking…',
+      offline: 'Quick answers mode',
+      error: 'Something went wrong, so here is a quick answer instead.',
+      restart: 'Start over',
+      human: 'Message the team',
+      suggestions: ['What is cancer?', 'What is screening?', 'Where can I find care in Embu?', 'How can I help?'],
+    },
+    visitPlanner: {
+      kicker: 'Prepare for a visit',
+      title: 'Build your list of questions.',
+      introduction: 'Choose questions to take to a health professional, or add your own. Print the list, copy it or send it to yourself on WhatsApp.',
+      privacyNote: 'Your list stays on this device and disappears when you leave the page.',
+      groups: [
+        { title: 'About screening', questions: ['Is screening recommended for me, and why?', 'How will I receive my result?', 'What happens if further tests are needed?'] },
+        { title: 'About a change I noticed', questions: ['Where can I be assessed?', 'What should I tell the health professional about the change?', 'When should I come back if it does not improve?'] },
+        { title: 'About a result', questions: ['What does my result mean?', 'Do I need more tests?', 'Who should I contact about the next step?'] },
+      ],
+      customLabel: 'Add your own question',
+      customPlaceholder: 'For example: Can someone come with me?',
+      addAction: 'Add',
+      selectedTitle: 'My questions',
+      emptySelection: 'Tick a question to add it to your list.',
+      remove: 'Remove',
+      printAction: 'Print',
+      copyAction: 'Copy',
+      copiedLabel: 'Copied',
+      whatsappAction: 'WhatsApp',
+      listHeading: 'Questions for my health visit (CancerCare)',
+    },
+    myths: {
+      kicker: 'Myths and facts',
+      title: 'Check what you have heard.',
+      introduction: 'Tap a card to see what the evidence says.',
+      mythLabel: 'Myth',
+      factLabel: 'Fact',
+      reveal: 'Show the fact',
+      hide: 'Show the myth',
+      reviewStatus: 'Based on WHO information · local clinical review pending',
+      items: [
+        { myth: 'Cancer spreads from person to person like a cold.', fact: 'Cancer itself is not contagious. Some infections that can lead to cancer, such as HPV and hepatitis B, can pass between people, and vaccines help prevent them.' },
+        { myth: 'A cancer diagnosis always means death.', fact: 'Many cancers can be cured if they are found early and treated effectively. Early assessment matters.' },
+        { myth: 'Nothing can be done to lower cancer risk.', fact: 'WHO estimates that 30–50% of cancers can be prevented, for example by avoiding tobacco, limiting alcohol and getting recommended vaccines.' },
+        { myth: 'Screening is only for people who already feel sick.', fact: 'Screening is for people without symptoms. If you have noticed a change, ask for an assessment instead of waiting.' },
+      ],
+    },
+    share: { title: 'Share this page', whatsapp: 'Share on WhatsApp', copy: 'Copy link', copied: 'Link copied' },
+    notFound: { title: 'We could not find that page.', description: 'The link may be old or mistyped. You can return home or explore the learning guide.', home: 'Go to home', learn: 'Learn about cancer' },
     footer: {
       line: 'Clearer information, starting in Embu.',
       notice: 'Project preview. CancerCare does not yet offer medical advice, referrals or facility listings.',
@@ -620,6 +723,62 @@ export const copy = {
         outcome: 'Taarifa wazi za huduma, kwa pamoja.',
       },
     },
+    assistant: {
+      open: 'Uliza CancerCare',
+      close: 'Funga mazungumzo',
+      title: 'Msaidizi wa CancerCare',
+      subtitle: 'Taarifa za jumla · si ushauri wa afya',
+      greeting: 'Habari! Ninaweza kujibu maswali ya jumla kuhusu saratani, uchunguzi na mradi huu, kwa Kiswahili au Kiingereza. Ungependa kujua nini?',
+      notice: 'Tafadhali usiweke majina au taarifa binafsi za afya. Mazungumzo haya yanabaki kwenye kichupo hiki pekee. Wakati wa dharura piga 999 au 112.',
+      placeholder: 'Andika swali lako…',
+      send: 'Tuma',
+      thinking: 'Ninafikiria…',
+      offline: 'Hali ya majibu ya haraka',
+      error: 'Kuna hitilafu, kwa hivyo hili ni jibu la haraka badala yake.',
+      restart: 'Anza upya',
+      human: 'Tuma ujumbe kwa timu',
+      suggestions: ['Saratani ni nini?', 'Uchunguzi wa mapema ni nini?', 'Nitapata huduma wapi Embu?', 'Ninawezaje kusaidia?'],
+    },
+    visitPlanner: {
+      kicker: 'Jiandae kwa ziara',
+      title: 'Andaa orodha ya maswali yako.',
+      introduction: 'Chagua maswali ya kumuuliza mhudumu wa afya, au ongeza yako. Chapisha orodha, inakili au jitumie kwenye WhatsApp.',
+      privacyNote: 'Orodha yako inabaki kwenye kifaa hiki na hufutika ukiondoka kwenye ukurasa.',
+      groups: [
+        { title: 'Kuhusu uchunguzi', questions: ['Je, uchunguzi unapendekezwa kwangu, na kwa nini?', 'Nitapata matokeo yangu kwa njia gani?', 'Nini kitafuata ikiwa vipimo zaidi vinahitajika?'] },
+        { title: 'Kuhusu mabadiliko niliyoona', questions: ['Ninaweza kufanyiwa tathmini wapi?', 'Nimweleze mhudumu wa afya nini kuhusu mabadiliko haya?', 'Nirudi lini ikiwa hali haitaimarika?'] },
+        { title: 'Kuhusu matokeo', questions: ['Matokeo yangu yanamaanisha nini?', 'Je, ninahitaji vipimo zaidi?', 'Niwasiliane na nani kuhusu hatua inayofuata?'] },
+      ],
+      customLabel: 'Ongeza swali lako',
+      customPlaceholder: 'Kwa mfano: Je, mtu anaweza kuandamana nami?',
+      addAction: 'Ongeza',
+      selectedTitle: 'Maswali yangu',
+      emptySelection: 'Weka alama kwenye swali ili kuliongeza kwenye orodha yako.',
+      remove: 'Ondoa',
+      printAction: 'Chapisha',
+      copyAction: 'Nakili',
+      copiedLabel: 'Imenakiliwa',
+      whatsappAction: 'WhatsApp',
+      listHeading: 'Maswali ya ziara yangu ya afya (CancerCare)',
+    },
+    myths: {
+      kicker: 'Dhana na ukweli',
+      title: 'Kagua ulichosikia.',
+      introduction: 'Gusa kadi uone ushahidi unasema nini.',
+      mythLabel: 'Dhana',
+      factLabel: 'Ukweli',
+      reveal: 'Onyesha ukweli',
+      hide: 'Onyesha dhana',
+      reviewStatus: 'Kulingana na taarifa za WHO · ukaguzi wa kitaalamu wa eneo unasubiriwa',
+      items: [
+        { myth: 'Saratani huambukizwa kutoka mtu mmoja hadi mwingine kama homa.', fact: 'Saratani yenyewe haiambukizi. Baadhi ya maambukizi yanayoweza kusababisha saratani, kama HPV na homa ya ini B, yanaweza kuambukizana, na chanjo husaidia kuyazuia.' },
+        { myth: 'Kugunduliwa na saratani kila mara kunamaanisha kifo.', fact: 'Saratani nyingi zinaweza kutibika zikigunduliwa mapema na kutibiwa ipasavyo. Tathmini ya mapema ni muhimu.' },
+        { myth: 'Hakuna kinachoweza kufanywa kupunguza hatari ya saratani.', fact: 'WHO inakadiria kwamba asilimia 30–50 ya saratani zinaweza kuzuiwa, kwa mfano kwa kuepuka tumbaku, kupunguza pombe na kupata chanjo zinazopendekezwa.' },
+        { myth: 'Uchunguzi ni kwa watu wanaojisikia wagonjwa tu.', fact: 'Uchunguzi ni kwa watu wasio na dalili. Ukiona mabadiliko, omba tathmini badala ya kusubiri.' },
+      ],
+    },
+    share: { title: 'Shiriki ukurasa huu', whatsapp: 'Shiriki kwenye WhatsApp', copy: 'Nakili kiungo', copied: 'Kiungo kimenakiliwa' },
+    notFound: { title: 'Hatukupata ukurasa huo.', description: 'Huenda kiungo ni cha zamani au kimekosewa. Rudi mwanzo au soma mwongozo wa elimu.', home: 'Nenda mwanzo', learn: 'Jifunze kuhusu saratani' },
     footer: {
       line: 'Taarifa wazi, tukianzia Embu.',
       notice: 'Muonekano wa awali. CancerCare bado haitoi ushauri wa afya, rufaa au orodha ya vituo.',

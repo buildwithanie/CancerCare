@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { copy, type Language } from '@/content';
+import type { PageId } from '@/lib/pages';
 
 const languageStorageKey = 'cancercare.language';
 
@@ -11,7 +12,7 @@ function initialLanguage(): Language {
   }
 }
 
-export function useLanguage(page: 'home' | 'learn' | 'find-care' | 'how-it-works' | 'get-involved' = 'home') {
+export function useLanguage(page: PageId = 'home') {
   const [language, setLanguage] = useState<Language>(initialLanguage);
 
   useEffect(() => {
@@ -24,6 +25,8 @@ export function useLanguage(page: 'home' | 'learn' | 'find-care' | 'how-it-works
           ? language === 'sw' ? 'Inavyofanya kazi — CancerCare' : 'How it works — CancerCare'
           : page === 'get-involved'
             ? language === 'sw' ? 'Shiriki — CancerCare' : 'Get involved — CancerCare'
+            : page === 'not-found'
+              ? language === 'sw' ? 'Ukurasa haukupatikana — CancerCare' : 'Page not found — CancerCare'
         : language === 'sw' ? 'CancerCare — Njia ya kupata huduma' : 'CancerCare — A clearer path to care';
 
     try {

@@ -3,7 +3,7 @@ import type { Copy, Language } from '@/content';
 import { pageContainer, sectionKicker } from '@/lib/site-styles';
 import { cn } from '@/lib/utils';
 
-const destinations = ['#learn', '#screening', '#screening-questions'] as const;
+const destinations = ['#learn', '#screening', '#visit-questions'] as const;
 
 export function LearnPageIntro({ content, language }: { content: Copy['learnPage']; language: Language }) {
   return <section className="relative overflow-hidden bg-[#eaf4e9] py-12 md:py-16">
