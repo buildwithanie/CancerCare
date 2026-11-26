@@ -6,8 +6,14 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
-function localContactApi(mode: string): Plugin {
-  async function handle(req: IncomingMessage, res: ServerResponse, next: () => void) {
+const localApis = {
+  contact: { handler: './functions/api/contact.js', env: ['SMTP_PASS'] },
+  chat: { handler: './functions/api/chat.js', env: ['ANTHROPIC_API_KEY', 'CHAT_MODEL'] },
+} as const;
+
+// Serves the Cloudflare Pages Functions through Vite during development and preview.
+function localApi(mode: string): Plugin {
+  async function handle(name: keyof typeof localApis, req: IncomingMessage, res: ServerResponse, next: () => void) {
     if (req.url !== '/' || (req.method !== 'GET' && req.method !== 'POST')) return next();
 
     try {
@@ -29,10 +35,11 @@ function localContactApi(mode: string): Plugin {
       const headers = new Headers();
       if (req.headers.origin) headers.set('origin', req.headers.origin);
       if (req.headers['content-type']) headers.set('content-type', req.headers['content-type']);
-      const url = `http://${req.headers.host ?? 'localhost'}/api/contact`;
+      const url = `http://${req.headers.host ?? 'localhost'}/api/${name}`;
       const request = new Request(url, { method: req.method, headers, body });
-      const env = { SMTP_PASS: loadEnv(mode, projectRoot, 'SMTP_PASS').SMTP_PASS ?? '' };
-      const handlerUrl = new URL('./functions/api/contact.js', import.meta.url).href;
+      const loaded = loadEnv(mode, projectRoot, '');
+      const env = Object.fromEntries(localApis[name].env.map(key => [key, loaded[key] ?? '']));
+      const handlerUrl = new URL(localApis[name].handler, import.meta.url).href;
       const { onRequestGet, onRequestPost } = await import(handlerUrl);
       const response: Response = await (req.method === 'GET' ? onRequestGet({ request, env }) : onRequestPost({ request, env }));
       res.writeHead(response.status, Object.fromEntries(response.headers));
@@ -44,18 +51,22 @@ function localContactApi(mode: string): Plugin {
   }
 
   return {
-    name: 'local-contact-api',
+    name: 'local-pages-functions',
     configureServer(server) {
-      server.middlewares.use('/api/contact', (req, res, next) => { void handle(req, res, next); });
+      for (const name of Object.keys(localApis) as (keyof typeof localApis)[]) {
+        server.middlewares.use(`/api/${name}`, (req, res, next) => { void handle(name, req, res, next); });
+      }
     },
     configurePreviewServer(server) {
-      server.middlewares.use('/api/contact', (req, res, next) => { void handle(req, res, next); });
+      for (const name of Object.keys(localApis) as (keyof typeof localApis)[]) {
+        server.middlewares.use(`/api/${name}`, (req, res, next) => { void handle(name, req, res, next); });
+      }
     },
   };
 }
 
 export default defineConfig(({ mode }) => ({
-  plugins: [react(), tailwindcss(), localContactApi(mode)],
+  plugins: [react(), tailwindcss(), localApi(mode)],
   build: {
     rolldownOptions: {
       input: {
@@ -64,6 +75,7 @@ export default defineConfig(({ mode }) => ({
         findCare: fileURLToPath(new URL('./find-care/index.html', import.meta.url)),
         howItWorks: fileURLToPath(new URL('./how-it-works/index.html', import.meta.url)),
         getInvolved: fileURLToPath(new URL('./get-involved/index.html', import.meta.url)),
+        notFound: fileURLToPath(new URL('./404.html', import.meta.url)),
       },
     },
   },
