@@ -25,6 +25,7 @@ import { ScreeningGuideSection } from '@/components/sections/ScreeningGuideSecti
 import { VisitPlannerSection } from '@/components/sections/VisitPlannerSection';
 import { useLanguage } from '@/hooks/useLanguage';
 import { pageFromPath } from '@/lib/pages';
+import { isCalm } from '@/lib/reading';
 import { pagesCopy } from '@/content-pages';
 
 const currentPage = pageFromPath(window.location.pathname);
@@ -32,7 +33,7 @@ const currentPage = pageFromPath(window.location.pathname);
 // Gently fades sections in as they scroll into view.
 function useSectionReveal() {
   useEffect(() => {
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window) || isCalm()) return;
     const sections = Array.from(document.querySelectorAll<HTMLElement>('main section')).slice(1);
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {

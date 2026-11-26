@@ -122,7 +122,7 @@ function MobileMenu({ language, onLanguageChange, currentPage, onClose }: Pick<P
   </div>;
 }
 
-export function SiteHeader({ language, onLanguageChange, text, currentPage }: Props) {
+export function SiteHeader({ language, onLanguageChange, currentPage }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const closeMenu = useRef(() => { setMenuOpen(false); menuButton.current?.focus(); }).current;
@@ -132,7 +132,7 @@ export function SiteHeader({ language, onLanguageChange, text, currentPage }: Pr
     <div className="relative z-30 bg-forest text-white">
       <div className={cn(pageContainer, 'flex min-h-8 items-center justify-between gap-3 text-[11px] font-medium')}>
         <span className="inline-flex items-center gap-1.5"><MapPin className="size-3.5" aria-hidden="true" />{language === 'sw' ? 'Kaunti ya Embu, Kenya' : 'Embu County, Kenya'}</span>
-        <span className="flex items-center gap-3"><ReadingControls language={language} /><span className="hidden font-semibold tracking-[.04em] uppercase sm:inline">{text.status}</span></span>
+        <ReadingControls language={language} />
       </div>
     </div>
     <header className="relative z-20 border-b border-line bg-white">
