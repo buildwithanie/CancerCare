@@ -8,7 +8,7 @@ const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
 const localApis = {
   contact: { handler: './functions/api/contact.js', env: ['SMTP_PASS'] },
-  chat: { handler: './functions/api/chat.js', env: ['ANTHROPIC_API_KEY', 'CHAT_MODEL'] },
+  chat: { handler: './functions/api/chat.js', env: ['GEMINI_API_KEY', 'CHAT_MODEL'] },
 } as const;
 
 // Serves the Cloudflare Pages Functions through Vite during development and preview.

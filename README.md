@@ -11,7 +11,7 @@ pnpm install
 pnpm dev
 ```
 
-For a local contact-form send, put a Gmail app password in the ignored `.env` file as `SMTP_PASS=...` and run `pnpm dev`. For AI chat answers, also add `ANTHROPIC_API_KEY=...`; without it the assistant uses built-in quick answers. See [assistant setup](docs/21-assistant-and-interactive-learning.md) and `.env.example`. The Vite development server uses the same contact handler as the Cloudflare Pages Function. See [contact setup](docs/20-contact-rebuild.md).
+For a local contact-form send, put a Gmail app password in the ignored `.env` file as `SMTP_PASS=...` and run `pnpm dev`. For AI chat answers, also add a Google AI Studio key as `GEMINI_API_KEY=...`; without it the assistant uses built-in quick answers. See [assistant setup](docs/21-assistant-and-interactive-learning.md) and `.env.example`. The Vite development server uses the same contact handler as the Cloudflare Pages Function. See [contact setup](docs/20-contact-rebuild.md).
 
 ## Build
 
@@ -23,7 +23,7 @@ The build output is `dist/`. Cloudflare Pages can use `pnpm build` and `dist` wh
 
 The `/api/contact` endpoint is a Cloudflare Pages Function using Nodemailer and Gmail SMTP. The local `.env` file is ignored by Git and used only for local Pages development. To enable the deployed form, configure `SMTP_PASS` as a Cloudflare Pages encrypted secret containing an app password for `buildwithanie@gmail.com`, enable Node.js compatibility for Pages Functions, then confirm a non-sensitive live test reaches that inbox. Until the secret is configured, the form remains fillable and clearly disables Send. See [contact setup](docs/20-contact-rebuild.md).
 
-The `/api/chat` endpoint is a Cloudflare Pages Function that calls the Anthropic Messages API when the encrypted `ANTHROPIC_API_KEY` secret is set. Emergency messages always get a fixed reply with 999 and 112, and the assistant never gives diagnoses or names unverified facilities.
+The `/api/chat` endpoint is a Cloudflare Pages Function that calls the Gemini API when the encrypted `GEMINI_API_KEY` secret is set. Emergency messages always get a fixed reply with 999 and 112, and the assistant never gives diagnoses or names unverified facilities.
 
 Run all tests with `pnpm test`.
 

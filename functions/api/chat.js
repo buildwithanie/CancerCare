@@ -1,6 +1,6 @@
 import { isUrgent, systemPrompt, urgentReply } from '../../shared/assistant.js';
 
-const defaultModel = 'claude-haiku-5-5';
+const defaultModel = 'gemini-3.8-flash';
 const maxMessages = 12;
 const maxMessageLength = 600;
 const rateWindowMs = 60_000;
@@ -19,7 +19,7 @@ function response(data, status = 200) {
 }
 
 function configured(env) {
-  return Boolean(env?.ANTHROPIC_API_KEY?.trim());
+  return Boolean(env?.GEMINI_API_KEY?.trim());
 }
 
 // Best effort only: each Cloudflare isolate keeps its own counter.
@@ -80,18 +80,17 @@ export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
 
     let result;
     try {
-      result = await fetcher('https://api.anthropic.com/v1/messages', {
+      const model = encodeURIComponent(env.CHAT_MODEL?.trim() || defaultModel);
+      result = await fetcher(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-api-key': env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
+          'x-goog-api-key': env.GEMINI_API_KEY,
         },
         body: JSON.stringify({
-          model: env.CHAT_MODEL?.trim() || defaultModel,
-          max_tokens: 400,
-          system: systemPrompt(language),
-          messages,
+          systemInstruction: { parts: [{ text: systemPrompt(language) }] },
+          contents: messages.map(message => ({ role: message.role === 'assistant' ? 'model' : 'user', parts: [{ text: message.content }] })),
+          generationConfig: { maxOutputTokens: 400, temperature: 0.4 },
         }),
         signal: AbortSignal.timeout(20_000),
       });
@@ -101,8 +100,9 @@ export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
 
     if (!result.ok) return response({ error: 'assistant_failed' }, 502);
     const payload = await result.json().catch(() => null);
-    const reply = Array.isArray(payload?.content)
-      ? payload.content.filter(block => block?.type === 'text').map(block => block.text).join('\n').trim()
+    const parts = payload?.candidates?.[0]?.content?.parts;
+    const reply = Array.isArray(parts)
+      ? parts.filter(part => typeof part?.text === 'string' && !part.thought).map(part => part.text).join('').trim()
       : '';
     if (!reply) return response({ error: 'assistant_failed' }, 502);
     return response({ reply });

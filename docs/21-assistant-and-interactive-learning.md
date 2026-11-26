@@ -12,7 +12,7 @@ It works in two modes:
 
 | Mode | When | How answers are made |
 | --- | --- | --- |
-| AI answers | `ANTHROPIC_API_KEY` is set | `/api/chat` (Cloudflare Pages Function) sends the conversation to the Anthropic Messages API with a strict safety prompt built from `shared/assistant.js`. |
+| AI answers | `GEMINI_API_KEY` is set | `/api/chat` (Cloudflare Pages Function) sends the conversation to the Gemini API (`generateContent`) with a strict safety prompt built from `shared/assistant.js`. |
 | Quick answers | No key, or the AI call fails | The browser matches the question to reviewed site answers in `shared/assistant.js` and links to the right page. |
 
 The quick-answers mode means the chat is useful even before an API key is configured. The header shows "Quick answers mode" when it is active.
@@ -27,12 +27,14 @@ The quick-answers mode means the chat is useful even before an API key is config
 
 To change what the assistant knows, edit the topics in `shared/assistant.js` (both languages). The same file builds the AI system prompt.
 
-### Enable AI answers
+### Enable AI answers (Gemini)
 
-1. Create an API key in the Anthropic Console.
-2. Local: add `ANTHROPIC_API_KEY=...` to the ignored `.env` file (see `.env.example`) and run `pnpm dev`. `http://localhost:5173/api/chat` should return `{ "ready": true }`.
-3. Cloudflare Pages: add `ANTHROPIC_API_KEY` under **Settings → Variables and Secrets** as an **encrypted** secret for production. Optionally set `CHAT_MODEL` to override the default model (`claude-haiku-5-5`).
-4. Deploy, confirm `/api/chat` returns `{ "ready": true }`, and ask a few test questions in both languages. Set a monthly spend limit in the Anthropic Console.
+1. Sign in to [Google AI Studio](https://aistudio.google.com/) and create an API key.
+2. Local: add `GEMINI_API_KEY=...` to the ignored `.env` file (see `.env.example`) and run `pnpm dev`. `http://localhost:5173/api/chat` should return `{ "ready": true }`.
+3. Cloudflare Pages: add `GEMINI_API_KEY` under **Settings → Variables and Secrets** as an **encrypted** secret for production. Optionally set `CHAT_MODEL` to change the model (default `gemini-3.8-flash`). Google retires older model names regularly, so update `CHAT_MODEL` if requests start failing.
+4. Deploy, confirm `/api/chat` returns `{ "ready": true }`, and ask a few test questions in both languages.
+
+**Privacy note.** Check Google's Gemini API terms for how your tier handles content. On the free tier, Google may use prompts to improve its products. Because this is a health site, consider a paid (billing-enabled) project before wide public use, and keep the "do not share private health details" notice. If Gemini blocks a reply or the call fails, visitors get the built-in quick answer instead.
 
 ## Questions for a health visit (`/learn/#visit-questions`)
 
