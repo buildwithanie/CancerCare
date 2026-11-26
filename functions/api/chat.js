@@ -90,7 +90,7 @@ export function createChatHandlers(fetcher = (...args) => fetch(...args)) {
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemPrompt(language) }] },
           contents: messages.map(message => ({ role: message.role === 'assistant' ? 'model' : 'user', parts: [{ text: message.content }] })),
-          generationConfig: { maxOutputTokens: 400, temperature: 0.4 },
+          generationConfig: { maxOutputTokens: 2048, temperature: 0.4 },
         }),
         signal: AbortSignal.timeout(20_000),
       });

@@ -192,3 +192,14 @@
   .visit-print, .visit-print * { visibility: visible; }
   .visit-print { position: absolute; inset: 0 auto auto 0; width: 100%; border: 0; box-shadow: none; }
 }
+
+/* Partners / sources marquee */
+.marquee { display: flex; overflow: hidden; gap: 14px; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee-track { display: flex; flex-shrink: 0; gap: 14px; min-width: 100%; justify-content: space-around; animation: marquee 38s linear infinite; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track, .marquee.is-paused .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(calc(-100% - 14px)); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { mask-image: none; flex-wrap: wrap; justify-content: center; padding-inline: 18px; }
+  .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; min-width: 0; }
+  .marquee-track[aria-hidden="true"] { display: none; }
+}
