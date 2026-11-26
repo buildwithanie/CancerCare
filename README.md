@@ -52,6 +52,7 @@ Run all tests with `pnpm test`.
 21. [CancerCare assistant and interactive learning](docs/21-assistant-and-interactive-learning.md)
 22. [Smarter assistant, partners strip and awareness calendar](docs/22-smarter-assistant-partners-awareness.md)
 23. [About page, privacy and terms, voice features and printable leaflets](docs/23-about-privacy-voice-leaflets.md)
+24. [Grouped navigation menus](docs/24-navigation-menus.md)
 
 The next steps are local clinical review of the introductory guide and direct provider confirmation of the first Embu facility. Publish facility details only after its services, access and contact route are verified.
 
@@ -61,6 +62,7 @@ The next steps are local clinical review of the introductory guide and direct pr
 
 - Edit words and translations in `src/content.ts`.
 - Edit what the chat assistant knows, its safety rules and emergency wording in `shared/assistant.js` and `shared/cancer-topics.js`.
+- Edit the main menu and footer links in `src/data/navigation.ts`.
 - Edit partners and trusted sources in `src/data/partners.ts`.
 - Edit organisation facts and the team in `src/data/organisation.ts`.
 - Edit the About, Privacy, Leaflets and voice wording in `src/content-pages.ts`.

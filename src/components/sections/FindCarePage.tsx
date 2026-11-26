@@ -25,7 +25,7 @@ export function FindCarePage({ content, directory, pilot, language }: { content:
       </div>
     </section>
     <DirectorySection directory={directory} language={language} />
-    <section aria-labelledby="verification-title" className="bg-[#f3f8f2] py-12 md:py-16">
+    <section id="verification" aria-labelledby="verification-title" className="scroll-mt-4 bg-[#f3f8f2] py-12 md:py-16">
       <div className={pageContainer}>
         <div className="max-w-[720px]">
           <p className={cn(sectionKicker, 'mb-3')}>{directory.status}</p>

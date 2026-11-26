@@ -50,10 +50,23 @@ function useSectionReveal() {
   }, []);
 }
 
+// The browser tries to jump to #section before React has drawn the page, so jump again once it exists.
+function useInitialHashScroll() {
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    const jump = () => document.getElementById(id)?.scrollIntoView({ block: 'start' });
+    const frame = window.requestAnimationFrame(jump);
+    const settle = window.setTimeout(jump, 400); // after fonts and images settle
+    return () => { window.cancelAnimationFrame(frame); window.clearTimeout(settle); };
+  }, []);
+}
+
 function App() {
   const { language, setLanguage, text } = useLanguage(currentPage);
   const pages = pagesCopy[language];
   useSectionReveal();
+  useInitialHashScroll();
 
   return (
     <div className="overflow-hidden bg-sand text-ink">

@@ -212,3 +212,9 @@
   .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; min-width: 0; }
   .marquee-track[aria-hidden="true"] { display: none; }
 }
+
+/* Navigation menus */
+.menu-panel:not([hidden]) > div { animation: menu-in .16s ease-out; }
+.mobile-menu { animation: menu-in .18s ease-out; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .menu-panel > div, .mobile-menu { animation: none; } }

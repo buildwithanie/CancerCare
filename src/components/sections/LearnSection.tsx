@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
 import type { Copy, Language } from '@/content';
 import { ReadAloudButton } from '@/components/ReadAloud';
@@ -5,7 +6,22 @@ import { pagesCopy } from '@/content-pages';
 import { pageContainer, sectionKicker } from '@/lib/site-styles';
 import { cn } from '@/lib/utils';
 
+// Opens the answer named in the address (e.g. /learn/#paying-for-care) and scrolls to it.
+function useHashTarget() {
+  const [hash, setHash] = useState(() => window.location.hash.slice(1));
+  useEffect(() => {
+    const update = () => setHash(window.location.hash.slice(1));
+    window.addEventListener('hashchange', update);
+    return () => window.removeEventListener('hashchange', update);
+  }, []);
+  useEffect(() => {
+    if (hash) document.getElementById(hash)?.scrollIntoView({ block: 'start' });
+  }, [hash]);
+  return hash;
+}
+
 export function LearnSection({ learn, language }: { learn: Copy['learn']; language: Language }) {
+  const hash = useHashTarget();
   return <section id="learn" aria-labelledby="learn-title" className="bg-[#f3f8f2] py-12 md:py-16">
     <div className={cn(pageContainer, 'grid gap-7 lg:grid-cols-[.7fr_1.3fr] lg:gap-14')}>
       <div>
@@ -16,7 +32,7 @@ export function LearnSection({ learn, language }: { learn: Copy['learn']; langua
       </div>
       <div>
         <div className="space-y-3">
-          {learn.items.map((item, index) => <details key={item.question} open={index === 0} className="group rounded-[16px] border border-line bg-white px-5 py-4">
+          {learn.items.map((item, index) => <details key={item.question} id={item.id} open={index === 0 || (Boolean(item.id) && item.id === hash) || undefined} className="group scroll-mt-6 rounded-[16px] border border-line bg-white px-5 py-4">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-bold tracking-[-.025em] marker:hidden [&::-webkit-details-marker]:hidden"><span>{item.question}</span><Plus aria-hidden="true" className="size-5 shrink-0 text-forest transition-transform group-open:rotate-45" /></summary>
             <p className="mt-3 max-w-[650px] border-t border-line pt-3 text-[13px] leading-[1.7] text-copy">{item.answer}</p>
             <ReadAloudButton text={`${item.question}. ${item.answer}`} language={language} labels={pagesCopy[language].speech} className="mt-2 mr-3" />

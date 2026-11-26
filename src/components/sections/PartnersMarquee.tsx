@@ -25,7 +25,7 @@ export function PartnersMarquee({ content }: { content: Copy['partners'] }) {
   const showPartners = partners.length > 0;
   const list = showPartners ? partners : organisations;
 
-  return <section aria-labelledby="partners-title" className="border-y border-line bg-[#f6faf4] py-10 md:py-12">
+  return <section id="partners" aria-labelledby="partners-title" className="scroll-mt-4 border-y border-line bg-[#f6faf4] py-10 md:py-12">
     <div className={cn(pageContainer, 'flex flex-wrap items-end justify-between gap-4')}>
       <div>
         <p className={cn(sectionKicker, 'mb-2')}>{showPartners ? content.partnersKicker : content.sourcesKicker}</p>
