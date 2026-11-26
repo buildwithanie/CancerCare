@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Check, Phone, Printer, Send, ShieldCheck } from 'lucide-react';
+import { Check, Printer, Send, ShieldCheck } from 'lucide-react';
 import { Brand } from '@/components/Brand';
 import { ReadAloudButton } from '@/components/ReadAloud';
 import type { Language } from '@/content';
@@ -23,8 +23,8 @@ function LeafletCard({ leaflet, content, language, speech }: { leaflet: Leaflet;
     <ul className="mt-2.5 space-y-2">{items.map(item => <li key={item} className="flex gap-2 text-[13px] leading-[1.45] text-ink"><Check className="mt-0.5 size-4 shrink-0 text-forest" aria-hidden="true" />{item}</li>)}</ul>
   </div>;
 
-  return <li id={leaflet.id} className="scroll-mt-6">
-    <article ref={sheet} aria-labelledby={`${leaflet.id}-title`} className="leaflet flex h-full flex-col overflow-hidden rounded-[22px] border border-line bg-white shadow-[0_14px_34px_#0753310d]">
+  return <li id={leaflet.id} className="flex scroll-mt-6 flex-col">
+    <article ref={sheet} aria-labelledby={`${leaflet.id}-title`} className="leaflet flex flex-1 flex-col overflow-hidden rounded-[22px] border border-line bg-white shadow-[0_14px_34px_#0753310d]">
       <header className="bg-forest px-6 py-5 text-white">
         <div className="flex items-center justify-between gap-3"><Brand light /><span className="text-[10px] font-bold tracking-[.1em] uppercase opacity-80">cancercare · Embu</span></div>
         <h2 id={`${leaflet.id}-title`} className="mt-4 text-[28px] leading-[1.1] font-bold tracking-[-.04em]">{leaflet.title}</h2>
@@ -37,7 +37,7 @@ function LeafletCard({ leaflet, content, language, speech }: { leaflet: Leaflet;
         </div>
         <footer className="mt-auto flex items-start gap-2 rounded-[12px] bg-mist p-3 text-[11px] leading-[1.5] text-copy">
           <ShieldCheck className="mt-0.5 size-4 shrink-0 text-forest" aria-hidden="true" />
-          <span>{content.footer} <strong className="inline-flex items-center gap-1 text-ink"><Phone className="size-3" aria-hidden="true" />999 / 112</strong></span>
+          <span>{content.footer}</span>
         </footer>
       </div>
     </article>
@@ -53,7 +53,7 @@ export function ResourcesPage({ content, language, speech }: { content: PagesCop
   return <>
     <PageIntro eyebrow={content.eyebrow} title={content.title} description={content.description} backHome={content.backHome} />
     <section className="bg-[#f6faf4] py-12 md:py-16">
-      <ul className={cn(pageContainer, 'grid gap-8 lg:grid-cols-2')}>
+      <ul className={cn(pageContainer, 'grid gap-x-8 gap-y-12 lg:grid-cols-2')}>
         {content.leaflets.map(leaflet => <LeafletCard key={leaflet.id} leaflet={leaflet} content={content} language={language} speech={speech} />)}
       </ul>
     </section>
